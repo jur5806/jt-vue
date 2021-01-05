@@ -1,15 +1,29 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue';
-import App from './App';
-import router from './router';
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import axios from 'axios'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import components from './components/'
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = false
+
+Vue.use(ElementUI)
+Vue.prototype.axios = axios
+window.Promise = Promise
+//  设置定义的组件命名（带符号后）首字母大写
+Object.keys(components).forEach((key) => {
+  var name = key.replace(/(\w)/, (v) => v.toUpperCase()) // 首字母大写
+  console.log(name)
+  Vue.component(`v${name}`, components[key])
+})
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {App},
   template: '<App/>'
 })

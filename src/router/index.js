@@ -10,6 +10,16 @@ export default new Router({
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../pages/Login.vue')
+    },
+    {
+      path: '/index',
+      name: 'Appindex',
+      component: () => import('../pages/Appindex.vue')
     }
   ]
 })

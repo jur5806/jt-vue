@@ -6,8 +6,8 @@
       <br><br>
       <button v-on:click="login">登录</button>
   </el-card> -->
-  <div>
-    <el-form class="login-contenter" label-position="left" label-width="0px">
+  <body id="f-body-poster">
+    <el-form class="login-container" label-position="left" label-width="0px">
       <h3 class="login_title"> 系统登录</h3>
       <el-form-item>
         <el-input type="text" v-model="loginForm.username" placeholder="账号">
@@ -21,7 +21,7 @@
         <el-button type="primary" style="width: 100%;background: #505458;border: none" v-on:click="login">登录</el-button>
       </el-form-item>
     </el-form>
-  </div>
+  </body>
 </template>
 
 <script>
@@ -32,21 +32,25 @@ export default {
   data () {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'jt',
+        password: '123456'
       },
       responseResult: []
     }
   },
   methods: {
     login () {
+      console.log(this.$store.state)
       let data = {
         username: this.loginForm.username,
         password: this.loginForm.password
       }
       getData.checkLogin(data).then(res => {
         if (res.data.code === 200) {
-          this.$router.replace({path: '/index'})
+          this.$store.commit('login', this.loginForm)
+          var path = this.$route.query.redirect
+          console.log(path)
+          this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
         }
       })
         .catch(failResponse => {
@@ -56,10 +60,18 @@ export default {
 }
 </script>
 <style>
+#f-body-poster{
+  background:url("../assets/bg-img/login-bg.jpg") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  position: fixed;
+}
 .login-container {
   border-radius: 15px;
   background-clip: padding-box;
-  margin: 90px auto;
+  margin: 200px auto;
   width: 350px;
   padding: 35px 35px 15px 35px;
   background: #fff;

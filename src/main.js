@@ -7,6 +7,7 @@ import axios from 'axios'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import components from './components/'
+import store from './store'
 
 Vue.config.productionTip = false
 
@@ -20,10 +21,27 @@ Object.keys(components).forEach((key) => {
   Vue.component(`v${name}`, components[key])
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (store.state.user.username) {
+      next()
+    } else {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}
+      })
+    }
+  } else {
+    next()
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  render: h => h(App),
   router,
+  store,
   components: {App},
   template: '<App/>'
 })

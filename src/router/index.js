@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+// import HelloWorld from '@/components/HelloWorld'
 import Home from '../components/Home'
 import Library from '../pages/LibraryIndex'
 
@@ -38,8 +38,11 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'index',
+      component: () => import('../pages/Appindex.vue'),
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/login',

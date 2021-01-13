@@ -45,14 +45,15 @@ export default {
   data () {
     return {
       leftMenu: [
-        {name: '全部', id: 1, path: '', icon: 'el-icon-location'},
-        {name: '文学', id: 2, path: '', icon: 'el-icon-setting'},
-        {name: '流行', id: 3, path: '', icon: 'el-icon-document'},
-        {name: '文化', id: 4, path: '', icon: 'el-icon-menu'},
-        {name: '生活', id: 5, path: '', icon: 'el-icon-location'},
-        {name: '科技', id: 6, path: '', icon: 'el-icon-setting'},
-        {name: '技术', id: 7, path: '', icon: 'el-icon-menu'}
-      ]
+        {name: '全部', id: 0, path: '', icon: 'el-icon-location'},
+        {name: '文学', id: 1, path: '', icon: 'el-icon-setting'},
+        {name: '流行', id: 2, path: '', icon: 'el-icon-document'},
+        {name: '文化', id: 3, path: '', icon: 'el-icon-menu'},
+        {name: '生活', id: 4, path: '', icon: 'el-icon-location'},
+        {name: '科技', id: 5, path: '', icon: 'el-icon-setting'},
+        {name: '技术', id: 6, path: '', icon: 'el-icon-menu'}
+      ],
+      cid: ''
     }
   },
   methods: {
@@ -63,8 +64,10 @@ export default {
       console.log(key, keyPath)
     },
     handleSelect (key, keyPath) {
-      console.log(key, keyPath)
+      this.cid = key
+      this.$emit('indexSelect')
     }
+
   }
 }
 </script>

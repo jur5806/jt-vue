@@ -49,7 +49,14 @@ let deleteBooks = (data) => axios.post(`/march/delete`, JSON.stringify(data), { 
  */
 let categoriesBooks = (cid) => axios.get('/march/categories/' + cid + '/books')
 
+/**
+* 删除图书
+* 参数：
+* 参数名 必选 类型 说明
+*/
+let register = (data) => axios.post(`/march/register`, JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } })
+
 export {
-  checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks
+  checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register
 
 }

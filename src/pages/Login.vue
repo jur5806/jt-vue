@@ -1,7 +1,7 @@
 <template>
   <body id="paper">
-    <el-form :model="loginForm" :rules="rules" class="login-container" label-position="left"
-             label-width="0px" v-loading="loading">
+    <el-form :model="loginForm" class="login-container" label-position="left"
+             label-width="0px">
       <h3 class="login_title">系统登录</h3>
       <el-form-item prop="username">
         <el-input type="text" v-model="loginForm.username"
@@ -32,7 +32,8 @@ export default {
         username: 'jt',
         password: '123456'
       },
-      responseResult: []
+      responseResult: [],
+      checked: ''
     }
   },
   methods: {

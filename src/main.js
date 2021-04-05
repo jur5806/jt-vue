@@ -13,6 +13,7 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.prototype.axios = axios
+axios.defaults.withCredentials = true
 window.Promise = Promise
 //  设置定义的组件命名（带符号后）首字母大写
 Object.keys(components).forEach((key) => {

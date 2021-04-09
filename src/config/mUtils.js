@@ -1,6 +1,17 @@
 import store from "../story/";
 
 /**
+ * 存储localSession
+ */
+export const setSession = (name, content) => {
+  if (!name) return;
+  if (typeof content !== "string") {
+    content = JSON.stringify(content);
+  }
+  window.sessionStorage.setItem(name, content);
+};
+
+/**
  * 存储Cookie
  */
 export const setCookie = (name, value, exdays, main) => {
@@ -22,17 +33,6 @@ export const getCookie = (cname) => {
     if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
   }
   return "";
-};
-
-/**
- * 存储localSession
- */
-export const setSession = (name, content) => {
-  if (!name) return;
-  if (typeof content !== "string") {
-    content = JSON.stringify(content);
-  }
-  window.sessionStorage.setItem(name, content);
 };
 
 /**
@@ -80,6 +80,31 @@ export const getQueryString = (name) => {
 };
 
 /**
+ *用JSON.parse()转译字符串的判断
+ * @param str
+ * @returns {*}
+ */
+export const strParse = (str) => {
+  switch (str) {
+    case undefined:
+    case "undefined":
+      return undefined;
+    case null:
+    case  "null":
+      return null;
+    case "":
+      return "";
+    default:
+      try {
+        return str ? JSON.parse(str) : "";
+      } catch (err) {
+        console.error(err);
+        return "";
+      }
+  }
+};
+
+/**
  * 补0
  */
 export const islength = (num) => {
@@ -107,7 +132,7 @@ export const rule = {
     }
   },
   phone: function(str) {//手机号校验
-    var myReg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
+    var myReg = /^1(3|4|5|6|7|8|9)\d{9}$/;
     if (!myReg.test(str)) {
       this.alert("手机号码有误");
       return false;
@@ -115,25 +140,36 @@ export const rule = {
       return true;
     }
   }
+
 };
 
-
-export const phoneRule = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;//11位的电话号码
-export const phoneRule2 = /(^(\d{3,4}-)?\d{7,8})$|((^(\d{3,4})?\d{7,8})$)|(^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$)/;//8位固话+11位的电话号码
+// /(^(\d{3,4}-)?\d{7,8})$|(^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$)/
+export const phoneRule = /^1(3|4|5|6|7|8|9)\d{9}$/;//11位的电话号码
+export const phoneRule2 = /(^(\d{3,4}-)?\d{7,8})$|(^1(3|4|5|6|7|8|9)\d{9}$)/;//8位固话+11位的电话号码
 export const phoneRule3 = /(^([0-9]+(-?)[0-9]+)+)$/;//不限位数，只限制数字加-的电话号码 110等电话也可以输入
+export const phoneRule5 = /^\d{11}$/;//联系方式只需限制11位数字
 export const chinese = /^[\u4E00-\u9FA5]+$/;
 export const number = /(^[1-9]([0-9]+)$)|(^[1-9]?$)/;
 export const number0 = /(^[1-9]([0-9]+)$)|(^(0){1}$)|(^[1-9]?$)/;
 export const price = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+/*3位小数正则判断*/
+export const price3 = /(^[0-9]([0-9]+)?(\.[0-9]{1,3})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])([0-9])?$)/;
+export const priceX = /^[a-zA-Z]{1}$/;
+export const billPriceX = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)|(^\([a-zA-Z]{1}\)\*(([1-9]([0-9]+)?(\.[0-9]{1,2})?)|((0){1})|([0-9]\.[0-9]([0-9])))\*(([1-9]([0-9]+)?(\.[0-9]{1,2})?)|((0){1})|([0-9]\.[0-9]([0-9])))$)/;
+export const yearPriceX = /(^[a-zA-Z]{1}$)|(^[a-zA-Z]{1}\*[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^[a-zA-Z]{1}\*(0){1}$)|(^[a-zA-Z]{1}\*[0-9]\.[0-9]([0-9])?$)/;
+export const monthPriceX = /(^[a-zA-Z]{1}$)|(^[a-zA-Z]{1}\*(([1-9]([0-9]+)?(\.[0-9]{1,2})?)|((0){1})|([0-9]\.[0-9]([0-9])))$)/;
 export const areaRule = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^[0-9]\.[0-9]([0-9])?$)/;
 // export const email = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 export const email = /^((([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})[; ,])*(([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})))$/;
 export const bankCode = /^([1-9]{1})(\d{14}|\d{18})$/;
 export const http = /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:\/~\+#][^\u4E00-\u9FA5]*[\w\-\@?^=%&\/~\+#][^\u4E00-\u9FA5])?/;
-// export const http = /[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?$/;
 export const numberCode = /^(\w)+$/;
 export const noChinese = /^[0-9a-zA-Z\u0000-\u00FF]+$/;//只能输入数字、字母、半角符号（即不包括中文符号和汉子）
 export const contractCode = /^[\w\-_]+$/;
+export const contractChineseCode = /^[\w\-_\u4E00-\u9FA5]+$/;
+export const noCommas = /^[^,，]+$/;  //不能输入逗号
+export const specialEncode = /^[^?/#]+$/;  //不能输入#/?等特殊字符
+export const onlyLetter = /^[a-zA-Z]{1}$/;
 export const peopleCard = /(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)|(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)/;//身份证验证正则 15位或者18位都可以
 export const overscroll = els => {
   for (var i = 0; i < els.length; ++i) {
@@ -335,28 +371,26 @@ export const isEmoji = name => {
   }
 };
 
-
+export const browser = {
+  versions: function() {
+    var u = navigator.userAgent;
+    return {
+      trident: u.indexOf("Trident") > -1, //IE内核
+      presto: u.indexOf("Presto") > -1, //opera内核
+      webKit: u.indexOf("AppleWebKit") > -1, //苹果、谷歌内核
+      gecko: u.indexOf("Gecko") > -1 && u.indexOf("KHTML") == -1,//火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf("Android") > -1 || u.indexOf("Linux") > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf("iPhone") > -1, //是否为iPhone或者QQHD浏览器
+      iPad: u.indexOf("iPad") > -1, //是否iPad
+      webApp: u.indexOf("Safari") == -1, //是否web应该程序，没有头部与底部
+      weixin: u.toLowerCase().match(/MicroMessenger/i) == "micromessenger", //是否微信
+      qq: u.match(/\sQQ/i) == " qq" //是否QQ
+    };
+  }()
+};
 const resizeMe = (img, maxW, maxH, nocheck) => {
-
-  const browser = {
-    versions: function() {
-      var u = navigator.userAgent;
-      return {
-        trident: u.indexOf("Trident") > -1, //IE内核
-        presto: u.indexOf("Presto") > -1, //opera内核
-        webKit: u.indexOf("AppleWebKit") > -1, //苹果、谷歌内核
-        gecko: u.indexOf("Gecko") > -1 && u.indexOf("KHTML") == -1,//火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf("Android") > -1 || u.indexOf("Linux") > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf("iPhone") > -1, //是否为iPhone或者QQHD浏览器
-        iPad: u.indexOf("iPad") > -1, //是否iPad
-        webApp: u.indexOf("Safari") == -1, //是否web应该程序，没有头部与底部
-        weixin: u.toLowerCase().match(/MicroMessenger/i) == "micromessenger", //是否微信
-        qq: u.match(/\sQQ/i) == " qq" //是否QQ
-      };
-    }()
-  };
 
   var canvas = document.createElement("canvas");
   var width = img.width;
@@ -439,7 +473,7 @@ const resizeMe2 = (img) => {
 /**将选中的图片转化成base64
  * @param files
  */
-export const imgFile = (files) => {
+const imgFile = (files) => {
   return new Promise((res, err) => {
     var image = new Image();
     var _this = this;
@@ -475,16 +509,23 @@ export const selectImgFile = (e, message, type) => {
   var ok = [];
   if (type instanceof Array) {
     type.forEach(item => {
-      ok.push(files[0].type === item ? 1 : 0);
+      ok.push(files[0].type === item ? 0 : 1);
     });
   } else {
-    ok.push(files[0].type === type ? 1 : 0);
+    ok.push(files[0].type === type ? 0 : 1);
   }
   if (!files.length) return;
   if (ok.indexOf(0) === -1) {
     message({
       type: "error",
       message: "图片类型选择错误！"
+    });
+    return;
+  }
+  if (files[0].size >= 20 * 1024 * 1024) {
+    message({
+      type: "error",
+      message: "选择图片最大为20M"
     });
     return;
   }
@@ -536,20 +577,26 @@ export const selectOtherFile = (e, message, type) => {
   if (type) {
     if (type instanceof Array) {
       type.forEach(item => {
-        ok.push(files[0].type === item ? 1 : 0);
+        ok.push(files[0].type === item ? 0 : 1);
       });
     } else {
-      ok.push(files[0].type === type ? 1 : 0);
+      ok.push(files[0].type === type ? 0 : 1);
     }
   } else {
     ok.push(0);
   }
-  console.log(files);
   if (!files.length) return;
   if (ok.indexOf(0) === -1) {
     message({
       type: "error",
       message: "文件类型选择错误！"
+    });
+    return;
+  }
+  if (files[0].size >= 20 * 1024 * 1024) {
+    message({
+      type: "error",
+      message: "选择文件最大为20M"
     });
     return;
   }
@@ -559,6 +606,13 @@ export const selectOtherFile = (e, message, type) => {
   }
   return files;
 };
+
+/**
+ * 函数节流
+ * @param func
+ * @param delay
+ * @returns {function()}
+ */
 export const throttle = (func, delay) => { //函数节流
   var timer = null;
   var startTime = Date.now();
@@ -576,6 +630,12 @@ export const throttle = (func, delay) => { //函数节流
     }
   };
 };
+/**
+ * 数组和文件选择框的删除
+ * @param arr
+ * @param index
+ * @param type
+ */
 export const del = (arr, index, type) => {
   arr.splice(index, 1);
   if (type) {
@@ -641,6 +701,12 @@ export const getType = (obj) => {
   }
   return map[toString.call(obj)];
 };
+
+/**
+ * 深拷贝
+ * @param o
+ * @returns {*}
+ */
 export const deepCopy = (o) => {
   if (o instanceof Array) {
     var n = [];
@@ -663,24 +729,215 @@ export const deepCopy = (o) => {
 };
 export const getState = (val) => {
   switch (val) {
-    case 0:
-      return "待招商";
     case 1:
-      return "已招商";
+      return "可招商";
     case 2:
-      return "已锁定";
-
+      return "不可招商";
+    default:
+      return "";
   }
 };
 
+export const getRentState = (val) => {
+  switch (val) {
+    case 1:
+      return "空闲中";
+    case 2:
+      return "租赁中";
+    default:
+      return "空闲中";
+  }
+};
+
+
 export const getChartType = (val) => {
   switch (val) {
-    case 0:
+    case 2:
       return "商务";
     case 1:
       return "办公";
-    case 2:
+    case 3:
       return "工位";
+    default:
+      return "";
+  }
+};
+
+
+/**
+ * 把数字转化为1,2,3,4,5格式的字符串
+ * @param arr
+ * @returns {string}
+ */
+export const ridFirstAndEnd = (arr) => {
+  var str = "";
+  arr.forEach((item, index) => {
+    if (index == 0) {
+      str += item;
+    } else {
+      str += "," + item;
+    }
+  });
+  return str;
+};
+
+/**
+ * elementUI 表单重置方法
+ * @param obj
+ * @param type
+ */
+export const resetForm = (obj, type) => {
+  if (obj) {
+    if (type === 2) {
+      obj.map((item, index) => {
+        item.resetFields ? item.resetFields() : console.log(item);
+      });
+    } else {
+      obj.resetFields ? obj.resetFields() : console.log(obj);
+    }
+  }
+};
+
+/**
+ * elementUI 表单验证方法
+ * @param obj
+ * @param type
+ */
+export const validate = (obj, type) => {
+  let isOk;
+  if (obj) {
+    if (type == 2) {
+      isOk = [];
+      obj.map((item, index) => {
+        item.validate((valid) => {
+          if (valid) {
+            isOk.push(1);
+          } else {
+            isOk.push(0);
+          }
+        });
+      });
+    } else {
+      obj.validate((valid) => {
+        if (valid) {
+          isOk = 1;
+        } else {
+          isOk = 2;
+        }
+      });
+    }
+  }
+  return isOk;
+};
+
+/**
+ * 递归获取节点
+ * @param ele
+ * @param className
+ * @returns {*}
+ */
+export const getParentNode = (ele, className) => {
+  if (ele.tagName == "HTML") {
+    return null;
+  }
+  if (ele.className.indexOf(className) != -1) {
+    return ele;
+  } else {
+    getParentNode(ele.parentNode, className);
+  }
+};
+
+/**
+ * 获取时间段里有多少个月
+ * @param endTime
+ * @param startTime
+ * @returns {number}
+ */
+export const toMonth = (endTime, startTime) => {
+  return Math.round((new Date(replaceTime(endTime)) - new Date(replaceTime(startTime))) / (1000 * 24 * 60 * 60 * 30));
+};
+export const toDateTime = (time) => {
+  return time ? new Date(time).format("yyyy-MM-dd hh:mm:ss") : "";
+};
+
+/**
+ * 格式化结束时间
+ * @param time
+ * @param startTime
+ * @returns {*}
+ */
+export const toEndDate = (time, startTime) => {
+  return time ? new Date(replaceTime(time)).format("yyyy-MM-dd") : new Date(replaceTime(startTime)).add("y", +1).add("d", -1).format("yyyy-MM-dd");
+};
+
+/**
+ * 格式化时间
+ * @param time
+ * @returns {Date}
+ */
+export const toDate = (time) => {
+  return time ? new Date(replaceTime(time)).format("yyyy-MM-dd") : new Date().format("yyyy-MM-dd");
+};
+
+/**
+ * 转换为统一的时间格式
+ * @param time
+ * @returns {Date}
+ */
+export const toTime = (time) => {
+  return time ? new Date(new Date(replaceTime(time)).format("yyyy/MM/dd")) : new Date(new Date().format("yyyy/MM/dd"));
+};
+
+/**
+ * 转换为统一的时间格式
+ * @param time
+ * @returns {Date}
+ */
+export const toTimeMonth = (time) => {
+  return time ? new Date(new Date(replaceTime(time)).format("yyyy/MM")) : new Date(new Date().format("yyyy/MM"));
+};
+
+/**
+ * 转换前先替换为 IE 可识别的格式
+ * @param time
+ * @returns {string}
+ */
+export const replaceTime = (time) => {
+  return typeof time === "string" ? time.replace(/-/g, "/") : time;
+};
+
+/**
+ * 转换为统一的时间格式
+ * @param time
+ * @returns {Date}
+ */
+export const toTime2 = (time) => {
+  return time ? new Date(new Date(replaceTime(time)).format("yyyy/MM/dd")) : "";
+};
+
+/**
+ * 续租获取合同时间段间的相差的时间
+ * @param endTime
+ * @param startTime
+ */
+export const timeInterval = (endTime, startTime) => {
+  if (!endTime || !startTime) {
+    return 0;
+  }
+  return new Date(replaceTime(endTime)) - new Date(replaceTime(startTime));
+};
+
+/**
+ * 续租获取合同时间段时间
+ * @param time
+ * @param timeInterval
+ * @param type
+ */
+export const getTimes = (time, timeInterval, type) => {
+  if (!type) {
+    return new Date(Date.parse(new Date(replaceTime(time))) + timeInterval).add("d", +1).format("yyyy-MM-dd");
+  } else {
+    return new Date(Date.parse(new Date(replaceTime(time))) + timeInterval).add("d", +2).format("yyyy-MM-dd");
   }
 };
 
@@ -695,17 +952,212 @@ export const removeFile = (id) => {
   }
 };
 
-export const ridFirstAndEnd = (arr) => {
-  var str = "";
+/**
+ * 递归获取权限
+ * @param arr
+ * @param str
+ * @param finalArr
+ * @param type
+ * @returns {*}
+ */
+export const permission = (arr, str, finalArr, type) => {
+  var isOk = false;
   arr.forEach((item, index) => {
-    if (index == 0) {
-      str += item;
+      if (item.main == str) {
+        if (type) {
+          finalArr = item;
+        } else {
+          finalArr = item.children;
+        }
+        isOk = true;
+      } else if (item.children) {
+        permission(item.children, str, finalArr, type);
+      }
+    }
+  );
+  return finalArr;
+};
+/**
+ * 字符串拼接
+ * @param info 要拼接的对象
+ * @param type  1 是否是需要？拼接,2 是否需要 & 。
+ */
+export const stringJoin = (info, type) => {
+  let headerString = "";
+  if (!info) {
+    return "";
+  }
+  Object.keys(info).map((data, index) => {
+    if (index === 0 && type === 2) {
+      headerString += data + "=" + info[data];
+    } else if (index === 0 && type && type !== 2) {
+      headerString += "?" + data + "=" + info[data];
     } else {
-      str += "," + item;
+      headerString += "&" + data + "=" + info[data];
     }
   });
-  return str;
+  return headerString;
 };
+
+export const getPermission = (arr, str, type) => {
+  var finalArr = [];
+  finalArr = permission(arr, str, finalArr, type);
+  return finalArr;
+};
+
+export const getButtonPermission = (arr, str) => {
+  var permission = "";
+  arr.forEach((item) => {
+    if (item.main == str) {
+      permission = item.myPermission;
+    }
+  });
+  return permission;
+};
+
+export const addSysTime = (start, obj) => {
+  let startTime = new Date(start);
+  if (start) {
+    let y = startTime.getFullYear();
+    let m = startTime.getMonth();
+    let d = startTime.getDate() - 1;
+    obj.shortcuts.splice(4, 3);
+    obj.shortcuts.push({
+      text: "计租一年",
+      onClick(picker) {
+        const date = new Date();
+        date.setTime(new Date(y + 1, m, d).getTime());
+        picker.$emit("pick", date);
+      }
+    });
+    obj.shortcuts.push({
+      text: "计租三年",
+      onClick(picker) {
+        const date = new Date();
+        date.setTime(new Date(y + 3, m, d).getTime());
+        picker.$emit("pick", date);
+      }
+    });
+    obj.shortcuts.push({
+      text: "计租五年",
+      onClick(picker) {
+        const date = new Date();
+        date.setTime(new Date(y + 5, m, d).getTime());
+        picker.$emit("pick", date);
+      }
+    });
+  }
+};
+
+export const addFreeSysTime = (start, obj) => {
+  let startTime = new Date(start);
+  if (start) {
+    let y = startTime.getFullYear();
+    let m = startTime.getMonth();
+    let d = startTime.getDate() - 1;
+    obj.shortcuts.splice(4, 3);
+    obj.shortcuts.push({
+      text: "计租一年",
+      onClick(picker) {
+        const date = new Date();
+        date.setTime(new Date(y + 1, m, d).getTime());
+        picker.$emit("pick", date);
+      }
+    });
+    obj.shortcuts.push({
+      text: "计租三年",
+      onClick(picker) {
+        const date = new Date();
+        date.setTime(new Date(y + 3, m, d).getTime());
+        picker.$emit("pick", date);
+      }
+    });
+    obj.shortcuts.push({
+      text: "计租五年",
+      onClick(picker) {
+        const date = new Date();
+        date.setTime(new Date(y + 5, m, d).getTime());
+        picker.$emit("pick", date);
+      }
+    });
+  }
+};
+/**
+ *elementUI 日期添加自定义快捷选项
+ */
+export const InitPickerOptions = () => {
+  let pickerOptions;
+  pickerOptions = {
+    /*disabledDate(time) {
+      return time.getTime() < Date.now();
+    },*/
+    shortcuts: [
+      {
+        text: "今天",
+        onClick(picker) {
+          picker.$emit("pick", new Date());
+        }
+      }, {
+        text: "今年年底",
+        onClick(picker) {
+          const date = new Date();
+          date.setTime(new Date(date.getFullYear(), 12 - 1, 31).getTime());
+          picker.$emit("pick", date);
+        }
+      }, {
+        text: "明年年底",
+        onClick(picker) {
+          const date = new Date();
+          date.setTime(new Date(date.getFullYear() + 1, 12 - 1, 31).getTime());
+          picker.$emit("pick", date);
+        }
+      }, {
+        text: "后年年底",
+        onClick(picker) {
+          const date = new Date();
+          date.setTime(new Date(date.getFullYear() + 2, 12 - 1, 31).getTime());
+          picker.$emit("pick", date);
+        }
+      }]
+  };
+  return pickerOptions;
+};
+
+/**
+ *  elementUI 表单验证方法
+ * @param obj
+ * @param type
+ * @returns {*}
+ */
+export const checkForm = (obj, type) => {
+  let ok;
+  if (obj) {
+    if (type == 2) {
+      ok = [];
+      obj.map((item, index) => {
+        item.validate ? item.validate((valid) => {
+          if (valid) {
+            ok.push(1);
+          } else {
+            ok.push(2);
+          }
+        }) : ok.push(3);
+      });
+    } else {
+      obj.validate((valid) => {
+        if (valid) {
+          ok = 1;
+        } else {
+          ok = 2;
+        }
+      });
+    }
+  } else {
+    ok = 3;
+  }
+  return ok;
+};
+
 /**
  * 拼接两个数组
  * @param arr1
@@ -726,43 +1178,21 @@ export const arrConcat = (arr1, arr2) => {
   return arr2;
 };
 
+export const differTime = (time1, time2) => {
+  return Date.parse(new Date(replaceTime(time1)).add("d", +1)) === Date.parse(new Date(replaceTime(time2)));
+};
+/**
+ *获取时间段里有多少个闰年
+ * @param endTime
+ * @param startTime
+ */
+export const getYearDays = (endTime, startTime) => {
+  return ((new Date(new Date(replaceTime(endTime)).format("yyyy")) - new Date(new Date(replaceTime(startTime)).format("yyyy"))) / (24 * 3600 * 1000)) % 365;
+};
+
 export
 {
   resizeMe, resizeMe2
-};
-
-/**
- * elementUI 表单重置方法
- * @param obj
- * @param type
- */
-export const resetForm = (obj, type) => {
-  if (obj) {
-    if (type == 2) {
-      obj.map((item, index) => {
-        item.resetFields();
-      });
-    } else {
-      obj.resetFields();
-    }
-  }
-};
-
-/**
- * 检测获取到值是不是异常值
- * @param val
- */
-export const checkUndefined = (val) => {
-  switch (val) {
-    case undefined:
-    case "undefined":
-    case null:
-    case "null":
-    case "":
-      return "";
-    default:
-      return val;
-  }
 };
 
 /**
@@ -790,174 +1220,19 @@ export const getFormData = (o, j) => {
   return formData;
 };
 
-export const toDatetime = (time) => {
-  return time ? new Date(time).format("yyyy-MM-dd 00:00:00") : "";
-};
-export const toDate = (time) => {
-  return time ? new Date(time).format("yyyy-MM-dd") : "";
-};
-
-export const toDateTime = (time) => {
-  return time ? new Date(time).format("yyyy-MM-dd hh:mm:ss") : "";
-};
-
 /**
- * elementUI 验证表单方法
- * @param obj
- * @param type
- * @returns {*}
+ * 检测获取到值是不是异常值
+ * @param val
  */
-export const checkForm = (obj, type) => {
-  let ok;
-  if (obj) {
-    if (type === 2) {
-      ok = [];
-      obj.map((item, index) => {
-        item.validate((valid) => {
-          if (valid) {
-            ok.push(1);
-          } else {
-            ok.push(2);
-          }
-        });
-      });
-    } else {
-      obj.validate((valid) => {
-        if (valid) {
-          ok = 1;
-        } else {
-          ok = 2;
-        }
-      });
-    }
-  } else {
-    ok = 3;
-  }
-  return ok;
-};
-
-/**
- *用JSON.parse()转译字符串的判断
- * @param str
- * @returns {*}
- */
-export const strParse = (str) => {
-  switch (str) {
+export const checkUndefined = (val) => {
+  switch (val) {
     case undefined:
     case "undefined":
-      return undefined;
     case null:
-    case  "null":
-      return null;
+    case "null":
     case "":
       return "";
     default:
-      try {
-        return str ? JSON.parse(str) : "";
-      } catch (err) {
-        return "";
-      }
+      return val;
   }
 };
-
-export const permission = (arr, str, finalArr, type) => {
-  var isOk = false;
-  arr.forEach((item, index) => {
-      if (item.main == str) {
-        if (type) {
-          finalArr = item;
-        } else {
-          finalArr = item.children;
-        }
-        isOk = true;
-      } else if (item.children) {
-        permission(item.children, str, finalArr, type);
-      }
-    }
-  );
-  return finalArr;
-};
-
-export const getPermission = (arr, str, type) => {
-  var finalArr = [];
-  finalArr = permission(arr, str, finalArr, type);
-  return finalArr;
-};
-/**
- * 转换为统一的时间格式
- * @param time
- * @returns {Date}
- */
-export const toTimeMonth = (time) => {
-  return time ? new Date(new Date(replaceTime(time)).format("yyyy/MM")) : "";
-};
-
-
-/**
- * 转换前先替换为 IE 可识别的格式
- * @param time
- * @returns {string}
- */
-export const replaceTime = (time) => {
-  return typeof time === "string" ? time.replace(/-/g, "/") : time;
-};
-
-
-/**
- * 判断当前元素与上一个元素是否相同
- *
- */
-export const getSpanArr =(data,val) =>{
-  let spanArr = [];
-  let pos = 0;
-  for (var i = 0; i < data.length; i++) {
-    if (i === 0) {
-      spanArr.push(1);
-      pos = 0
-    } else {
-      // 判断当前元素与上一个元素是否相同
-      if (data[i][val] === data[i - 1][val]) {
-        spanArr[pos] += 1;
-        spanArr.push(0);
-      } else {
-        spanArr.push(1);
-        pos = i;
-      }
-    }
-  }
-  return spanArr
-}
-
-
-/**
- * 获取合同时间段间的相差的时间
- * @param endTime
- * @param startTime
- */
-export const timeInterval = (endTime, startTime) => {
-  if (!endTime || !startTime) {
-    return 0;
-  }
-  return new Date(replaceTime(endTime)) - new Date(replaceTime(startTime));
-};
-
-// 金额每三个数字逗号分隔
-export const setMoney = (num) => {//取整，三行逗号隔开
-	return parseFloat(num).toLocaleString();
-}
-
-
-
-//输入两位数金额
-export const isvalidateMoney = (rule, value, callback) => {
-  if(value != null && value != ""&& value != " ") {
-    value = parseFloat(value)
-    if(!price.test(value)) {
-      callback(new Error('请输入正确的数字，最多保留两位小数!'))
-    } else {
-      callback()
-    }
-  }else{
-    callback();
-  }
-}

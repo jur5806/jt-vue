@@ -23,7 +23,7 @@
 
 <script>
 import * as getData from '../service/getData'
-
+import * as global from '../config/mUtils'
 export default {
   name: 'Login',
   data () {
@@ -47,6 +47,7 @@ export default {
         if (res.data.code === 200) {
           this.$store.commit('login', this.loginForm)
           var path = this.$route.query.redirect
+          global.setSession('userName',res.data.data);
           console.log(path)
           this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
         }

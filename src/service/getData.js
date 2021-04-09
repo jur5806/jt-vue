@@ -56,7 +56,21 @@ let categoriesBooks = (cid) => axios.get('/march/categories/' + cid + '/books')
 */
 let register = (data) => axios.post(`/march/register`, JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } })
 
+
+/**
+ * 退出登录-清除session接口
+ */
+let logout = () => axios.get(`/march/logout`);
+
+/**
+ * 用户信息修改
+ * 字段
+ */
+ let userInfoEdit = (data) => axios.post(`/march/admin/user`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+
+
 export {
-  checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register
+  checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
+  userInfoEdit
 
 }

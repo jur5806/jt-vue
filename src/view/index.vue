@@ -1,7 +1,21 @@
 <template>
-  <div>
-    <!--  -->
-    <el-container class="container">
+  <el-container class="container">
+    <transition name="slide-fade">
+      <div v-show="isSwitch" class="aside-cont">
+        <div class="logo">
+          <div class="f-imgtopbox2">
+            <transition>
+              <img class="img2" src="../assets/images/logo.png" alt />
+            </transition>
+          </div>
+        </div>
+        <div class="icon_switch" style="right:-15px;" @click="isSwitch=!isSwitch">
+          <i :class="isSwitch?'el-icon-caret-left':'el-icon-caret-right'"></i>
+        </div>
+        <v-left-nav-bar :urlList="childrenNavList"></v-left-nav-bar>
+      </div>
+    </transition>
+    <el-container class="w100 h100" style="min-width: 1040px;">
       <el-header class="header flex-box">
         <ul class="main-nav">
           <li class="main-nav-item">
@@ -14,17 +28,40 @@
             <i class="el-icon-setting"></i>
             <p>管控中心</p>
           </li>
+          
+          <!-- <li
+            class="main-nav-item"
+            @click="goOther(item.path)"
+            :class="{active:$route.matched[0].path == item.path}"
+            v-for="(item,index) in $router.options.routes"
+            :key="index"
+            v-if="!item.hidden&&$checkPermissions(item.permission)"
+          >
+            <i class="iconfont" :class="item.icon"></i>
+            <p>{{item.name}}</p>
+          </li> -->
+          <!-- 跳转领导层 -->
+         
+          <!-- <li class="main-nav-item" @click="getUrl"  v-if="$checkPermissions('companyGroupManage')">
+            <i class="iconfont icon-shouye1"></i>
+            <p>管控中心</p>
+          </li> -->
         </ul>
-        <h3 style="color: #fff;">HR人才推荐系统</h3>
         <ul class="header-right flex-box">
           <li>
             <el-dropdown>
-              <span class="el-dropdown-link">
-                <i class="el-icon-setting"></i>
-                王小虎
-                <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
-              </span>
-              <el-dropdown-menu slot="dropdown">
+            <span class="el-dropdown-link">
+              <i class="el-icon-setting"></i>
+              {{userName}}
+              <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
+            </span>
+            <el-dropdown-menu slot="dropdown">
+                <div @click="roleChoices" v-show="companytype?companytype.length>1:true">
+                  <el-dropdown-item :command="1">切换角色</el-dropdown-item>
+                </div>
+                <div @click="loginOut">
+                  <el-dropdown-item :command="2">退出登录</el-dropdown-item>
+                </div>
                 <div  @click.stop="openSetings()">
                   <el-dropdown-item>账号设置</el-dropdown-item>
                 </div>
@@ -32,45 +69,101 @@
                 <div  @click.stop="loginOut()">
                   <el-dropdown-item>退出账号</el-dropdown-item>
                 </div>
-              </el-dropdown-menu>
+            </el-dropdown-menu>
             </el-dropdown>
           </li>
         </ul>
-          <!-- <i class="el-icon-setting" style="margin-right: 15px"></i>
-          <el-dropdown-menu slot="dropdown">
-            <div  @click.stop="openSetings()">
-              <el-dropdown-item>账号设置</el-dropdown-item>
-            </div>
-            <el-dropdown-item>我的推荐</el-dropdown-item>
-            <div  @click.stop="loginOut()">
-              <el-dropdown-item>退出账号</el-dropdown-item>
-            </div>
-          </el-dropdown-menu> -->
-        
-        <!-- <span>王小虎</span> -->
       </el-header>
-      <el-container style="height: 100%;">
-        <el-aside width="200px" style="background-color: rgb(238, 241, 246);height: 100%;">
-          <v-nav-menu></v-nav-menu>
-        </el-aside>
-        <el-container>
-          <el-main>
-            <router-view></router-view>
-          </el-main>
-        </el-container>
-      </el-container>
+      <!-- <router-view></router-view> -->
+      <keep-alive>
+        <router-view >
+          <!-- v-if="$route.meta.keepAlive"这里是会被缓存的视图组件，比如 Home！ -->
+        </router-view>
+      </keep-alive>
+
+      <!-- <router-view ></router-view> -->
+      <!-- v-if="!$route.meta.keepAlive" 这里是不被缓存的视图组件，比如 Edit！ -->
     </el-container>
-  </div>
+    <transition name="slide-fade">
+      <div v-if="!isSwitch" class="icon_switch" style="left:0;" @click="isSwitch=!isSwitch">
+        <i :class=" isSwitch?'el-icon-caret-left':'el-icon-caret-right'"></i>
+      </div>
+    </transition>
+  </el-container>
 </template>
 <script>
-import * as getData from '../service/getData'
-import * as global from '../config/mUtils'
+import * as getData from "../service/getData";
+
 export default {
-  name: 'Home',
-  data () {
-    return {}
+  name: "homeIndex",
+  componentName: "homeIndex",
+  data() {
+    return {
+      userName: "",
+      isSwitch: true
+    };
+  },
+  created() {
+    // this.companytype=sessionStorage.getItem('companytype');
+    this.companytype = 4;
+  },
+  mounted() {
+    // console.log(this.companytype,555);
+    // console.log(this.$route)
+    console.log(this.childrenNavList);
+    
+    window.addEventListener("setItem", e => {
+      //获取参数
+      this.userName = e.newValue;
+    });
+    this.userName = sessionStorage.getItem("userName");
   },
   methods: {
+    // getUrl() {
+    //   var url = window.location.href;
+    //   // window.location.href = '/back/step/group'
+    //     getData_tender.getURL(url).then(res => {
+    //     // console.log(res)
+    //     window.location.href = res.data.data;
+    //   });
+    // },
+    loginOut() {
+      this.$confirm("确认注销吗?", "提示", {
+        type: "warning"
+      })
+        .then(() => {
+          // sessionStorage.removeItem("buttonPermission");
+          // const indexUrl = this.checkUndefined(
+          //   localStorage.getItem("indexUrl")
+          // );
+          // const channelUrl = this.checkUndefined(this.getChannelUrl());
+          // if (indexUrl) {
+          //   sessionStorage.clear();
+          //   location.href = indexUrl;
+          // } else if (channelUrl) {
+          //   sessionStorage.clear();
+          //   location.href = channelUrl;
+          // } else {
+          //   this.$message.warning("没有获取到跳转地址，请刷新后重试！");
+          // }
+          getData.logout().then(res => {
+            if(res.data.code == 1){
+              window.sessionStorage.clear();
+              
+            };
+          }).catch(_ => {
+          console.log(_);
+        });
+        })
+        .catch(() => {});
+    },
+    // 切换角色
+    roleChoices(){
+      // this.$router.push('/roleChoices');
+    },
+    goOther(path) {
+      this.$router.push(path);
+    },
     openSetings () {
       console.log('456546')
       this.$router.push({path: '/accountSettings'})
@@ -91,10 +184,19 @@ export default {
       })
       .catch(() => {});
     },
-  }
-}
+  },
+  computed: {
+    childrenNavList() {
+      console.log()
+      return this.$router.options.routes.filter(item => {
+        return item.path == this.$route.matched[0].path;
+      })[0].children;
+    }
+  },
+  watch: {}
+};
 </script>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "../assets/css/mixin";
 
 .fade-enter-active,
@@ -117,19 +219,7 @@ export default {
     padding: 0;
     background-color: #50566b;
     justify-content: space-between;
-    > .el-menu {
-      height: calc(100% - 90px);
-      height: -moz-calc(100% - 90px);
-      height: -webkit-calc(100% - 90px);
-      border-right: none;
-      background-color: transparent;
-      text-align: left;
 
-      &:not(.el-menu--collapse) {
-        width: 270px;
-        overflow: auto;
-      }
-    }
     .collapse {
       padding: 0 16px;
       height: 50px;
@@ -524,11 +614,9 @@ export default {
 
 .main-nav {
   display: flex;
-  min-width: 89px;
+  min-width: 608px;
 
   .main-nav-item {
-    display: flex;
-    align-items: center;
     height: 100%;
     text-align: center;
     color: #fff;
@@ -540,7 +628,6 @@ export default {
     background: rgba(255, 255, 255, 0);
 
     p {
-      margin-left: 5px;
       font-weight: 700;
       font-style: normal;
       font-size: 14px;

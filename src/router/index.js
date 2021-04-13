@@ -10,8 +10,8 @@ import layer from '@/view/layer'
 Vue.use(Router)
 
 const positionList = () => import('../view/人才推荐/职位列表.vue')
-
-
+const userManagement = () => import('../view/人才推荐/用户管理.vue')
+const roleConfiguration = () => import('../view/人才推荐/角色配置.vue')
 
 export default new Router({
   //  去除#访问
@@ -45,12 +45,16 @@ export default new Router({
           children:[]
         },
         {
-          path: '/library',
+          path: '/userManagement',
           name: '用户管理',
           hidden: false,
           leaf: true,
-          component: Library,
-          children:[]
+          redirect: '/index/userManagement',
+          component: layer,
+          children:[
+            { path: '/index/userManagement', hidden: false, component: userManagement, name: '用户列表' ,meta:{keepAlive: false }},
+            { path: '/index/roleConfiguration', hidden: false, component: roleConfiguration, name: '角色配置' ,meta:{keepAlive: false }},
+          ]
         },
         {
           path: '/library',
@@ -65,8 +69,8 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'index',
-      component: () => import('../view/Appindex.vue'),
+      name: '登录',
+      component: () => import('../view/Login.vue'),
       meta: {
         requireAuth: true
       }

@@ -67,10 +67,48 @@ let logout = () => axios.get(`/march/logout`);
  * 字段
  */
  let userInfoEdit = (data) => axios.post(`/march/admin/user`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+/**
+ * 用户信息查询
+ * 字段
+ */
+ let userDetail = (username) => axios.get('/march/admin/userDetail?username=' + username);
 
+ /**
+ * 用户信息列表
+ * 字段
+ */
+  let userList = () => axios.get('/march/admin/user');
 
+ /**
+ * 角色列表
+ * 字段
+ */
+  let roleList = () => axios.get('/march/admin/role');
+ /**
+ * 删除用户
+ * 字段
+ */
+  let deleUser = (id) => axios.get('/march/admin/deleUser?id='+id);
+ /**
+ * 重置密码
+ * 字段
+ */
+  let resetPassword = (data) => axios.post(`/march/admin/password`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+  
+
+  let rolePerm = () => axios.get('/march/admin/role/perm');
+  
+  let roleMenu = () => axios.get('/march/admin/role/menu');
+  
+ /**
+ * 添加角色
+ * 字段
+ */
+  let addRole = (data) => axios.post(`/march/admin/role`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+  
+  
 export {
   checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
-  userInfoEdit
+  userInfoEdit, userDetail, userList, roleList, deleUser, resetPassword, rolePerm, roleMenu, addRole
 
 }

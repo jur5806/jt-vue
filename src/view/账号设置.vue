@@ -40,34 +40,38 @@
         <el-form label-width="200px" size="mini" :disabled="!isEdit">
           <el-row style="margin-top: 30px;">
             <el-col :span="16" :offset="2">
-              <el-form-item label="姓名：" prop="userName">
-                <el-input v-model="form.userName" placeholder="请输入姓名" maxlength="10"></el-input>
+              <el-form-item label="用户名" label-width="120px" prop="username">
+                <label>{{form.username}}</label>
               </el-form-item>
-              <el-form-item label="性别:" prop="userSex">
-                <el-select v-model="form.userSex" placeholder="请选择性别">
+              <el-form-item label="真实姓名：" prop="name">
+                <el-input v-model="form.name" placeholder="请输入姓名" maxlength="10"></el-input>
+              </el-form-item>
+              <el-form-item label="性别:" prop="sex">
+                <el-select v-model="form.sex" placeholder="请选择性别">
                   <el-option label="男" :value="0"></el-option>
                   <el-option label="女" :value="1"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="出生日期：" prop="userBirth">
+              <el-form-item label="出生日期：" prop="birthDate">
                   <el-date-picker
-                    v-model="form.userBirth"
+                    v-model="form.birthDate"
+                    format="yyyy-mm-dd 00:00:00"
                     type="date"
                     placeholder="请选择出生日期">
                   </el-date-picker>
               </el-form-item>
-              <el-form-item label="邮箱：" prop="userEmail">
-                <el-input v-model="form.userEmail" placeholder="请输入邮箱"></el-input>
+              <el-form-item label="邮箱：" prop="email">
+                <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
               </el-form-item>
-              <el-form-item label="手机号：" prop="userPhone">
-                <el-input v-model="form.userPhone" placeholder="请输入手机号"></el-input>
+              <el-form-item label="手机号：" prop="phone">
+                <el-input v-model="form.phone" placeholder="请输入手机号"></el-input>
               </el-form-item>
-              <el-form-item label="所属职务:" prop="userSex">
+              <!-- <el-form-item label="所属职务:" prop="sex">
                 <el-select v-model="form.userPosition" placeholder="请选择性别">
                   <el-option label="管理员" :value="0"></el-option>
                   <el-option label="员工" :value="1"></el-option>
                 </el-select>
-              </el-form-item>
+              </el-form-item> -->
             </el-col>
           </el-row>
         </el-form>
@@ -78,25 +82,43 @@
 
 <script>
 import * as getData from '../service/getData'
+import * as global from '../config/mUtils'
 export default {
   components: {},
   props: {},
   data () {
     return {
       form: {
-        userName: 'jt',
-        userSex: 1,
-        userBirth: '2020-1-19',
-        userEmail: '26028',
-        userPhone: '1306753820',
+        name: 'jt',
+        sex: 1,
+        birthDate: '2020-1-19',
+        email: '26028',
+        phone: '1306753820',
         userPosition: 0
       },
-      isEdit: true
+      isEdit: true,
+      username: ''
     }
   },
   created () {},
-  mounted () {},
+  mounted () {
+    this.username = global.getSession('userName')
+    this.init()
+  },
   methods: {
+    init () {
+      getData.userDetail(this.username).then(res => {
+        if (res.data.code === 200) {
+          this.form = res.data.data
+          this.$message({
+            type: 'success',
+            message: '查询成功'
+          })
+        } else {
+          this.$message = res.data.message
+        }
+      }).catch(() => {})
+    },
     save () {
       getData.userInfoEdit(this.form).then(res => {
         if (res.data.code === 200) {
@@ -104,6 +126,7 @@ export default {
             type: 'success',
             message: '保存成功'
           })
+          this.init()
         } else {
           this.$message = res.data.message
         }

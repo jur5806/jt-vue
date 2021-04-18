@@ -62,13 +62,13 @@
         </el-table-column>
         <el-table-column
           prop="id"
-          label="id"
+          label="id1"
           sortable
           width="100">
         </el-table-column>
         <el-table-column
           prop="username"
-          label="用户名"
+          label="用户名1"
           fit>
         </el-table-column>
         <el-table-column
@@ -168,7 +168,8 @@ export default {
     },
     commitStatusChange (value, user) {
       if (user.username !== 'admin') {
-        this.$axios.put('/admin/user/status', {
+        getData.statusUpdate
+        ({
           enabled: value,
           username: user.username
         }).then(resp => {

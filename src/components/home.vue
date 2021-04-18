@@ -2,6 +2,7 @@
   <div>
     <!--  -->
     <el-container class="container">
+      <!-- <lang-select class="right-menu-item hover-effect" /> -->
       <el-header class="header flex-box">
         <ul class="main-nav">
           <li class="main-nav-item">
@@ -12,9 +13,15 @@
          
           <li class="main-nav-item">
             <i class="el-icon-setting"></i>
-            <p>管控中心</p>
+            <p>管控中心1</p>
           </li>
+          <li class="main-nav-item">
+            <i class="el-icon-setting"></i>
+            <p>管控中心//</p>
+          </li>
+          <li class="main-nav-item"><lang-select class="right-menu-item hover-effect" /><p>11</p></li>
         </ul>
+        
         <h3 style="color: #fff;">HR人才推荐系统</h3>
         <ul class="header-right flex-box">
           <li>
@@ -65,8 +72,12 @@
 <script>
 import * as getData from '../service/getData'
 import * as global from '../config/mUtils'
+import LangSelect from '../components/LangSelect/index'
 export default {
   name: 'Home',
+  components: {
+    LangSelect
+  },
   data () {
     return {}
   },
@@ -106,7 +117,57 @@ export default {
 .fade-leave-active {
   opacity: 0;
 }
+.right-menu {
+  float: right;
+  height: 100%;
+  line-height: 50px;
 
+  &:focus {
+    outline: none;
+  }
+
+  .right-menu-item {
+    display: inline-block;
+    padding: 0 8px;
+    height: 100%;
+    font-size: 18px;
+    color: #5a5e66;
+    vertical-align: text-bottom;
+
+    &.hover-effect {
+      cursor: pointer;
+      transition: background .3s;
+
+      &:hover {
+        background: rgba(0, 0, 0, .025)
+      }
+    }
+  }
+
+  .avatar-container {
+    margin-right: 30px;
+
+    .avatar-wrapper {
+      margin-top: 5px;
+      position: relative;
+
+      .user-avatar {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+      }
+
+      .el-icon-caret-bottom {
+        cursor: pointer;
+        position: absolute;
+        right: -20px;
+        top: 25px;
+        font-size: 12px;
+      }
+    }
+  }
+}
 .container {
   width: 100%;
   height: 100%;

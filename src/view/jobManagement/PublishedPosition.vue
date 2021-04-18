@@ -96,7 +96,6 @@ export default {
       return statusMap[status]
     }
   },
-  props: {},
   data() {
     return {
       list: null,
@@ -168,8 +167,7 @@ export default {
       .catch(err => { console.error(err) })
     },
     commitStatusChange (recruitId) {
-      getData.recruitsUpdate
-      ({
+      getData.recruitsUpdate({
         recruitId: recruitId,
       }).then(resp => {
         if (resp && resp.data.code === 200) {

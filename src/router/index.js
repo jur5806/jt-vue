@@ -14,6 +14,8 @@ const userManagement = () => import('../view/人才推荐/用户管理.vue')
 const roleConfiguration = () => import('../view/人才推荐/角色配置.vue')
 const NewPosition = () => import('../view/jobManagement/NewPosition.vue')
 const PublishedPosition = () => import('../view/jobManagement/PublishedPosition.vue');
+const complexTable = () => import('../view/jobManagement/complex-table.vue');
+const ResumeUpload = () => import('../view/ResumeUpload/index.vue');
 
 export default new Router({
   //  去除#访问
@@ -67,6 +69,18 @@ export default new Router({
           children:[
             { path: '/index/NewPosition', hidden: false, component: NewPosition, name: '职位发布' ,meta:{keepAlive: false }},
             { path: '/index/PublishedPosition', hidden: false, component: PublishedPosition, name: '我发布的职位' ,meta:{keepAlive: false }},
+            { path: '/index/complexTable', hidden: false, component: complexTable, name: '我发布的职位1' ,meta:{keepAlive: false }},
+          ]
+        },
+        {
+          path: '/',
+          component: layer,
+          hidden: false,
+          redirect: '/ResumeUpload',
+          leaf: true,
+          name: '简历上传',
+          children:[
+            { path: '/ResumeUpload', name: '简历上传', component: ResumeUpload ,meta:{ title: '职位区', icon: 'job' }},
           ]
         },
 

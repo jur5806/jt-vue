@@ -62,13 +62,13 @@
         </el-table-column>
         <el-table-column
           prop="id"
-          label="id"
+          label="id1"
           sortable
           width="100">
         </el-table-column>
         <el-table-column
           prop="username"
-          label="用户名"
+          label="用户名1"
           fit>
         </el-table-column>
         <el-table-column

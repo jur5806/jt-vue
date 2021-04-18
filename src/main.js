@@ -8,6 +8,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import components from './components/'
 import store from './story'
+import SvgIcon from './components/SvgIcon'// svg component
+import './icons' // icon
+// register globally
+Vue.component('svg-icon', SvgIcon)
 
 Vue.config.productionTip = false
 

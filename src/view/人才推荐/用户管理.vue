@@ -168,7 +168,8 @@ export default {
     },
     commitStatusChange (value, user) {
       if (user.username !== 'admin') {
-        this.$axios.put('/admin/user/status', {
+        getData.statusUpdate
+        ({
           enabled: value,
           username: user.username
         }).then(resp => {

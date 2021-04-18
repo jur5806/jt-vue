@@ -108,10 +108,24 @@ let logout = () => axios.get(`/march/logout`);
   
   let recruitList = () => axios.get('/march/recruitList');
 
+  /**
+ * 修改状态
+ * 
+ */
+ let statusUpdate = (data) => axios.put(`/march/admin/userStatus`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+ let recruitsUpdate = (data) => axios.put(`/march/updateRecruit`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+ 
+/* 删除职位列表
+ * 
+ */
+  let deleRecruit = (recruitId) => axios.get('/march/deleRecruit?recruitId='+recruitId);
+
+
+  let recruitAdd = (data) => axios.post(`/march/recruitAdd`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
   
 export {
   checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
   userInfoEdit, userDetail, userList, roleList, deleUser, resetPassword, rolePerm, roleMenu, addRole,
-  recruitList
+  recruitList, statusUpdate, recruitsUpdate, deleRecruit, recruitAdd
 
 }

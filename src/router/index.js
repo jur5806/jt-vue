@@ -12,6 +12,8 @@ Vue.use(Router)
 const positionList = () => import('../view/人才推荐/职位列表.vue')
 const userManagement = () => import('../view/人才推荐/用户管理.vue')
 const roleConfiguration = () => import('../view/人才推荐/角色配置.vue')
+const NewPosition = () => import('../view/jobManagement/NewPosition.vue')
+const PublishedPosition = () => import('../view/jobManagement/PublishedPosition.vue');
 
 export default new Router({
   //  去除#访问
@@ -33,7 +35,7 @@ export default new Router({
           redirect: '/index/positionList',
           leaf: true,
           children:[
-            { path: '/index/positionList', hidden: false, component: positionList, name: '我的工作台2' ,meta:{keepAlive: false }},
+            { path: '/index/positionList', hidden: false, component: positionList, name: '首页职位区' ,meta:{keepAlive: false }},
           ]
         },
         {
@@ -58,11 +60,14 @@ export default new Router({
         },
         {
           path: '/library',
-          name: '权限管理',
-          component: Library,
+          name: '职位管理',
+          component: layer,
           hidden: false,
           leaf: true,
-          children:[]
+          children:[
+            { path: '/index/NewPosition', hidden: false, component: NewPosition, name: '职位发布' ,meta:{keepAlive: false }},
+            { path: '/index/PublishedPosition', hidden: false, component: PublishedPosition, name: '我发布的职位' ,meta:{keepAlive: false }},
+          ]
         },
 
       ]

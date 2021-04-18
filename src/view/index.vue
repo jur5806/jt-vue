@@ -16,6 +16,7 @@
       </div>
     </transition>
     <el-container class="w100 h100" style="min-width: 1040px;">
+      <!-- <lang-select class="right-menu-item hover-effect" /> -->
       <el-header class="header flex-box">
         <ul class="main-nav">
           <li class="main-nav-item">
@@ -93,9 +94,13 @@
 </template>
 <script>
 import * as getData from "../service/getData";
+// import LangSelect from '../components/LangSelect/index'
 
 export default {
   name: "homeIndex",
+  // components: {
+  //   LangSelect
+  // },
   componentName: "homeIndex",
   data() {
     return {
@@ -659,6 +664,57 @@ export default {
   }
   100% {
     opacity: 0.5;
+  }
+}
+.right-menu {
+  float: right;
+  height: 100%;
+  line-height: 50px;
+
+  &:focus {
+    outline: none;
+  }
+
+  .right-menu-item {
+    display: inline-block;
+    padding: 0 8px;
+    height: 100%;
+    font-size: 18px;
+    color: #5a5e66;
+    vertical-align: text-bottom;
+
+    &.hover-effect {
+      cursor: pointer;
+      transition: background .3s;
+
+      &:hover {
+        background: rgba(0, 0, 0, .025)
+      }
+    }
+  }
+
+  .avatar-container {
+    margin-right: 30px;
+
+    .avatar-wrapper {
+      margin-top: 5px;
+      position: relative;
+
+      .user-avatar {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+      }
+
+      .el-icon-caret-bottom {
+        cursor: pointer;
+        position: absolute;
+        right: -20px;
+        top: 25px;
+        font-size: 12px;
+      }
+    }
   }
 }
 </style>

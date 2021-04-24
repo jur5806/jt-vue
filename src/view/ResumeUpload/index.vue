@@ -3,19 +3,55 @@
   <el-form ref="form" :model="form" label-width="120px">
     <el-row>
       <el-col :span="8">
-
         <el-form-item label="姓名">
           <el-input v-model="form.stationName" />
         </el-form-item>
       </el-col>
       <el-col :span="6">
-        <el-form-item label="job zone">
+        <el-form-item label="籍贯">
           <el-select v-model="form.workPlace" placeholder="please select your zone">
             <el-option label="上海" value="上海" />
             <el-option label="北京" value="北京" />
             <el-option label="杭州" value="杭州" />
             <el-option label="广州" value="广州" />
           </el-select>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="6">
+        <el-form-item label="推荐人姓名">
+          <el-input v-model="form.stationName" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="4">
+        <el-form-item label="毕业院校">
+          <el-input v-model="form.stationName" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="5">
+        <el-form-item label="所修专业">
+          <el-input v-model="form.stationName" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="5">
+        <el-form-item label="电子邮箱">
+          <el-input v-model="form.stationName" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="4">
+        <el-form-item label="出生日期">
+          <el-date-picker v-model="form.rcEndTime" type="date" placeholder="Pick a date" style="width: 100%;" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="4">
+        <el-form-item label="政治面貌">
+          <el-input v-model="form.stationName" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="4">
+        <el-form-item label="婚姻状况">
+          <el-input v-model="form.stationName" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -41,6 +77,12 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item label="job form">
+      <el-input v-model="form.rcDescribe" type="textarea" />
+    </el-form-item>
+    <el-form-item label="自我评价以及荣誉情况">
+      <el-input v-model="form.rcDescribe" type="textarea" />
+    </el-form-item>
+    <el-form-item label="专业技能">
       <el-input v-model="form.rcDescribe" type="textarea" />
     </el-form-item>
     <el-form-item>

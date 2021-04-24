@@ -1,0 +1,113 @@
+<template>
+    <div class="warp-outer">
+      <div class="job-header">
+        直播运营技术实习生-大力教育
+      </div>
+      <div class="job-info">
+        <span>
+          北京
+        </span>
+        <div class="line-devider"></div>
+        <span>
+          运营
+        </span>
+        <div class="line-devider"></div>
+        <span>
+          日常实习生
+        </span>
+        <div class="line-devider"></div>
+      </div>
+      <div class="block-title">
+        职位描述
+      </div>
+      <div class="block-content">{{content1}}</div>
+      <div class="block-content">{{content2}}</div>
+      <div class="block-title">
+        职位要求
+      </div>
+      <div class="block-content">{{content3}}</div>
+      <div class="block-content">{{content4}}</div>
+      <div class="block-content">{{content5}}</div>
+      <div class="apply-block">
+        <button type="button" class="apply-block-applyBtn">
+          <span>投递</span>
+        </button>
+      </div>
+    </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      content1: "1.日常对接主播及产品运营，维护直播间日常直播秩序，能够学习和了解直播技术sop，快速解决直播中出现的应急问题",
+      content2: "2.对数据敏感，每场直播后可以独立复盘正常直播数据走向，并提出相关解决方案",
+      content3: "1，对教育行业或直播电商或短视等领域感兴趣",
+      content4: "2，学习能力强，对直播运营有一定了解，关注过淘宝直播或抖音直播",
+      content5: "3，有一定的影视专业基础，对于灯光，摄影，演播室，后期制作，整体工作流程有了解。",
+      // content6: "",
+    }
+  }
+}
+</script>
+<style scoped lang="scss">
+.warp-outer {
+  font-size: 16px;
+  max-width: 800px;
+  min-height: 573px;
+  margin: 60px auto 110px;
+  padding-left: 32px;
+}
+.job-header {
+  margin-bottom: 13px;
+  position: relative;
+  font-size: 30px;
+  font-weight: 800;
+  color: #1f2329;
+}
+.line-devider {
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  background-color: #c3c6cb;
+  margin: 0 8px;
+}
+.block-title {
+  margin: 50px 0 8px;
+  font-size: 21px;
+  line-height: 1.52;
+  font-weight: 800;
+  color: #3e4c5b;
+}
+.block-content {
+  line-height: 2em;
+  white-space: pre;
+  white-space: pre-line;
+  word-break: break-word;
+  font-size: 14px;
+  color: #3e4c5b;
+}
+.apply-block {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 50px 0;
+  line-height: 40px;
+  height: 40px;
+}
+.apply-block-applyBtn {
+  color: #fff;
+  background-color: #325ab4;
+  border-color: #325ab4;
+  max-width: 120px;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-right: 48px;
+  min-width: 120px;
+  text-align: center;
+  border: 1px solid rgba(0,0,0,0);
+}
+</style>

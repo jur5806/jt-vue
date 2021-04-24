@@ -109,5 +109,11 @@ export default new Router({
       name: 'accountSettings',
       component: () => import('../view/账号设置.vue')
     }
+    ,
+    {
+      path: '/detail',
+      name: 'detail',
+      component: () => import('../view/人才推荐/detail.vue')
+    }
   ]
 })

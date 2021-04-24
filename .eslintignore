@@ -5,4 +5,5 @@
 /src/view/
 /node_modules/
 /*.js
+/*.vue
 /test/unit/coverage/

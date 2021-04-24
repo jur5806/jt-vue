@@ -12,6 +12,8 @@ Vue.use(Router)
 const positionList = () => import('../view/人才推荐/职位列表.vue')
 const userManagement = () => import('../view/人才推荐/用户管理.vue')
 const roleConfiguration = () => import('../view/人才推荐/角色配置.vue')
+const myRecommend = () => import('../view/人才推荐/我的推荐.vue')
+const pointsManagement = () => import('../view/人才推荐/积分列表.vue')
 const NewPosition = () => import('../view/jobManagement/NewPosition.vue')
 const PublishedPosition = () => import('../view/jobManagement/PublishedPosition.vue');
 const complexTable = () => import('../view/jobManagement/complex-table.vue');
@@ -41,12 +43,14 @@ export default new Router({
           ]
         },
         {
-          path: '/library',
+          path: '/index/myRecommend',
           name: '我的推荐',
           hidden: false,
           leaf: true,
-          component: Library,
-          children:[]
+          component: layer,
+          children:[
+            { path: '/index/myRecommend', hidden: false, component: myRecommend, name: '我的推荐' ,meta:{keepAlive: false }},
+          ]
         },
         {
           path: '/userManagement',
@@ -83,6 +87,16 @@ export default new Router({
             { path: '/ResumeUpload', name: '简历上传', component: ResumeUpload ,meta:{ title: '职位区', icon: 'job' }},
           ]
         },
+        {
+          path: '/index/pointsManagement',
+          name: '积分管理',
+          hidden: false,
+          leaf: true,
+          component: layer,
+          children:[
+            { path: '/index/pointsManagement', hidden: false, component: pointsManagement, name: '积分列表' ,meta:{keepAlive: false }},
+          ]
+        },
 
       ]
     },
@@ -108,6 +122,6 @@ export default new Router({
       path: '/accountSettings',
       name: 'accountSettings',
       component: () => import('../view/账号设置.vue')
-    }
+    },
   ]
 })

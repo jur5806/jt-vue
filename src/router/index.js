@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
 import Home from '../view/index.vue'
+// import Home from '../components/home.vue'
 import Library from '../view/LibraryIndex'
 import layer from '@/view/layer'
 

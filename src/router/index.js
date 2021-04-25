@@ -18,6 +18,7 @@ const NewPosition = () => import('../view/jobManagement/NewPosition.vue')
 const PublishedPosition = () => import('../view/jobManagement/PublishedPosition.vue');
 const complexTable = () => import('../view/jobManagement/complex-table.vue');
 const ResumeUpload = () => import('../view/ResumeUpload/index.vue');
+const pointsExchange = () => import('../view/pointsManagement/pointsExchange.vue')
 
 export default new Router({
   //  去除#访问
@@ -95,6 +96,7 @@ export default new Router({
           component: layer,
           children:[
             { path: '/index/pointsManagement', hidden: false, component: pointsManagement, name: '积分列表' ,meta:{keepAlive: false }},
+            { path: '/index/pointsExchange', hidden: false, component: pointsExchange, name: '积分兑换物品' ,meta:{keepAlive: false }},
           ]
         },
 

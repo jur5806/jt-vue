@@ -127,6 +127,11 @@ export default new Router({
       path: '/detail',
       name: 'detail',
       component: () => import('../view/人才推荐/detail.vue')
+    },
+    {
+      path: '/ResumeDetail',
+      name: 'ResumeDetail',
+      component: () => import('../view/ResumeUpload/ResumeDetail.vue')
     }
   ]
 })

@@ -4,9 +4,10 @@
       <div v-show="isSwitch" class="aside-cont">
         <div class="logo">
           <div class="f-imgtopbox2">
-            <transition>
+            HR人才推荐系统
+            <!-- <transition>
               <img class="img2" src="../assets/images/logo.png" alt />
-            </transition>
+            </transition> -->
           </div>
         </div>
         <div class="icon_switch" style="right:-15px;" @click="isSwitch=!isSwitch">
@@ -303,6 +304,9 @@ export default {
         left: 50%;
         margin-left: -80px;
         @include wh(160px, 49px);
+        color: #ffff;
+        font-size: 20px;
+        font-family: ui-rounded;
       }
 
       .img1 {

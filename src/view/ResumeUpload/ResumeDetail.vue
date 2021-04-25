@@ -33,16 +33,13 @@
         <button type="button" class="apply-block-applyBtn">
           <span>简历通过</span>
         </button>
-      </div>
-      <div class="apply-block">
         <button type="button" class="apply-block-applyBtn">
           <span>面试通过</span>
         </button>
-      </div>
-      <div class="apply-block">
         <button type="button" class="apply-block-applyBtn">
           <span>成功聘用</span>
         </button>
+
       </div>
     </div>
 </template>
@@ -120,5 +117,29 @@ export default {
   min-width: 120px;
   text-align: center;
   border: 1px solid rgba(0,0,0,0);
+  display: inline-block;
+  position: relative;
+}
+
+.apply-block-applyBtn:after {
+  content: "";
+  display: block;
+  border-top: 20px solid transparent;
+  border-bottom: 19px solid transparent;
+  border-left: 19px solid #325ab4;
+  position: absolute;
+  right: -19px;
+  top: 0px
+}
+
+.apply-block-applyBtn:before{  
+    content: '';
+    display: block;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid #f0f3f6;
+    position: absolute;
+    left: -1px;
+    top: 0;
 }
 </style>

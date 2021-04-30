@@ -48,6 +48,7 @@ export default {
           this.$store.commit('login', this.loginForm)
           var path = this.$route.query.redirect
           global.setSession('userName',res.data.data);
+          global.setStore('user', JSON.stringify(res.data.data))
           console.log(path)
           this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
         }

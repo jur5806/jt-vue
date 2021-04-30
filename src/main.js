@@ -10,6 +10,8 @@ import components from './components/'
 import store from './story'
 import SvgIcon from './components/SvgIcon'// svg component
 import './icons' // icon
+import * as getData from './service/getData'
+import layer from '@/view/layer'
 // register globally
 Vue.component('svg-icon', SvgIcon)
 
@@ -27,8 +29,13 @@ Object.keys(components).forEach((key) => {
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(sessionStorage.getItem("userName"));
+  if (sessionStorage.getItem("userName")) {
+    console.log(88888999);
+    initAdminMenu(router, store)
+  }
   if (to.meta.requireAuth) {
-    if (store.state.user.username) {
+    if (sessionStorage.getItem("userName")) {
       next()
     } else {
       next({
@@ -40,6 +47,43 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+const initAdminMenu = (router, store) => {
+  // 防止重复触发加载菜单操作
+  if (store.state.adminMenus.length > 0) {
+    return
+  }
+  getData.getMenu().then(res => {
+    if (res && res.status === 200) {
+      var fmtRoutes = formatRoutes(res.data.data)
+      router.addRoutes(fmtRoutes)
+      store.commit('initAdminMenu', fmtRoutes)
+    }
+  })
+}
+
+const formatRoutes = (routes) => {
+  let fmtRoutes = []
+  routes.forEach(route => {
+    if (route.children) {
+      route.children = formatRoutes(route.children)
+    }
+
+    let fmtRoute = {
+      path: route.path,
+      component: layer,
+      name: route.name,
+      nameZh: route.nameZh,
+      iconCls: route.iconCls,
+      meta: {
+        requireAuth: true
+      },
+      children: route.children
+    }
+    fmtRoutes.push(fmtRoute)
+  })
+  return fmtRoutes
+}
 
 /* eslint-disable no-new */
 new Vue({

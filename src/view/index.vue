@@ -20,16 +20,16 @@
       <!-- <lang-select class="right-menu-item hover-effect" /> -->
       <el-header class="header flex-box">
         <ul class="main-nav">
-          <li class="main-nav-item">
+          <!-- <li class="main-nav-item">
             <i class="el-icon-setting"></i>
             <p>个人中心</p>
           </li>
-          <!-- 跳转领导层 -->
+          跳转领导层
          
           <li class="main-nav-item">
             <i class="el-icon-setting"></i>
             <p>管控中心</p>
-          </li>
+          </li> -->
           
           <!-- <li
             class="main-nav-item"

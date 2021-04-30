@@ -65,7 +65,7 @@ export default {
       getData.getBooks()
         .then(res => {
           if (res && res.status === 200) {
-            this.books = res.data
+            this.books = res.data.data
             console.log(this.books)
           }
         })

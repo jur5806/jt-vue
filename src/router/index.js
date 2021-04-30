@@ -9,17 +9,17 @@ import layer from '@/view/layer'
 // const Library = r => require.ensure([], () => r(require('../view/LibraryIndex')), 'Library')
 
 Vue.use(Router)
-
-const positionList = () => import('../view/人才推荐/职位列表.vue')
-const userManagement = () => import('../view/人才推荐/用户管理.vue')
-const roleConfiguration = () => import('../view/人才推荐/角色配置.vue')
-const myRecommend = () => import('../view/人才推荐/我的推荐.vue')
-const pointsManagement = () => import('../view/人才推荐/积分列表.vue')
-const NewPosition = () => import('../view/jobManagement/NewPosition.vue')
+const positionList = () => import('../view/人才推荐/职位列表.vue');
+const userManagement = () => import('../view/人才推荐/用户管理.vue');
+const roleConfiguration = () => import('../view/人才推荐/角色配置.vue');
+const myRecommend = () => import('../view/人才推荐/我的推荐.vue');
+const pointsManagement = () => import('../view/人才推荐/积分列表.vue');
+const NewPosition = () => import('../view/jobManagement/NewPosition.vue');
 const PublishedPosition = () => import('../view/jobManagement/PublishedPosition.vue');
 const complexTable = () => import('../view/jobManagement/complex-table.vue');
 const ResumeUpload = () => import('../view/ResumeUpload/index.vue');
-const pointsExchange = () => import('../view/pointsManagement/pointsExchange.vue')
+const pointsExchange = () => import('../view/pointsManagement/pointsExchange.vue');
+const talentPool = () => import('../view/LibraryIndex.vue');
 
 export default new Router({
   //  去除#访问
@@ -87,6 +87,17 @@ export default new Router({
           name: '简历上传',
           children:[
             { path: '/ResumeUpload', name: '简历上传', component: ResumeUpload ,meta:{ title: '职位区', icon: 'job' }},
+          ]
+        },
+        {
+          path: '/',
+          component: layer,
+          hidden: false,
+          redirect: '/talentPool',
+          leaf: true,
+          name: '人才管理',
+          children:[
+            { path: '/talentPool/talentInfoList', name: '人才库', component: talentPool ,meta:{keepAlive: false }},
           ]
         },
         {

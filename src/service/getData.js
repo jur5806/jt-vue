@@ -122,10 +122,14 @@ let logout = () => axios.get(`/march/logout`);
 
 
   let recruitAdd = (data) => axios.post(`/march/recruitAdd`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+/* 获取路由权限
+ * 
+ */
+let getMenu = () => axios.get('/march/menu');
   
 export {
   checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
   userInfoEdit, userDetail, userList, roleList, deleUser, resetPassword, rolePerm, roleMenu, addRole,
-  recruitList, statusUpdate, recruitsUpdate, deleRecruit, recruitAdd
+  recruitList, statusUpdate, recruitsUpdate, deleRecruit, recruitAdd, getMenu
 
 }

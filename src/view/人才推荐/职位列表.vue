@@ -52,12 +52,16 @@
     <div class="rightBlock" style="overflow:auto">
       <div class="borderContainer">
         <div class="sofiaBold listTitle">开启新的工作（10,000+）
-          <div class="g-top-nav">
-            <div class="g-left-text">
-                <img src="../../assets/images/icon-sosuo.png" alt="">
-                <span>请输入职位</span>
-            </div>
-            <button class="nav-btn">搜索</button>
+          <div style="margin-top: 5px;margin-left: 10px; display: flex;justify-content: center;align-items: center">
+            <el-input
+              @keyup.enter.native="searchClick"
+              placeholder="通过工作地址或岗位搜索..."
+              prefix-icon="el-icon-search"
+              size="small"
+              style="width: 400px;margin-right: 10px"
+              v-model="name">
+            </el-input>
+            <el-button size="small" type="primary" icon="el-icon-search" @click="searchClick">搜索</el-button>
           </div>
           <!-- <span class="searchInput">
             <i class="el-icon-searatsx-inputch"></i>
@@ -152,7 +156,9 @@ export default {
       const statusMap = {
         published: 'success',
         draft: 'gray',
-        deleted: 'danger'
+        deleted: 'danger',
+        name: "",
+        id: "",
       }
       return statusMap[status]
     }
@@ -177,15 +183,17 @@ export default {
       //   type: 'success',
       //   duration: 2000
       // })
-      getData.recruitList().then(res => {
+      getData.recruitList({name: name, id: id}).then(res => {
         if (res.data.code === 200) {
           console.log(res.data.data)
           this.list = res.data.data
         } else {
-          
+          this.getRecruitList();
         }
       })
       this.listLoading = false
+    },
+    searchClick () {
     }
   },
 }

@@ -70,22 +70,20 @@
           </span> -->
         </div>
         <ul class="listItems">
-          <li class="positionItem">
+          <li class="positionItem" v-for="(item, index) in list" :key="index">
             <div class="positionItem-title">
-              <span class="positionItem-title-text">电商美妆行业运营专家-红人店方向</span>
+              <span class="positionItem-title-text">{{item.stationTitle}}</span>
             </div>
-            <div class="subTitle positionItem-subTitle">上海
-              <div class="lineDevider"></div>运营 - 产品运营
-              <div class="lineDevider"></div>社招
+            <div class="subTitle positionItem-subTitle">{{item.workPlace}}
+              <div class="lineDevider"></div>{{item.stationName}}
+              <div class="lineDevider"></div><p v-if="item.departmentState == 1">急招</p><p v-else>长期招</p>
             </div>
             <div class="jobDesc positionItem-jobDesc">
-              <p>1、负责抖音电商红人美妆店铺的运营工作，助力红人店铺发展；</p>
-              <p>2、设计美妆红人店铺直播解决方案，根据行业发展特征和消费者洞察力，输出美妆红人店铺打法及落地；</p>
-              <p>3、和主播进行美妆货品结构方向的沟通，帮助红人通过直播加速商品流通。</p>
+              <p>{{item.rcDescribe}}</p>
               
             </div>
           </li>
-          <li class="positionItem">
+          <!-- <li class="positionItem">
             <div class="positionItem-title">
               <span class="positionItem-title-text">电商美妆行业运营专家-红人店方向</span>
             </div>
@@ -140,7 +138,7 @@
               2、设计美妆红人店铺直播解决方案，根据行业发展特征和消费者洞察力，输出美妆红人店铺打法及落地；
               3、和主播进行美妆货品结构方向的沟通，帮助红人通过直播加速商品流通。
             </div>
-          </li>
+          </li> -->
         </ul>
         </div>
     </div>
@@ -166,8 +164,10 @@ export default {
   props: {},
   data() {
     return {
-      list: null,
-      listLoading: true
+      list: [],
+      listLoading: true,
+      name: "",
+      id: 0,
     }
   },
   created() {
@@ -183,7 +183,7 @@ export default {
       //   type: 'success',
       //   duration: 2000
       // })
-      getData.recruitList({name: name, id: id}).then(res => {
+      getData.recruitList({name: this.name, id: this.id}).then(res => {
         if (res.data.code === 200) {
           console.log(res.data.data)
           this.list = res.data.data
@@ -194,6 +194,7 @@ export default {
       this.listLoading = false
     },
     searchClick () {
+      this.getRecruitList();
     }
   },
 }

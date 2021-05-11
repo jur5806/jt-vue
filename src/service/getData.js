@@ -106,7 +106,7 @@ let logout = () => axios.get(`/march/logout`);
  */
   let addRole = (data) => axios.post(`/march/admin/role`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
   
-  let recruitList = () => axios.get('/march/recruitList');
+  let recruitList = (params) => axios.get('/march/recruitList',{params: params});
 
   /**
  * 修改状态

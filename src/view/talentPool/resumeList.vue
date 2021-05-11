@@ -8,36 +8,6 @@
 -->
 <template>
   <div>
-    <el-dialog
-      title="修改用户信息"
-      :visible.sync="dialogFormVisible">
-      <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
-        <el-form-item label="用户名" label-width="120px" prop="username">
-          <label>{{selectedUser.username}}</label>
-        </el-form-item>
-        <el-form-item label="真实姓名" label-width="120px" prop="name">
-          <el-input v-model="selectedUser.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" label-width="120px" prop="phone">
-          <el-input v-model="selectedUser.phone" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" label-width="120px" prop="email">
-          <el-input v-model="selectedUser.email" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" label-width="120px" prop="password">
-          <el-button type="warning" @click="resetPassword(selectedUser.username)">重置密码</el-button>
-        </el-form-item>
-        <el-form-item label="角色分配" label-width="120px" prop="roles">
-          <el-checkbox-group v-model="selectedRolesIds">
-              <el-checkbox v-for="(role,i) in roles" :key="i" :label="role.id">{{role.nameZh}}</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onSubmit(selectedUser)">确 定</el-button>
-      </div>
-    </el-dialog>
     <el-row style="margin: 18px 0px 0px 18px ">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <!-- <el-breadcrumb-item :to="{ path: '/admin/dashboard' }">管理中心</el-breadcrumb-item> -->
@@ -48,7 +18,7 @@
     <!-- <v-bulk-registration @onSubmit="listUsers()"></v-bulk-registration> -->
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
-        :data="myList"
+        :data="tableList"
         stripe
         :default-sort = "{prop: 'id', order: 'ascending'}"
         style="width: 100%"
@@ -58,7 +28,7 @@
           width="55">
         </el-table-column> -->
         <el-table-column
-          prop="recommendedName"
+          prop="candidatesName"
           label="姓名"
           fit>
         </el-table-column>
@@ -73,12 +43,12 @@
         </el-table-column>
         
         <el-table-column
-          prop="recommendedTelephone"
+          prop="candidatesPhone"
           label="手机号"
           fit>
         </el-table-column>
         <el-table-column
-          prop="recommendedEmail"
+          prop="candidatesEmail"
           label="邮箱"
           show-overflow-tooltip
           fit>
@@ -141,7 +111,6 @@ export default {
       selectedRolesIds: [],
       resetPasswordDialog: false,
       password: '',
-      myList:[],
       tableList:[
         {
           recommendTime:"2020-12-02",
@@ -189,7 +158,6 @@ export default {
   mounted () {
     this.listUsers()
     this.listRoles()
-    this.getMyResumeInfo()
   },
   computed: {
     tableHeight () {
@@ -209,17 +177,6 @@ export default {
       getData.roleList().then(resp => {
         if (resp && resp.data.code === 200) {
           this.roles = resp.data.data
-        }
-      })
-    },
-    getMyResumeInfo(){
-      const userId = sessionStorage.getItem('userId')
-      getData.myResumeInfo(userId).then(res => {
-        if (res.data.code === 200) {
-          console.log(res.data.data)
-          this.myList = res.data.data
-        } else {
-          this.getRecruitList();
         }
       })
     },

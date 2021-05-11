@@ -4,12 +4,12 @@
     <el-row>
       <el-col :span="8">
         <el-form-item label="姓名">
-          <el-input v-model="form.stationName" />
+          <el-input v-model="form.recommendedName" />
         </el-form-item>
       </el-col>
       <el-col :span="6">
         <el-form-item label="籍贯">
-          <el-select v-model="form.workPlace" placeholder="please select your zone">
+          <el-select v-model="form.recommendedProvince" placeholder="please select your zone">
             <el-option label="上海" value="上海" />
             <el-option label="北京" value="北京" />
             <el-option label="杭州" value="杭州" />
@@ -20,47 +20,52 @@
     </el-row>
     <el-row>
       <el-col :span="6">
-        <el-form-item label="推荐人姓名">
-          <el-input v-model="form.stationName" />
+        <el-form-item label="推荐人id">
+          <el-input v-model="form.tjId" />
         </el-form-item>
       </el-col>
       <el-col :span="4">
         <el-form-item label="毕业院校">
-          <el-input v-model="form.stationName" />
+          <el-input v-model="form.recommendedSchool" />
         </el-form-item>
       </el-col>
       <el-col :span="5">
         <el-form-item label="所修专业">
-          <el-input v-model="form.stationName" />
+          <el-input v-model="form.recommendedMajor" />
         </el-form-item>
       </el-col>
       <el-col :span="5">
         <el-form-item label="电子邮箱">
-          <el-input v-model="form.stationName" />
+          <el-input v-model="form.recommendedEmail" />
         </el-form-item>
       </el-col>
       <el-col :span="4">
         <el-form-item label="出生日期">
-          <el-date-picker v-model="form.rcEndTime" type="date" placeholder="Pick a date" style="width: 100%;" />
+          <el-date-picker v-model="form.recommendedBirth" type="date" placeholder="Pick a date" style="width: 100%;" />
         </el-form-item>
       </el-col>
       <el-col :span="4">
         <el-form-item label="政治面貌">
-          <el-input v-model="form.stationName" />
+          <el-input v-model="form.recommendedPolitical" />
         </el-form-item>
       </el-col>
       <el-col :span="4">
         <el-form-item label="婚姻状况">
-          <el-input v-model="form.stationName" />
+          <el-input v-model="form.recommendedMarital" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="8">
+        <el-form-item label="联系方式">
+          <el-input v-model="form.recommendedTelephone" />
         </el-form-item>
       </el-col>
     </el-row>
-    <el-form-item label="job time">
+    <!-- <el-form-item label="job time">
         <el-date-picker v-model="form.rcEndTime" type="date" placeholder="Pick a date" style="width: 100%;" />
-    </el-form-item>
-    <el-form-item label="紧急">
+    </el-form-item> -->
+    <!-- <el-form-item label="紧急">
       <el-switch v-model="form.delivery" />
-    </el-form-item>
+    </el-form-item> -->
     <!-- <el-form-item label="job type">
       <el-checkbox-group v-model="form.type">
         <el-checkbox label="视频面试" name="type" />
@@ -69,18 +74,18 @@
       </el-checkbox-group>
     </el-form-item> -->
     <el-form-item label="education">
-      <el-radio-group v-model="form.eductionClass">
+      <el-radio-group v-model="form.recommendedEducation">
         <el-radio label="junior college" value="1"/>
         <el-radio label="undergraduate" value="2"/>
         <el-radio label="master" value="3"/>
         <el-radio label="doctor" value="4"/>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="job form">
+    <!-- <el-form-item label="job form">
       <el-input v-model="form.rcDescribe" type="textarea" />
-    </el-form-item>
+    </el-form-item> -->
     <el-form-item label="自我评价以及荣誉情况">
-      <el-input v-model="form.rcDescribe" type="textarea" />
+      <el-input v-model="form.recommendedSelfEvaluation" type="textarea" />
     </el-form-item>
     <el-form-item label="专业技能">
       <el-input v-model="form.rcDescribe" type="textarea" />
@@ -117,6 +122,16 @@ export default {
         rcDescribe: '', //职位描述
         positionTypeId: '',  //职位类型
         rcDepartmentNum: '', //岗位人数需求
+        recommendedBirth: '',
+        recommendedSchool: '',
+        recommendedSelfEvaluation:'',
+        recommendedProvince:'',
+        recommendedName:'',
+        recommendedEducation: 0,
+        tjId: 0,
+        recommendedEmail: '',
+        recommendedMajor:'',
+        recommendedMarital:''
 
       }
     }
@@ -134,16 +149,24 @@ export default {
     }
    },
     onSubmit() {
-      this.form.eductionClass = this.formatEducation(this.form.eductionClass)
-      getData.recruitAdd({
-        stationName: this.form.stationName,
-        workPlace: this.form.workPlace,
-        delivery: this.form.delivery,
-        rcEndTime: this.form.rcEndTime,
+      this.form.recommendedEducation = this.formatEducation(this.form.recommendedEducation)
+      getData.resumetAdd({
+        recommendedName: this.form.recommendedName,
+        tjId: this.form.tjId,
+        recommendedProvince: this.form.recommendedProvince,
+        recommendedSchool: this.form.recommendedSchool,
+        recommendedSelfEvaluation: this.form.recommendedSelfEvaluation,
+        recommendedMajor:this.form.recommendedMajor,
+        recommendedEmail: this.form.recommendedEmail,
+        recommendedMarital: this.form.recommendedMarital,
+        recommendedTelephone:this.form.recommendedTelephone,
+        // delivery: this.form.delivery,
+        // rcEndTime: this.form.rcEndTime,
+        recommendedBirth: this.form.recommendedBirth,
         // email: this.form.email,
         rcDescribe: this.form.rcDescribe,
         rcDepartmentNum: this.form.rcDepartmentNum,
-        eductionClass: this.form.eductionClass
+        recommendedEducation: this.form.recommendedEducation
       })
       .then(resp => {
         if (resp.data.code === 200) {

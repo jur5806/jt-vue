@@ -12,7 +12,7 @@
   </el-container>
 </template>
 <script>
-import * as getData from '../service/getData'
+import * as getData from '../../service/getData'
 export default {
   name: 'AppLibrary',
   data () {

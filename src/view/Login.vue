@@ -47,7 +47,8 @@ export default {
         if (res.data.code === 200) {
           this.$store.commit('login', this.loginForm)
           var path = this.$route.query.redirect
-          global.setSession('userName',res.data.data);
+          global.setSession('userName',res.data.data.username);
+          global.setSession('userId',res.data.data.id);
           global.setStore('user', JSON.stringify(res.data.data))
           console.log(path)
           this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
 import Home from '../view/index.vue'
 // import Home from '../components/home.vue'
-import Library from '../view/LibraryIndex'
+// import Library from '../view/LibraryIndex'
 import layer from '@/view/layer'
 
 // const Library = r => require.ensure([], () => r(require('../view/LibraryIndex')), 'Library')
@@ -19,7 +19,8 @@ const PublishedPosition = () => import('../view/jobManagement/PublishedPosition.
 const complexTable = () => import('../view/jobManagement/complex-table.vue');
 const ResumeUpload = () => import('../view/ResumeUpload/index.vue');
 const pointsExchange = () => import('../view/pointsManagement/pointsExchange.vue');
-const talentPool = () => import('../view/LibraryIndex.vue');
+const talentPool = () => import('../view/talentPool/LibraryIndex.vue');
+const resumeInfoList = () => import('../view/talentPool/resumeList.vue');
 
 export default new Router({
   //  去除#访问
@@ -98,6 +99,7 @@ export default new Router({
           name: '人才管理',
           children:[
             { path: '/talentPool/talentInfoList', name: '人才库', component: talentPool ,meta:{keepAlive: false }},
+            { path: '/talentPool/resumeInfoList', name: '简历列表', component: resumeInfoList ,meta:{keepAlive: false }},
           ]
         },
         {

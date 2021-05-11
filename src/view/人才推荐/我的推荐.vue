@@ -48,7 +48,7 @@
     <!-- <v-bulk-registration @onSubmit="listUsers()"></v-bulk-registration> -->
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
-        :data="tableList"
+        :data="myList"
         stripe
         :default-sort = "{prop: 'id', order: 'ascending'}"
         style="width: 100%"
@@ -58,7 +58,7 @@
           width="55">
         </el-table-column> -->
         <el-table-column
-          prop="candidatesName"
+          prop="recommendedName"
           label="姓名"
           fit>
         </el-table-column>
@@ -73,12 +73,12 @@
         </el-table-column>
         
         <el-table-column
-          prop="candidatesPhone"
+          prop="recommendedTelephone"
           label="手机号"
           fit>
         </el-table-column>
         <el-table-column
-          prop="candidatesEmail"
+          prop="recommendedEmail"
           label="邮箱"
           show-overflow-tooltip
           fit>
@@ -141,6 +141,7 @@ export default {
       selectedRolesIds: [],
       resetPasswordDialog: false,
       password: '',
+      myList:[],
       tableList:[
         {
           recommendTime:"2020-12-02",
@@ -188,6 +189,7 @@ export default {
   mounted () {
     this.listUsers()
     this.listRoles()
+    this.getMyResumeInfo()
   },
   computed: {
     tableHeight () {
@@ -207,6 +209,17 @@ export default {
       getData.roleList().then(resp => {
         if (resp && resp.data.code === 200) {
           this.roles = resp.data.data
+        }
+      })
+    },
+    getMyResumeInfo(){
+      const userId = sessionStorage.getItem('userId')
+      getData.myResumeInfo(userId).then(res => {
+        if (res.data.code === 200) {
+          console.log(res.data.data)
+          this.myList = res.data.data
+        } else {
+          this.getRecruitList();
         }
       })
     },

@@ -21,6 +21,7 @@ const ResumeUpload = () => import('../view/ResumeUpload/index.vue');
 const pointsExchange = () => import('../view/pointsManagement/pointsExchange.vue');
 const talentPool = () => import('../view/talentPool/LibraryIndex.vue');
 const resumeInfoList = () => import('../view/talentPool/resumeList.vue');
+const HrResume = () => import('../view/HR/Hr-Resume.vue');
 
 export default new Router({
   //  去除#访问
@@ -65,6 +66,16 @@ export default new Router({
           children:[
             { path: '/index/userManagement', hidden: false, component: userManagement, name: '用户列表' ,meta:{keepAlive: false }},
             { path: '/index/roleConfiguration', hidden: false, component: roleConfiguration, name: '角色配置' ,meta:{keepAlive: false }},
+          ]
+        },
+        {
+          path: '/index/HrResume:hrId',
+          name: '我收到的简历',
+          hidden: false,
+          leaf: true,
+          component: layer,
+          children:[
+            { path: '/index/HrResume:hrId', hidden: false, component: HrResume, name: '我收到的简历' ,meta:{keepAlive: false }},
           ]
         },
         {

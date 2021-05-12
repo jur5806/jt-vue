@@ -112,7 +112,8 @@ export default {
         // email: this.form.email,
         rcDescribe: this.form.rcDescribe,
         rcDepartmentNum: this.form.rcDepartmentNum,
-        eductionClass: this.form.eductionClass
+        eductionClass: this.form.eductionClass,
+        hrId: parseInt(sessionStorage.getItem("userId"))
       })
       .then(resp => {
         if (resp.data.code === 200) {

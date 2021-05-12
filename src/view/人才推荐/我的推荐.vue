@@ -64,11 +64,13 @@
         </el-table-column>
         <el-table-column
           prop="candidatesSex"
-          label="性别"
+          label="受教育程度"
           fit>
            <template slot-scope="scope">
-            <span v-if="scope.row.candidatesSex == 0">男</span>
-            <span v-if="scope.row.candidatesSex == 1">女</span>
+            <span v-if="scope.row.recommendedEducation === 1">大专</span>
+            <span v-if="scope.row.recommendedEducation === 2">本科</span>
+            <span v-if="scope.row.recommendedEducation === 3">硕士</span>
+            <span v-if="scope.row.recommendedEducation === 4">博士</span>
           </template>
         </el-table-column>
         
@@ -150,39 +152,7 @@ export default {
           candidatesPhone:"123456789",
           candidatesEmail:"123456789@jjj.com",
           examineType:0,
-        },
-        {
-          recommendTime:"2020-12-02",
-          candidatesName:"长相",
-          candidatesSex:1,
-          candidatesPhone:"123456789",
-          candidatesEmail:"123456789@jjj.com",
-          examineType:1,
-        },
-        {
-          recommendTime:"2020-12-02",
-          candidatesName:"长相",
-          candidatesSex:1,
-          candidatesPhone:"123456789",
-          candidatesEmail:"123456789@jjj.com",
-          examineType:2,
-        },
-        {
-          recommendTime:"2020-12-02",
-          candidatesName:"长相",
-          candidatesSex:1,
-          candidatesPhone:"123456789",
-          candidatesEmail:"123456789@jjj.com",
-          examineType:3,
-        },
-        {
-          recommendTime:"2020-12-02",
-          candidatesName:"长相",
-          candidatesSex:1,
-          candidatesPhone:"123456789",
-          candidatesEmail:"123456789@jjj.com",
-          examineType:4,
-        }
+        },,
       ]
     }
   },

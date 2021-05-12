@@ -131,7 +131,7 @@ export default {
         tjId: 0,
         recommendedEmail: '',
         recommendedMajor:'',
-        recommendedMarital:''
+        recommendedMarital:'',
 
       }
     }
@@ -159,7 +159,7 @@ export default {
         recommendedMajor:this.form.recommendedMajor,
         recommendedEmail: this.form.recommendedEmail,
         recommendedMarital: this.form.recommendedMarital,
-        recommendedTelephone:this.form.recommendedTelephone,
+        recommendedTelephone: parseInt(this.form.recommendedTelephone),
         // delivery: this.form.delivery,
         // rcEndTime: this.form.rcEndTime,
         recommendedBirth: this.form.recommendedBirth,

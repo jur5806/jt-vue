@@ -105,7 +105,10 @@ let logout = () => axios.get(`/march/logout`);
  * 字段
  */
   let addRole = (data) => axios.post(`/march/admin/role`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
-  
+    /**
+   * 
+   * 首页职位区 
+   */
   let recruitList = (params) => axios.get('/march/recruitList',{params: params});
 
   /**

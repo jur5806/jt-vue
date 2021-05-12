@@ -134,9 +134,9 @@ export default {
   },
   methods: {
     listRoles () {
-      getData.roleList().then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.roles = resp.data.data
+      getData.roleList().then(res => {
+        if (res && res.data.code === 200) {
+          this.roles = res.data.data
         }
       })
     },
@@ -161,11 +161,11 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$axios.put('/admin/role/status', {
+          getData.roleStatusUpdate({
             enabled: value,
             id: role.id
-          }).then(resp => {
-            if (resp && resp.data.code === 200) {
+          }).then(res => {
+            if (res && res.data.code === 200) {
               if (value) {
                 this.$message('角色 [' + role.nameZh + '] 已启用')
               } else {
@@ -217,24 +217,23 @@ export default {
           }
         }
       }
-      this.$axios.put('/admin/role', {
+      getData.roleInfoUpdate({
         id: role.id,
         name: role.name,
         nameZh: role.nameZh,
         enabled: role.enabled,
         perms: perms
-      }).then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.$alert(resp.data.result)
+      }).then(res => {
+        if (res && res.data.code === 200) {
+          this.$alert(res.data.data)
           this.dialogFormVisible = false
           this.listRoles()
         }
       })
-      this.$axios.put('/admin/role/menu?rid=' + role.id, {
-        menusIds: this.$refs.tree.getCheckedKeys()
-      }).then(resp => {
-        if (resp && resp.data.code === 200) {
-          console.log(resp.data.result)
+      getData.roleMenuUpdate(role.id,{menusIds: this.$refs.tree.getCheckedKeys()
+      }).then(res => {
+        if (res && res.data.code === 200) {
+          console.log(res.data.data)
         }
       })
     }

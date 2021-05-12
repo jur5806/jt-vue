@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <el-button class="add-button" type="success" @click="$router.push('/index/NewPosition')">新增职位</el-button>
     <div class="filter-container">
       <!-- <el-input v-model="listQuery.title" placeholder="Title" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-select v-model="listQuery.importance" placeholder="Imp" clearable style="width: 90px" class="filter-item">

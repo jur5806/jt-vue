@@ -153,16 +153,16 @@ export default {
   methods: {
     listUsers () {
       console.log('8888')
-      getData.userList().then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.users = resp.data.data
+      getData.userList().then(res => {
+        if (res && res.data.code === 200) {
+          this.users = res.data.data
         }
       })
     },
     listRoles () {
-      getData.roleList().then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.roles = resp.data.data
+      getData.roleList().then(res => {
+        if (res && res.data.code === 200) {
+          this.roles = res.data.data
         }
       })
     },
@@ -197,20 +197,20 @@ export default {
           }
         }
       }
-      this.$axios.put('/admin/user', {
+      getData.adminUserUpdate({
         username: user.username,
         name: user.name,
         phone: user.phone,
         email: user.email,
         roles: roles
-      }).then(resp => {
-        if (resp && resp.data.code === 200) {
+      }).then(res => {
+        if (res && res.data.code === 200) {
           this.$alert('用户信息修改成功')
           this.dialogFormVisible = false
           // 修改角色后重新请求用户信息，实现视图更新
           this.listUsers()
         } else {
-          this.$alert(resp.data.message)
+          this.$alert(res.data.message)
         }
       })
     },

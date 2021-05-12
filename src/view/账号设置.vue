@@ -15,7 +15,7 @@
           </div>
         </el-dropdown-menu> -->
       </el-dropdown>
-      <span>王小虎</span>
+      <span>{{username}}</span>
     </el-header>
     <div class="index_header flex-box">
       <h3 class="title">账号设置</h3>
@@ -30,7 +30,6 @@
             </li>
           </ul> -->
           <div class="pull-right">
-            {{isEdit}}
             <el-button size="small" @click="isEdit=false;" v-if="isEdit">取消
             </el-button>
             <el-button type="success" size="small" @click="save()" v-if="isEdit">保存</el-button>
@@ -39,10 +38,19 @@
         </div>
         <el-form label-width="200px" size="mini" :disabled="!isEdit">
           <el-row style="margin-top: 30px;">
-            <el-col :span="16" :offset="2">
-              <el-form-item label="用户名" label-width="120px" prop="username">
-                <label>{{form.username}}</label>
-              </el-form-item>
+            <el-col :span="20" :offset="2">
+              <el-row>
+                <el-col :span="16">
+                  <el-form-item label="用户名:" label-width="120px" prop="username">
+                    <label>{{form.username}}</label>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="我的总积分:" label-width="120px" prop="sumPoints">
+                    <label>{{form.sumPoints}}</label>
+                  </el-form-item>
+                </el-col>
+              </el-row>
               <el-form-item label="真实姓名：" prop="name">
                 <el-input v-model="form.name" placeholder="请输入姓名" maxlength="10"></el-input>
               </el-form-item>

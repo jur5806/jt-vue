@@ -116,7 +116,16 @@ let logout = () => axios.get(`/march/logout`);
  * 
  */
  let statusUpdate = (data) => axios.put(`/march/admin/userStatus`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
- let recruitsUpdate = (data) => axios.put(`/march/updateRecruit`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+  /**
+ * 用户信息修改及分配角色
+ * 
+ */
+ let adminUserUpdate = (data) => axios.post(`/march/admin/user`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+/**
+ * 职位信息上传
+ * 
+ */
+ let recruitsUpdate = (data) => axios.put(`/march/updateRecruit`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
  
 /* 删除职位列表
  * 
@@ -150,11 +159,33 @@ let getMenu = () => axios.get('/march/menu');
  */
 let pointsList = () => axios.get('/march/pointsList')
 
+/**
+ * 更改角色状态
+ * 
+ */
+let roleStatusUpdate = (data) => axios.put(`/march/role/status`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+ 
+/**
+ * 更改角色信息
+ * 
+ */
+let roleInfoUpdate = (data) => axios.put(`/march/admin/role`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+
+/**
+ * 更改角色路由
+ * 
+ */
+let roleMenuUpdate = (rid,data) => axios.put(`/march/admin/role/menu?rid=`+rid,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+  
+
 
 export {
   checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
   userInfoEdit, userDetail, userList, roleList, deleUser, resetPassword, rolePerm, roleMenu, addRole,
   recruitList, statusUpdate, recruitsUpdate, deleRecruit, recruitAdd, getMenu,resumetAdd,resumetDel,
   myResumeInfo,pointsList
+  
+  
+  ,adminUserUpdate, roleStatusUpdate, roleInfoUpdate, roleMenuUpdate
 
 }

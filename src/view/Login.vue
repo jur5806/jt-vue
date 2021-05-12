@@ -52,6 +52,11 @@ export default {
           global.setStore('user', JSON.stringify(res.data.data))
           console.log(path)
           this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
+        }else{
+          this.$message({
+              type: "error",
+              message: res.data.message
+            });
         }
       })
         .catch(failResponse => {

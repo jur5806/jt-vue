@@ -144,11 +144,17 @@ let myResumeInfo = (userId) => axios.get('/march/getResumeInfoByUserId?userId='+
  * 
  */
 let getMenu = () => axios.get('/march/menu');
-  
+
+/**
+ * 积分列表
+ */
+let pointsList = () => axios.get('/march/pointsList')
+
+
 export {
   checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
   userInfoEdit, userDetail, userList, roleList, deleUser, resetPassword, rolePerm, roleMenu, addRole,
   recruitList, statusUpdate, recruitsUpdate, deleRecruit, recruitAdd, getMenu,resumetAdd,resumetDel,
-  myResumeInfo
+  myResumeInfo,pointsList
 
 }

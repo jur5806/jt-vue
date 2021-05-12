@@ -10,7 +10,7 @@
     <!-- <v-bulk-registration @onSubmit="listUsers()"></v-bulk-registration> -->
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
-        :data="users"
+        :data="allPointList"
         stripe
         :default-sort = "{prop: 'id', order: 'ascending'}"
         style="width: 100%"
@@ -124,33 +124,6 @@ export default {
           eventTime: '2021-4-24',
           reason: 3
         },
-        {
-          id: '1',
-          username: '滑动',
-          name: 'jiangting',
-          phone: '123456',
-          pointsNum: '4',
-          eventTime: '2021-4-24',
-          reason: 4
-        },
-        {
-          id: '1',
-          username: '滑动',
-          name: 'jiangting',
-          phone: '123456',
-          pointsNum: '2',
-          eventTime: '2021-4-24',
-          reason: 1
-        },
-        {
-          id: '1',
-          username: '滑动',
-          name: 'jiangting',
-          phone: '123456',
-          pointsNum: '7',
-          eventTime: '2021-4-24',
-          reason: 2
-        }
       ],
       roles: [],
       dialogFormVisible: false,
@@ -162,7 +135,7 @@ export default {
   },
   mounted () {
     // this.listUsers()
-    this.listRoles()
+    this.getPointsList()
   },
   computed: {
     tableHeight () {
@@ -174,12 +147,12 @@ export default {
       console.log('8888')
       getData.userList().then(resp => {
         if (resp && resp.data.code === 200) {
-          this.users = resp.data.data
+          this.allPointList = resp.data.data
         }
       })
     },
-    listRoles () {
-      getData.roleList().then(resp => {
+    getPointsList() {
+      getData.pointsList().then(resp => {
         if (resp && resp.data.code === 200) {
           this.roles = resp.data.data
         }

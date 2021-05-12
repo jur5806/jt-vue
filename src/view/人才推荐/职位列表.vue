@@ -70,7 +70,7 @@
           </span> -->
         </div>
         <ul class="listItems">
-          <li class="positionItem" v-for="(item, index) in list" :key="index">
+          <li class="positionItem" v-for="(item, index) in list" :key="index" @click="goDetail(item.recruitId)">
             <div class="positionItem-title">
               <span class="positionItem-title-text">{{item.stationTitle}}</span>
             </div>
@@ -193,7 +193,12 @@ export default {
       })
       this.listLoading = false
     },
-    searchClick () {
+    goDetail(recruitId) {
+      // window.location.href = `./detail?recruitId=${recruitId}`
+      this.$router.push({ name: 'detail', params: { recruitId: recruitId }})
+      // sessionStorage.setItem("item",item)
+    },
+    searchClick() {
       this.getRecruitList();
     }
   },

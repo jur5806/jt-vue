@@ -43,6 +43,17 @@
         <el-radio label="doctor" value="4"/>
       </el-radio-group>
     </el-form-item>
+    <el-form-item label="岗位状态">
+      <el-radio-group v-model="form.departmentState">
+        <el-radio :label="1">急招</el-radio>
+        <el-radio :label="2">长期招</el-radio>
+        <el-radio :label="3">短期招</el-radio>
+        <!-- <el-radio label="急招" value="1"/>
+        <el-radio label="长期招" value="2"/>
+        <el-radio label="短期招" value="3"/> -->
+        <!-- <el-radio label="doctor" value="4"/> -->
+      </el-radio-group>
+    </el-form-item>
     <el-form-item label="job form">
       <el-input v-model="form.rcDescribe" type="textarea" />
     </el-form-item>
@@ -54,6 +65,7 @@
   </div>
 </template>
 <script>
+// import { date } from '../../config/mUtils.js'
 import * as getData from '../../service/getData.js'
 
 export default {
@@ -68,10 +80,11 @@ export default {
         type: [],
         resource: 0,
         eductionClass: '', //教育等级
-        rcEndTime: '',  //结束日期
+        // rcEndTime: new Date,  //结束日期
         rcDescribe: '', //职位描述
         positionTypeId: '',  //职位类型
-        rcDepartmentNum: '', //岗位人数需求
+        rcDepartmentNum: 0, //岗位人数需求
+        departmentState: 0 //岗位状态
 
       }
     }
@@ -93,8 +106,9 @@ export default {
       getData.recruitAdd({
         stationName: this.form.stationName,
         workPlace: this.form.workPlace,
-        delivery: this.form.delivery,
+        // delivery: this.form.delivery,
         rcEndTime: this.form.rcEndTime,
+        departmentState: this.form.departmentState,
         // email: this.form.email,
         rcDescribe: this.form.rcDescribe,
         rcDepartmentNum: this.form.rcDepartmentNum,

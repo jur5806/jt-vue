@@ -140,7 +140,7 @@ export default new Router({
       component: () => import('../view/账号设置.vue')
     },
     {
-      path: '/detail',
+      path: '/detail/:recruitId',
       name: 'detail',
       component: () => import('../view/人才推荐/detail.vue')
     },

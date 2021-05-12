@@ -132,6 +132,11 @@ let logout = () => axios.get(`/march/logout`);
  */
   let deleRecruit = (recruitId) => axios.get('/march/deleRecruit?recruitId='+recruitId);
 
+  /**
+ * HR管理的职位列表
+ */
+let hrPosition = (userId) => axios.get('/march/getByhrIdList?hrId='+userId);
+
 /**
  * 我的推荐
  */
@@ -176,16 +181,17 @@ let roleInfoUpdate = (data) => axios.put(`/march/admin/role`,JSON.stringify
  * 
  */
 let roleMenuUpdate = (rid,data) => axios.put(`/march/admin/role/menu?rid=`+rid,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
-  
+ /** 
+ * HR管理的简历列表
+ */
+ let hrResumeList = (userId) => axios.get('/march/getByhrIdResumeList?hrId='+userId);
+
 
 
 export {
   checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
   userInfoEdit, userDetail, userList, roleList, deleUser, resetPassword, rolePerm, roleMenu, addRole,
   recruitList, statusUpdate, recruitsUpdate, deleRecruit, recruitAdd, getMenu,resumetAdd,resumetDel,
-  myResumeInfo,pointsList
-  
-  
-  ,adminUserUpdate, roleStatusUpdate, roleInfoUpdate, roleMenuUpdate
+  myResumeInfo,pointsList, adminUserUpdate, roleStatusUpdate, roleInfoUpdate, roleMenuUpdate,hrResumeList,hrPosition
 
 }

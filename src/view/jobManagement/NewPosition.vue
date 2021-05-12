@@ -67,6 +67,7 @@
 <script>
 // import { date } from '../../config/mUtils.js'
 import * as getData from '../../service/getData.js'
+import * as global from '../../config/mUtils'
 
 export default {
   data() {
@@ -80,7 +81,7 @@ export default {
         type: [],
         resource: 0,
         eductionClass: '', //教育等级
-        // rcEndTime: new Date,  //结束日期
+        rcEndTime: new Date().format("yyyy-MM-dd hh:mm:ss"),  //结束日期
         rcDescribe: '', //职位描述
         positionTypeId: '',  //职位类型
         rcDepartmentNum: 0, //岗位人数需求
@@ -103,14 +104,15 @@ export default {
    },
     onSubmit() {
       this.form.eductionClass = this.formatEducation(this.form.eductionClass)
+      let des = this.form.rcDescribe.replace("\n","^")
       getData.recruitAdd({
         stationName: this.form.stationName,
         workPlace: this.form.workPlace,
         // delivery: this.form.delivery,
-        rcEndTime: this.form.rcEndTime,
+        rcEndTime: new Date(this.form.rcEndTime).format("yyyy-MM-dd hh:mm:ss"),
         departmentState: this.form.departmentState,
         // email: this.form.email,
-        rcDescribe: this.form.rcDescribe,
+        rcDescribe: des,
         rcDepartmentNum: this.form.rcDepartmentNum,
         eductionClass: this.form.eductionClass,
         hrId: parseInt(sessionStorage.getItem("userId"))

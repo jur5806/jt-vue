@@ -115,7 +115,7 @@
               取消审核
             </el-button>
             <el-button
-            @click="deleUser(scope.row)"
+            @click="resumetDel(scope.row)"
               type="text"
               size="small">
               移除
@@ -252,12 +252,12 @@ export default {
       }
       this.selectedRolesIds = roleIds
     },
-    deleUser (row) {
+    resumetDel(row) {
       console.log(row)
-      getData.deleUser(row.id).then(res => {
+      getData.resumetDel(row.resumeId).then(res => {
         if (res.data.code === 200) {
           this.$alert('删除成功')
-          this.listUsers()
+          this.getMyResumeInfo()
         }
       })
     },

@@ -135,7 +135,9 @@ let myResumeInfo = (userId) => axios.get('/march/getResumeInfoByUserId?userId='+
 
   /*简历删除
   */
-  let resumetDel = (data) => axios.post(`/march/deleResumeInfo`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+  let resumetDel = (resumeInfoId) => axios.get('/march/deleResumeInfo?resumeInfoId='+resumeInfoId);
+
+  // let resumetDel = (data) => axios.post(`/march/deleResumeInfo`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
 
   let recruitAdd = (data) => axios.post(`/march/recruitAdd`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
 /* 获取路由权限

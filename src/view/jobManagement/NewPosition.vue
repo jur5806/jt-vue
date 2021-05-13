@@ -14,12 +14,6 @@
     </el-form-item>
     <el-form-item label="job time">
         <el-date-picker v-model="form.rcEndTime" type="date" placeholder="Pick a date" style="width: 100%;" />
-      <!-- <el-col :span="11">
-      </el-col> -->
-      <!-- <el-col :span="2" class="line">-</el-col>
-      <el-col :span="11">
-        <el-time-picker v-model="form.date2" type="fixed-time" placeholder="Pick a time" style="width: 100%;" />
-      </el-col> -->
     </el-form-item>
     <el-form-item  label="Number of recruits">
       <el-input  style="width: 30%;" v-model="form.rcDepartmentNum" />
@@ -32,7 +26,6 @@
         <el-checkbox label="视频面试" name="type" />
         <el-checkbox label="电话面试" name="type" />
         <el-checkbox label="线下面试" name="type" />
-        <!-- <el-checkbox label="Simple brand exposure" name="type" /> -->
       </el-checkbox-group>
     </el-form-item>
     <el-form-item label="education">
@@ -61,6 +54,7 @@
       <el-button type="primary" @click="onSubmit">发布</el-button>
       <el-button @click="onCancel">取消</el-button>
     </el-form-item>
+    
   </el-form>
   </div>
 </template>

@@ -72,7 +72,7 @@ export default {
     },
     handleCurrentChange (currentPage) {
       this.currentPage = currentPage
-      console.log(this.currentPage)
+      
     },
     // 模糊搜索
     searchResult () {

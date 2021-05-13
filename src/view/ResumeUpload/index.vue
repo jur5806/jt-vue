@@ -128,7 +128,7 @@ export default {
         recommendedProvince:'',
         recommendedName:'',
         recommendedEducation: 0,
-        tjId: 0,
+        tjId: parseInt(sessionStorage.getItem('userId')) ,
         recommendedEmail: '',
         recommendedMajor:'',
         recommendedMarital:'',
@@ -149,10 +149,13 @@ export default {
     }
    },
     onSubmit() {
+      const {recruitId, hrId} = this.$route.query
       this.form.recommendedEducation = this.formatEducation(this.form.recommendedEducation)
       getData.resumetAdd({
         recommendedName: this.form.recommendedName,
         tjId: this.form.tjId,
+        recruitId,
+        hrId,
         recommendedProvince: this.form.recommendedProvince,
         recommendedSchool: this.form.recommendedSchool,
         recommendedSelfEvaluation: this.form.recommendedSelfEvaluation,

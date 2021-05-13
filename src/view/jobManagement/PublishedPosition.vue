@@ -77,7 +77,7 @@
         <template slot-scope="scope">
           <el-button  v-show="scope.row.enabled" type="primary" size="small" @click="commitStatusChange(scope.row.recruitId)">使过期</el-button>
           <el-button type="danger" size="small" @click="handleDelete(scope.row.recruitId)">删除</el-button>
-          <el-button type="danger" size="small" @click="goHrResume(scope.row.hrId)">查看我收到的简历</el-button>
+          <el-button type="danger" size="small" @click="goHrResume(scope.row)">查看我收到的简历</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -149,8 +149,8 @@ export default {
       })
       this.listLoading = false
     },
-    goHrResume(hrId) {
-      this.$router.push({ name: '我收到的简历', params: { hrId: hrId }})
+    goHrResume(row) {
+      this.$router.push({ path: '/index/HrResume', query: { recruitId: row.recruitId ,hrId: row.hrId }})
     },
     handleDelete(recruitId) {
       this.$confirm('确定要删除这个职位吗?', 'warning', 

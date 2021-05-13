@@ -22,7 +22,8 @@
         stripe
         :default-sort = "{prop: 'id', order: 'ascending'}"
         style="width: 100%"
-        :max-height="tableHeight">
+        :max-height="tableHeight"
+      >
         <!-- <el-table-column
           type="selection"
           width="55">
@@ -153,13 +154,18 @@ export default {
       })
     },
     getHrResume(){
-      const hrId = sessionStorage.getItem('userId')
-      getData.hrResumeList(hrId).then(res => {
+      const hrId = this.$route.query.hrId || sessionStorage.getItem('userId')
+      const recruitId  = this.$route.query.recruitId
+      const params = { 
+        hrId: hrId, 
+        recruitId: recruitId 
+      }
+      getData.hrResumeList(params).then(res => {
         if (res.data.code === 200) {
           console.log(res.data.data)
           this.myList = res.data.data
         } else {
-          this.getRecruitList();
+          // this.getHrResume();
         }
       })
     },

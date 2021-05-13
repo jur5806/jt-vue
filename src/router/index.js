@@ -69,13 +69,13 @@ export default new Router({
           ]
         },
         {
-          path: '/index/HrResume:hrId',
+          path: '/index/HrResume',
           name: '我收到的简历',
           hidden: false,
           leaf: true,
           component: layer,
           children:[
-            { path: '/index/HrResume:hrId', hidden: false, component: HrResume, name: '我收到的简历' ,meta:{keepAlive: false }},
+            { path: '/index/HrResume', hidden: false, component: HrResume, name: '我收到的简历' ,meta:{keepAlive: false }},
           ]
         },
         {

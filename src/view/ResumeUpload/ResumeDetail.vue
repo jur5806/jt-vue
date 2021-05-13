@@ -13,7 +13,7 @@
         </span>
         <div class="line-devider"></div>
         <span>
-          日常实习生
+          运营助理
         </span>
         <div class="line-devider"></div>
       </div>

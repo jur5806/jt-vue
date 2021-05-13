@@ -36,7 +36,7 @@
       <div class="block-content">{{content4}}</div>
       <div class="block-content">{{content5}}</div>
       <div class="apply-block">
-        <button type="button" class="apply-block-applyBtn" @click="$router.push({ path: '/ResumeUpload'})">
+        <button type="button" class="apply-block-applyBtn" @click="goUp()">
           <span>投递</span>
         </button>
       </div>
@@ -110,6 +110,9 @@ export default {
           this.getRecruitList();
         }
       })
+    },
+    goUp() {
+      this.$router.push({ path: '/ResumeUpload', query: { recruitId: this.detailInfo.recruitId, hrId: this.detailInfo.hrId }})
     }
   },
 }

@@ -184,7 +184,7 @@ let roleMenuUpdate = (rid,data) => axios.put(`/march/admin/role/menu?rid=`+
  /** 
  * HR管理的简历列表
  */
- let hrResumeList = (userId) => axios.get('/march/getByhrIdResumeList?hrId='+userId);
+ let hrResumeList = (params) => axios.get(`/march/getByhrIdResumeList`,{params: params});
 
 
 

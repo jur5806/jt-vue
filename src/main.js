@@ -50,7 +50,7 @@ router.beforeEach((to, from, next) => {
 
 const initAdminMenu = (router, store) => {
   // 防止重复触发加载菜单操作
-  if (store.state.adminMenus.length > 0) {
+  if (store.state.adminMenus.length > 0 && window.location.pathname != '/login') {
     return
   }
   getData.getMenu().then(res => {

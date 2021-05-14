@@ -12,7 +12,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="籍贯">
-            <el-input v-model="form.recommendedProvince" placeholder="请输入籍贯"/>
+            <el-input v-model="form.recommendedAge" placeholder="请输入籍贯"/>
           </el-form-item>
         </el-col>
       </el-row>
@@ -286,6 +286,7 @@ export default {
         recommendedSelfEvaluation: '',
         recommendedPhoto: '',
         recommendedGainCertificate: '',
+        recommendedAge: '',
       },
       url: ''
     }

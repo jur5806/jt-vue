@@ -94,8 +94,8 @@
       <el-button type="primary" @click="onSubmit">发送</el-button>
       <el-button @click="onCancel">取消</el-button>
     </el-form-item>
-    <el-form-item prop="image_uri" style="margin-bottom: 30px;">
-      <Upload v-model="form.image_uri" />
+    <el-form-item prop="recommendedPhoto" style="margin-bottom: 30px;">
+      <Upload v-model="form.recommendedPhoto" />
     </el-form-item>
   </el-form>
   </div>
@@ -103,6 +103,8 @@
 <script>
 import * as getData from '../../service/getData.js'
 import Upload from '@/components/Upload/SingleImage3'
+import * as global from '../../config/mUtils'
+
 export default {
   components: {
     Upload
@@ -122,7 +124,7 @@ export default {
         rcDescribe: '', //职位描述
         positionTypeId: '',  //职位类型
         rcDepartmentNum: '', //岗位人数需求
-        recommendedBirth: '',
+        recommendedBirth: new Date().format("yyyy-MM-dd hh:mm:ss"),
         recommendedSchool: '',
         recommendedSelfEvaluation:'',
         recommendedProvince:'',
@@ -136,7 +138,21 @@ export default {
       }
     }
   },
+  created:{
+
+  },
   methods: {
+    // getToken() {
+    //   // https://api.hulincloud.cn/wechat/getAccessToken
+    //   that.$axios({
+    //       methods:"get",
+    //       url:"https://api.hulincloud.cn/wechat/getAccessToken"
+    //   }).then(response =>{
+    //       // console.log(response.data);
+    //       that.listone=response.data;
+    //       console.log(that.listone);
+    //   })
+    // },
     formatEducation(data) {
     if(data === "junior college" || data === "大专"){
       return 1
@@ -165,8 +181,9 @@ export default {
         recommendedTelephone: parseInt(this.form.recommendedTelephone),
         // delivery: this.form.delivery,
         // rcEndTime: this.form.rcEndTime,
-        recommendedBirth: this.form.recommendedBirth,
+        recommendedBirth: new Date(this.form.recommendedBirth).format("yyyy-MM-dd hh:mm:ss"),
         // email: this.form.email,
+        recommendedPhoto: this.form.recommendedPhoto,
         rcDescribe: this.form.rcDescribe,
         rcDepartmentNum: this.form.rcDepartmentNum,
         recommendedEducation: this.form.recommendedEducation

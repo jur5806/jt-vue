@@ -1,15 +1,15 @@
 <template>
     <div class="warp-outer">
       <div class="job-header">
-        章某某
+        {{detailInfo.recommendedName || "章某某"}}
       </div>
       <div class="job-info">
         <span>
-          浙江财经大学东方学院
+          {{ detailInfo.recommendedSchool ||"浙江财经大学东方学院"}}
         </span>
         <div class="line-devider"></div>
         <span>
-          信息管理与信息系统
+          {{ detailInfo.recommendedMajor || "信息管理与信息系统"}}
         </span>
         <div class="line-devider"></div>
         <span>
@@ -20,13 +20,14 @@
       <div class="block-title">
         基本信息
       </div>
-      <div class="block-content">{{content1}}</div>
-      <div class="block-content">{{content2}}</div>
+      <div class="block-content">联系电话：{{detailInfo.recommendedTelephone}}</div>
+      <div class="block-content">电子邮箱：{{detailInfo.recommendedEmail}}</div>
+      <div class="block-content">籍贯：{{detailInfo.recommendedProvince}}</div>
       <div class="block-content">专业技能：英语六级、计算机二级、软考中级、很能干饭</div>
       <div class="block-title">
         自我介绍以及荣誉
       </div>
-      <div class="block-content">{{content3}}</div>
+      <div class="block-content">{{detailInfo.recommendedSelfEvaluation}}</div>
       <div class="block-content">{{content4}}</div>
       <div class="block-content">{{content5}}</div>
       <div class="apply-block">
@@ -45,6 +46,8 @@
 </template>
 
 <script>
+import * as getData from '../../service/getData'
+
 export default {
   data() {
     return {
@@ -54,7 +57,43 @@ export default {
       content4: "2，我学习能力很强",
       content5: "3，我会好多种编程语言",
       // content6: "",
+      detailInfo: {},
+      resumeId: parseInt(this.$route.query.resumeId)
     }
+  },
+  created() {
+    this.getHrResume()
+  },
+  methods: {
+    getHrResume(){
+      const hrId = this.$route.query.hrId || sessionStorage.getItem('userId')
+      const { recruitId,tjId }  = this.$route.query
+      const params = { 
+        hrId: hrId, 
+        recruitId: recruitId,
+
+      }
+      let num = 0
+      getData.hrResumeList(params).then(res => {
+        if (res.data.code === 200) {
+          console.log(res.data.data)
+          this.myList = res.data.data
+          for(let i=0; i< this.myList.length; i++) {
+            const { resumeId: tempId } = this.myList[i]
+            if(tempId === this.resumeId) {
+              this.detailInfo = this.myList[i]
+              // console.log(this.detailInfo ,"this.detailInfo");
+              break
+            }
+          }
+        } else {
+            this.$alert("数据加载失败，请刷新", '提示', {
+              confirmButtonText: '确定'
+            })
+          // this.getHrResume();
+        }
+      })
+    },
   }
 }
 </script>

@@ -12,7 +12,6 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <!-- <el-breadcrumb-item :to="{ path: '/admin/dashboard' }">管理中心</el-breadcrumb-item> -->
         <el-breadcrumb-item>我收到的简历</el-breadcrumb-item>
-        <!-- <el-breadcrumb-item>我的推荐</el-breadcrumb-item> -->
       </el-breadcrumb>
     </el-row>
     <!-- <v-bulk-registration @onSubmit="listUsers()"></v-bulk-registration> -->
@@ -23,6 +22,7 @@
         :default-sort = "{prop: 'id', order: 'ascending'}"
         style="width: 100%"
         :max-height="tableHeight"
+        @row-click="openDialog"
       >
         <!-- <el-table-column
           type="selection"
@@ -138,6 +138,9 @@ export default {
     }
   },
   methods: {
+    openDialog(row){
+      this.$router.push({ path: '/ResumeDetail', query: { recruitId: row.recruitId ,hrId: row.hrId, tjId: row.tjId, resumeId: row.resumeId }})
+    },
     listUsers () {
       console.log('8888')
       getData.userList().then(resp => {

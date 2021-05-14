@@ -26,8 +26,8 @@
           width="100">
         </el-table-column> -->
         <el-table-column
-          prop="username"
-          label="用户名1"
+          prop="userId"
+          label="推荐人编号"
           fit>
         </el-table-column>
         <el-table-column
@@ -130,10 +130,11 @@ export default {
       selectedUser: [],
       selectedRolesIds: [],
       resetPasswordDialog: false,
-      password: ''
+      password: '',
+      allPointList: []
     }
   },
-  mounted () {
+  created() {
     // this.listUsers()
     this.getPointsList()
   },
@@ -147,14 +148,14 @@ export default {
       console.log('8888')
       getData.userList().then(resp => {
         if (resp && resp.data.code === 200) {
-          this.allPointList = resp.data.data
+          this.list = resp.data.data
         }
       })
     },
     getPointsList() {
       getData.pointsList().then(resp => {
         if (resp && resp.data.code === 200) {
-          this.roles = resp.data.data
+          this.allPointList = resp.data.data
         }
       })
     },
@@ -178,7 +179,7 @@ export default {
         this.$alert('不能禁用管理员账户')
       }
     },
-    onSubmit (user) {
+    onSubmit(user) {
       let _this = this
       // 根据视图绑定的角色 id 向后端传送角色信息
       let roles = []
@@ -206,7 +207,7 @@ export default {
         }
       })
     },
-    editUser (user) {
+    editUser(user) {
       this.dialogFormVisible = true
       this.selectedUser = user
       let roleIds = []
@@ -217,7 +218,7 @@ export default {
       }
       this.selectedRolesIds = roleIds
     },
-    deleUser (row) {
+    deleUser(row) {
       console.log(row)
       getData.deleUser(row.id).then(res => {
         if (res.data.code === 200) {

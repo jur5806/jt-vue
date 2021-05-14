@@ -22,9 +22,10 @@
         :default-sort = "{prop: 'id', order: 'ascending'}"
         style="width: 100%"
         :max-height="tableHeight"
-        @row-click="openDialog"
+       
       >
-        <!-- <el-table-column
+        <!-- @row-click="openDialog"
+           <el-table-column
           type="selection"
           width="55">
         </el-table-column> -->
@@ -34,14 +35,31 @@
           fit>
         </el-table-column>
         <el-table-column
-          prop="candidatesSex"
+          prop="sex"
+          label="性别"
+          fit>
+          <template slot-scope="scope">
+            <span v-if="scope.row.sex === 1">女</span>
+            <span v-else>男</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="recommendedAge"
+          label="年龄"
+          fit>
+        </el-table-column>
+        <el-table-column
+          prop="recommendedEducation"
           label="受教育程度"
           fit>
            <template slot-scope="scope">
-            <span v-if="scope.row.recommendedEducation === 1">大专</span>
-            <span v-if="scope.row.recommendedEducation === 2">本科</span>
-            <span v-if="scope.row.recommendedEducation === 3">硕士</span>
-            <span v-if="scope.row.recommendedEducation === 4">博士</span>
+            <span v-if="scope.row.recommendedEducation === 1">九年教育</span>
+            <span v-if="scope.row.recommendedEducation === 2">大专</span>
+            <span v-if="scope.row.recommendedEducation === 3">本科</span>
+            <span v-if="scope.row.recommendedEducation === 4">研究生</span>
+            <span v-if="scope.row.recommendedEducation === 6">硕士</span>
+            <span v-else>其他</span>
+            
           </template>
         </el-table-column>
         
@@ -57,16 +75,15 @@
           fit>
         </el-table-column>
         <el-table-column
-          prop="examineType"
+          prop="approvalState"
           label="简历审核状态"
           sortable
           width="100">
           <template slot-scope="scope">
-            <span v-if="scope.row.examineType == 0">待审核</span>
-            <span v-if="scope.row.examineType == 1">HR初审</span>
-            <span v-if="scope.row.examineType == 2">待面试</span>
-            <span v-if="scope.row.examineType == 3">面试通过</span>
-            <span v-if="scope.row.examineType == 4">主管初审</span>
+            <span v-if="scope.row.approvalState == 0">待审核</span>
+            <span v-if="scope.row.approvalState == 1">待面试</span>
+            <span v-if="scope.row.approvalState == 2">待入职</span>
+            <span v-if="scope.row.approvalState == 3">员工已入职</span>
             <!-- <el-switch
               v-model="scope.row.enabled"
               active-color="#13ce66"
@@ -77,18 +94,31 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="120">
+          width="240">
           <template slot-scope="scope">
-            <el-button
-              @click="editUser(scope.row)"
-              type="text"
+            <el-button v-if="scope.row.approvalState == 0"
+              @click="examine(scope.row)"
               size="small">
-              取消审核
+              审核
             </el-button>
+            <el-button v-if="scope.row.approvalState == 1"
+              @click=" interviewPassed (scope.row)"
+              size="mini">
+              面试通过
+            </el-button>
+            <el-button v-if="scope.row.approvalState == 2"
+              @click="viewPassedcome(scope.row)"
+              size="mini">
+              确认已入职
+            </el-button>
+            <!-- <el-button
+              @click="editUser(scope.row)"
+              size="mini">
+              取消审核
+            </el-button> -->
             <el-button
             @click="resumetDel(scope.row)"
-              type="text"
-              size="small">
+              size="mini">
               移除
             </el-button>
           </template>
@@ -123,7 +153,7 @@ export default {
           candidatesPhone:"123456789",
           candidatesEmail:"123456789@jjj.com",
           examineType:0,
-        },,
+        },
       ]
     }
   },
@@ -133,6 +163,21 @@ export default {
     this.getHrResume()
   },
   computed: {
+    viewPassedcome(row) {
+      this.$confirm('确认该被推荐人已入职,推荐人积分+5，是否继续？', '确认通过', {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        this.pointsInfoAdd(row,3,1,5)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
     tableHeight () {
       return window.innerHeight - 320
     }
@@ -233,34 +278,67 @@ export default {
     },
     resumetDel(row) {
       console.log(row)
-      getData.resumetDel(row.resumeId).then(res => {
+      this.$confirm('确认要删除该简历记录，是否继续？', '确认通过', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        getData.resumetDel(row.resumeId).then(res => {
         if (res.data.code === 200) {
-          this.$alert('删除成功')
-          this.getMyResumeInfo()
-        }
+            this.$alert('删除成功')
+            this.getHrResume()
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+      
+    },
+    examine (row) {
+      this.openDialog(row);
+    },
+    interviewPassed (row) {
+      this.$confirm('确认该被推荐人面试通过,推荐人积分+2，是否继续？', '确认通过', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.pointsInfoAdd(row,2,1,2)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
       })
     },
-    resetPassword (username) {
-      this.resetPasswordDialog = true
-      this.password = ''
-      // this.$axios.put('/admin/user/password', {
-      //   username: username
-      // }).then(resp => {
-      //   if (resp && resp.data.code === 200) {
-      //     this.$alert('密码已重置为 123')
-      //   }
-      // })
-    },
-    definePassword () {
-      getData.resetPassword({
-        username: this.selectedUser.username,
-        password: this.password
-      }).then(res => {
+    pointsInfoAdd(row,type,change,num) {
+      let data = {
+        userId: row.tjId || 110,
+        eventType: type,
+        changeType:  change,
+        pointsNum: num,
+        dealer: row.hrId || 110,
+        resumeId: row.resumeId || 3
+      }
+      getData.pointsInfoAdd(data).then(res => {
         if (res && res.data.code === 200) {
-          this.$alert('密码已重置成功')
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+        } else {
+          this.$message({
+            type: 'warning',
+            message: '操作失败'
+          })
         }
+        this.getHrResume();
       })
     }
+
   }
 }
 </script>

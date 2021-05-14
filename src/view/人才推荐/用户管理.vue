@@ -48,7 +48,7 @@
         <el-breadcrumb-item>用户信息</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
-    <v-bulk-registration @onSubmit="listUsers()"></v-bulk-registration>
+    <v-bulk-registration @onSubmit="listUsers()" ></v-bulk-registration>
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
         :data="users"
@@ -60,12 +60,12 @@
           type="selection"
           width="55">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="id"
           label="id1"
           sortable
           width="100">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="username"
           label="用户名1"
@@ -119,10 +119,10 @@
           </template>
         </el-table-column>
       </el-table>
-      <div style="margin: 20px 0 20px 0;float: left">
+      <!-- <div style="margin: 20px 0 20px 0;float: left">
         <el-button>取消选择</el-button>
         <el-button>批量删除</el-button>
-      </div>
+      </div> -->
     </el-card>
   </div>
 </template>

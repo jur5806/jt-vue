@@ -47,14 +47,20 @@
           {{ scope.row.stationName }}
         </template>
       </el-table-column>
-      <el-table-column label="职位描述">
+      <!-- <el-table-column label="职位描述">
         <template slot-scope="scope">
           {{ scope.row.rcDescribe }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="学历要求" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.eductionClass }}</span>
+          <span v-if="scope.row.eductionClass == 1">初中以上</span>
+          <span v-if="scope.row.eductionClass == 2">高中及中专以上</span>
+          <span v-if="scope.row.eductionClass == 3">大专及以上</span>
+          <span v-if="scope.row.eductionClass == 4">本科及以上</span>
+          <span v-if="scope.row.eductionClass == 5">研究生及以上</span>
+          <span v-else>不做要求</span>
+
         </template>
       </el-table-column>
       <el-table-column label="所需人数" width="110" align="center">
@@ -62,7 +68,7 @@
           {{ scope.row.rcDepartmentNum }}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="状态" width="110" align="center">
+      <el-table-column class-name="status-col" label="已投递简历树" width="110" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.departmentState | statusFilter">{{ scope.row.departmentState }}</el-tag>
         </template>
@@ -73,11 +79,11 @@
           <span>{{ scope.row.workPlace }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Operations">
+      <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button  v-show="scope.row.enabled" type="primary" size="small" @click="commitStatusChange(scope.row.recruitId)">使过期</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope.row.recruitId)">删除</el-button>
-          <el-button type="danger" size="small" @click="goHrResume(scope.row)">查看我收到的简历</el-button>
+          <el-button style="margin: 5px 0" v-show="scope.row.enabled" type="mini" size="small" @click="commitStatusChange(scope.row.recruitId)">使过期</el-button>
+          <el-button style="margin: 5px 0" type="danger" size="mini" @click="handleDelete(scope.row.recruitId)">删除</el-button>
+          <el-button style="margin: 5px 0" type="danger" size="mini" @click="goHrResume(scope.row)">查看我收到的简历</el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -1,5 +1,6 @@
 <template>
     <div class="warp-outer">
+      <el-button type="primary" size="mini" @click="$router.go(-1)" style="margin: 10px">返回</el-button>
       <div class="job-header">
         {{detailInfo.recommendedName || "章某某"}}
       </div>
@@ -30,18 +31,28 @@
       <div class="block-content">{{detailInfo.recommendedSelfEvaluation}}</div>
       <div class="block-content">{{content4}}</div>
       <div class="block-content">{{content5}}</div>
+
+      <p style="margin:10px 0;color:#0F8FFF;cursor: pointer;" @click="openImg(detailInfo.recommendedPhoto)">{{detailInfo.recommendedPhoto}}</p>
+      <!-- <img :src="detailInfo.recommendedPhoto" alt="" @click="downImg(detailInfo.recommendedPhoto)"> -->
       <div class="apply-block">
         <button type="button" class="apply-block-applyBtn">
-          <span>简历通过</span>
+          <span>hr初审通过</span>
         </button>
-        <button type="button" class="apply-block-applyBtn">
+        <button type="button" :class="detailInfo.approvalState > 0 ? 'apply-block-applyBtn' : 'apply-block-w'">
+          <span>hr初审通过</span>
+        </button>
+        <button type="button" :class="detailInfo.approvalState > 1 ? 'apply-block-applyBtn' : 'apply-block-w'">
           <span>面试通过</span>
         </button>
-        <button type="button" class="apply-block-applyBtn">
+        <button type="button" :class="detailInfo.approvalState > 2 ? 'apply-block-applyBtn' : 'apply-block-w'">
           <span>成功聘用</span>
         </button>
-      <img :src="detailInfo.recommendedPhoto" alt="" @click="downImg(detailInfo.recommendedPhoto)">
+
       </div>
+      <div style="display:flex;justify-content: center;">
+        <el-button type="primary" size="small" @click="viewPassed(detailInfo)" style="margin: 10px">审核通过</el-button>
+      </div>
+      
     </div>
 </template>
 
@@ -94,8 +105,47 @@ export default {
         }
       })
     },
-    downImg(url){
+    openImg(url){
       window.location.href = url;
+    },
+    viewPassed(row) {
+      this.$confirm('确认该被推荐人初审通过,推荐人积分+1，是否继续？', '确认通过', {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+      .then(() => {
+        this.pointsInfoAdd(row,1,1,2)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
+    },
+    pointsInfoAdd(row,type,change,num) {
+      let data = {
+        userId: row.tjId || 110,
+        eventType: type,
+        changeType:  change,
+        pointsNum: num,
+        dealer: row.hrId || 110,
+        resumeId: parseInt(this.$route.query.resumeId) || 3
+      }
+      getData.pointsInfoAdd(data).then(res => {
+        if (res && res.data.code === 200) {
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+        } else {
+          this.$message({
+            type: 'warning',
+            message: '操作失败'
+          })
+        }
+        this.$router.go(-1)
+      })
     }
   }
 }
@@ -104,9 +154,10 @@ export default {
 .warp-outer {
   font-size: 16px;
   max-width: 800px;
-  min-height: 573px;
-  margin: 60px auto 110px;
+  // min-height: 573px;
+  margin: 60px auto;
   padding-left: 32px;
+
 }
 .job-header {
   margin-bottom: 13px;
@@ -123,7 +174,7 @@ export default {
   margin: 0 8px;
 }
 .block-title {
-  margin: 50px 0 8px;
+  margin: 20px 0 8px;
   font-size: 21px;
   line-height: 1.52;
   font-weight: 800;
@@ -149,7 +200,21 @@ export default {
 .apply-block-applyBtn {
   color: #fff;
   background-color: #325ab4;
-  border-color: #325ab4;
+  max-width: 120px;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-right: 48px;
+  min-width: 120px;
+  text-align: center;
+  border: 1px solid rgba(0,0,0,0);
+  display: inline-block;
+  position: relative;
+}
+.apply-block-w {
+  color: #333;
+  background-color: #fff;
   max-width: 120px;
   height: 40px;
   padding: 0 12px;

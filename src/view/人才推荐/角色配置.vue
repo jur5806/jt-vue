@@ -10,11 +10,11 @@
         <el-form-item label="角色描述" label-width="120px" prop="name">
           <el-input v-model="selectedRole.nameZh" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="功能配置" label-width="120px" prop="perms">
+        <!-- <el-form-item label="功能配置" label-width="120px" prop="perms">
           <el-checkbox-group v-model="selectedPermsIds">
             <el-checkbox v-for="(perm,i) in perms" :key="i" :label="perm.id">{{perm.desc_}}</el-checkbox>
           </el-checkbox-group>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="菜单配置" label-width="120px" prop="menus">
           <el-tree
             :data="menus"
@@ -49,11 +49,11 @@
           type="selection"
           width="55">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="id"
           label="id"
           width="100">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="name"
           label="角色名"
@@ -86,18 +86,18 @@
               @click="editRole(scope.row)">
               编辑
             </el-button>
-            <el-button
+            <!-- <el-button
               type="text"
               size="small">
               移除
-            </el-button>
+            </el-button> -->
           </template>
         </el-table-column>
       </el-table>
-      <div style="margin: 20px 0 20px 0;float: left">
+      <!-- <div style="margin: 20px 0 20px 0;float: left">
         <el-button>取消选择</el-button>
         <el-button>批量删除</el-button>
-      </div>
+      </div> -->
     </el-card>
   </div>
 </template>

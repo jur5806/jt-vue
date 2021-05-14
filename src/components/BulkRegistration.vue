@@ -64,7 +64,8 @@ import * as getData from '../service/getData'
             name: '',
             phone: '',
             email: ''
-          }
+          },
+          this.dialogFormVisible = false
         },
         register () {
           getData.register( {
@@ -76,6 +77,7 @@ import * as getData from '../service/getData'
             })
             .then(resp => {
               if (resp.data.code === 200) {
+                
                 this.$alert('注册成功', '提示', {
                   confirmButtonText: '确定'
                 })

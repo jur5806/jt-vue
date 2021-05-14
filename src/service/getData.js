@@ -192,12 +192,18 @@ let roleMenuUpdate = (rid,data) => axios.put(`/march/admin/role/menu?rid=`+
  let pointsIdList = (params) => axios.get(` /march/pointsIdList`,{params: params});
 
 
+  /*
+  积分变动处理
+   */
+  let pointsInfoAdd = (data) => axios.post(`/march/pointsInfoAdd`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+
+ 
 
 export {
   checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
   userInfoEdit, userDetail, userList, roleList, deleUser, resetPassword, rolePerm, roleMenu, addRole,
   recruitList, statusUpdate, recruitsUpdate, deleRecruit, recruitAdd, getMenu,resumetAdd,resumetDel,
   myResumeInfo,pointsList, adminUserUpdate, roleStatusUpdate, roleInfoUpdate, roleMenuUpdate,hrResumeList,hrPosition,
-  pointsIdList
+  pointsIdList,pointsInfoAdd,
 
 }

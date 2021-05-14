@@ -1,26 +1,95 @@
 <template>
 <div class="app-container">
-  <el-form ref="form" :model="form" label-width="120px">
-    <el-form-item label="job name">
-      <el-input v-model="form.stationName" />
+  <el-button type="primary" size="mini" @click="$router.go(-1)" style="margin: 10px">返回</el-button>
+  <el-form ref="form" :model="form" label-width="120px" style="background:#fff;padding: 30px 0;" :rules="rules">
+    <el-row >
+      <el-col :span="10">
+        <el-form-item label="职位标题" prop="stationTitle">
+          <el-input v-model="form.stationTitle" placeholder="请输入职位标题"/>
+        </el-form-item>
+      </el-col >
+      <el-col :span="10">
+        <el-form-item label="岗位名称" prop="stationName">
+          <el-input v-model="form.stationName"  placeholder="请输入岗位名称"/>
+        </el-form-item>
+      </el-col >
+    </el-row>
+    <el-row >
+      <el-col :span="10">
+        <el-form-item label="招聘截至时间">
+          <el-date-picker v-model="form.rcEndTime" type="date" placeholder="请选择结束时间" style="width: 100%;" 
+          value-format="yyyy-MM-dd hh:mm:ss"/>
+        </el-form-item>
+      </el-col>
+      <el-col :span="10">
+        <el-form-item  label="招聘数量">
+          <el-input  v-model="form.rcDepartmentNum" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row >
+      <el-col :span="10">
+        <el-form-item label="学历要求">
+          <el-select v-model="form.eductionClass" placeholder="请选择学历要求">
+            <el-option label="初中以上" value="1"/>
+            <el-option label="高中及中专以上 " value="2"/>
+            <el-option label="大专及以上" value="3"/>
+            <el-option label="本科及以上" value="4"/>
+            <el-option label="研究生及以上" value="5"/>
+            <el-option label="不做要求" value="6"/>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="10">
+        <el-form-item label="岗位状态">
+          <el-radio-group v-model="form.departmentState">
+            <el-radio :label="1">急招</el-radio>
+            <el-radio :label="2">长期招</el-radio>
+            <el-radio :label="3">短期招</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="10">
+        <el-form-item label="工作地址">
+          <el-select v-model="form.workPlace" placeholder="请选择工作地址">
+            <el-option label="上海" value="上海" />
+            <el-option label="北京" value="北京" />
+            <el-option label="杭州" value="杭州" />
+            <el-option label="广州" value="广州" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <!-- <el-col :span="10">
+        <el-form-item label="紧急">
+        <el-switch v-model="form.delivery" />
+      </el-form-item>
+      </el-col> -->
+
+    </el-row>
+     
+    
+    <el-row >
+        <el-col :span="20">
+          <el-form-item label="工作要求">
+            <el-input v-model="form.rcDescribe" type="textarea" placeholder="请填写工作经历" :rows="4"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    
+
+    <!-- <el-form-item label="job form">
+      <el-input v-model="form.rcDescribe" type="textarea" />
     </el-form-item>
-    <el-form-item label="job zone">
-      <el-select v-model="form.workPlace" placeholder="please select your zone">
-        <el-option label="上海" value="上海" />
-        <el-option label="北京" value="北京" />
-        <el-option label="杭州" value="杭州" />
-        <el-option label="广州" value="广州" />
-      </el-select>
-    </el-form-item>
+    
     <el-form-item label="job time">
         <el-date-picker v-model="form.rcEndTime" type="date" placeholder="Pick a date" style="width: 100%;" />
     </el-form-item>
     <el-form-item  label="Number of recruits">
       <el-input  style="width: 30%;" v-model="form.rcDepartmentNum" />
     </el-form-item>
-    <el-form-item label="紧急">
-      <el-switch v-model="form.delivery" />
-    </el-form-item>
+    
     <el-form-item label="job type">
       <el-checkbox-group v-model="form.type">
         <el-checkbox label="视频面试" name="type" />
@@ -35,22 +104,10 @@
         <el-radio label="master" value="3"/>
         <el-radio label="doctor" value="4"/>
       </el-radio-group>
-    </el-form-item>
-    <el-form-item label="岗位状态">
-      <el-radio-group v-model="form.departmentState">
-        <el-radio :label="1">急招</el-radio>
-        <el-radio :label="2">长期招</el-radio>
-        <el-radio :label="3">短期招</el-radio>
-        <!-- <el-radio label="急招" value="1"/>
-        <el-radio label="长期招" value="2"/>
-        <el-radio label="短期招" value="3"/> -->
-        <!-- <el-radio label="doctor" value="4"/> -->
-      </el-radio-group>
-    </el-form-item>
-    <el-form-item label="job form">
-      <el-input v-model="form.rcDescribe" type="textarea" />
-    </el-form-item>
-    <el-form-item>
+    </el-form-item> -->
+    
+    
+    <el-form-item >
       <el-button type="primary" @click="onSubmit">发布</el-button>
       <el-button @click="onCancel">取消</el-button>
     </el-form-item>
@@ -67,20 +124,25 @@ export default {
   data() {
     return {
       form: {
-        stationName: '',  //JOB name
-        workPlace: '', //工作地点
-        date1: '',
-        date2: '',
-        delivery: false, //紧急
-        type: [],
-        resource: 0,
-        eductionClass: '', //教育等级
-        rcEndTime: new Date().format("yyyy-MM-dd hh:mm:ss"),  //结束日期
-        rcDescribe: '', //职位描述
-        positionTypeId: '',  //职位类型
-        rcDepartmentNum: 0, //岗位人数需求
-        departmentState: 0 //岗位状态
+        stationTitle: '',
+        stationName: '',
+        rcEndTime: '',
+        rcDepartmentNum: 1,
+        workPlace: '',
+        departmentState: '',
+        eductionClass: '',
+        delivery: '',
+        rcDescribe: '',
+        hrId: '',
 
+      },
+      rules: {
+        stationTitle: [
+          { required: true, message: "请输入岗位标题", trigger: "blur" }
+        ],
+        stationName:[
+          { required: true, message: "请输入职位名称", trigger: "blur" }
+        ]
       }
     }
   },
@@ -97,33 +159,37 @@ export default {
     }
    },
     onSubmit() {
-      this.form.eductionClass = this.formatEducation(this.form.eductionClass)
-      let des = this.form.rcDescribe.replace("\n","^")
-      getData.recruitAdd({
-        stationName: this.form.stationName,
-        workPlace: this.form.workPlace,
-        // delivery: this.form.delivery,
-        rcEndTime: new Date(this.form.rcEndTime).format("yyyy-MM-dd hh:mm:ss"),
-        departmentState: this.form.departmentState,
-        // email: this.form.email,
-        rcDescribe: des,
-        rcDepartmentNum: this.form.rcDepartmentNum,
-        eductionClass: this.form.eductionClass,
-        hrId: parseInt(sessionStorage.getItem("userId"))
-      })
-      .then(resp => {
-        if (resp.data.code === 200) {
-          this.$alert('发布成功', '提示', {
-            confirmButtonText: '确定'
-          })
-          // this.clear()
-          this.$emit('onSubmit')
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          // this.form.eductionClass = this.formatEducation(this.form.eductionClass)
+          this.form.rcDescribe =this.form.rcDescribe.replace("\n","^");
+          if(sessionStorage.getItem('userId')){
+            this.form.hrId = sessionStorage.getItem('userId');
+          } else {
+            this.form.hrId = 110;
+          }
+          getData.recruitAdd(this.form)
+          .then(resp => {
+            if (resp.data.code === 200) {
+              this.$alert('发布成功', '提示', {
+                confirmButtonText: '确定'
+              })
+              // this.clear()
+              this.$emit('onSubmit')
+            } else {
+              this.$alert(resp.data.message, '提示', {
+                confirmButtonText: '确定'
+              })
+            }
+          }).catch(failResponse => {})
         } else {
-          this.$alert(resp.data.message, '提示', {
-            confirmButtonText: '确定'
-          })
+          this.$message({
+            message: "表单验证失败",
+            type: "error"
+          });
+          return false;
         }
-      }).catch(failResponse => {})
+      });
     },
     onCancel() {
       this.$message({

@@ -168,7 +168,7 @@ export default {
       listLoading: true,
       name: "",
       id: 0,
-      sum: 0
+      num: 0
     }
   },
   created() {

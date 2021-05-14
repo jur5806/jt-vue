@@ -58,14 +58,14 @@
               <!-- <i class="el-icon-arrow-down el-icon--right"></i> -->
             </span>
             <el-dropdown-menu slot="dropdown">
-                <div @click="roleChoices" v-show="companytype?companytype.length>1:true">
+                <!-- <div @click="roleChoices" v-show="companytype?companytype.length>1:true">
                   <el-dropdown-item :command="1">切换角色</el-dropdown-item>
                 </div>
                 <div @click="loginOut">
                   <el-dropdown-item :command="2">退出登录</el-dropdown-item>
-                </div>
+                </div> -->
                 <div  @click.stop="openSetings()">
-                  <el-dropdown-item>账号设置</el-dropdown-item>
+                  <el-dropdown-item>个人信息设置</el-dropdown-item>
                 </div>
                 <el-dropdown-item>我的推荐</el-dropdown-item>
                 <div  @click.stop="loginOut()">

@@ -1,18 +1,18 @@
 <template>
 <div class="app-container">
 
-  <el-form ref="form" :model="form" label-width="120px" class="">
+  <el-form ref="form" :model="form" label-width="120px" :rules="rules">
     <h3 class="title text-left">个人基础信息：</h3>
     <div style="background: #fff;padding-top:20px">
       <el-row >
         <el-col :span="10">
-          <el-form-item label="姓名">
+          <el-form-item label="姓名" prop="recommendedName">
             <el-input v-model="form.recommendedName" placeholder="请输入姓名" />
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="籍贯">
-            <el-input v-model="form.recommendedProvince" placeholder="请输入籍贯"/>
+          <el-form-item label="联系方式" prop="recommendedTelephone">
+            <el-input v-model="form.recommendedTelephone" placeholder="请输入联系方式"/>
           </el-form-item>
         </el-col>
       </el-row>
@@ -70,8 +70,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="联系方式">
-            <el-input v-model="form.recommendedTelephone" placeholder="请输入联系方式"/>
+          <el-form-item label="籍贯">
+            <el-input v-model="form.recommendedProvince" placeholder="请输入籍贯"/>
           </el-form-item>
         </el-col>
       </el-row>
@@ -291,44 +291,61 @@ export default {
         recommendedGainCertificate: '',
         recommendedAge: '',
       },
-      url: ''
+      url: '',
+      rules: {
+        recommendedName:[
+          { required: true, message: "请输入被推荐人姓名", trigger: "blur" }
+        ],
+        recommendedTelephone: [
+          { required: true, message: "请输入被推荐人联系方式", trigger: "blur" }
+        ],
+      }
+      
     }
   },
   mounted() {
     this.form.tjId= sessionStorage.getItem('userId') || 110;
-    this.form.hrId = this.$route.query.hrId || 111;
+    this.form.hrId = this.$route.query.hrId || 116;
     this.form.recruitId = this.$route.query.recruitId || 1;
   },
   methods: {
     onSubmit() {
-      this.form.recommendedGainCertificate = this.form.recommendedGainCertificate.replace('^','\n');
-      this.form.recommendedProfessionalInfo = this.form.recommendedProfessionalInfo.replace('^','\n');
-      this.form.recommendedWorkInfo = this.form.recommendedWorkInfo.replace('^','\n');
-      this.form.recommendedProgramInfo = this.form.recommendedProgramInfo.replace('^','\n');
-      this.form.recommendedSelfEvaluation = this.form.recommendedSelfEvaluation.replace('^','\n');
-
-
-      
-      getData.resumetAdd(this.form)
-      .then(resp => {
-        if (resp.data.code === 200) {
-          this.$alert('发布成功', '提示', {
-            confirmButtonText: '确定'
-          })
-          // this.clear()
-          this.$emit('onSubmit')
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.form.recommendedGainCertificate = this.form.recommendedGainCertificate.replace('^','\n');
+          this.form.recommendedProfessionalInfo = this.form.recommendedProfessionalInfo.replace('^','\n');
+          this.form.recommendedWorkInfo = this.form.recommendedWorkInfo.replace('^','\n');
+          this.form.recommendedProgramInfo = this.form.recommendedProgramInfo.replace('^','\n');
+          this.form.recommendedSelfEvaluation = this.form.recommendedSelfEvaluation.replace('^','\n');
+          getData.resumetAdd(this.form)
+          .then(resp => {
+            if (resp.data.code === 200) {
+              this.$alert('发布成功', '提示', {
+                confirmButtonText: '确定'
+              })
+              // this.clear()
+              this.$emit('onSubmit')
+            } else {
+              this.$alert(resp.data.message, '提示', {
+                confirmButtonText: '确定'
+              })
+            }
+          }).catch(failResponse => {})
         } else {
-          this.$alert(resp.data.message, '提示', {
-            confirmButtonText: '确定'
-          })
+          this.$message({
+            message: "表单验证失败",
+            type: "error"
+          });
+          return false;
         }
-      }).catch(failResponse => {})
+    })
     },
     onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
+      if(this.$route.query.recruitId) {
+        this.$router.push({
+          path: `/detail/${this.$route.query.recruitId}`
+        })
+      }
     },
     handleRemove (file, fileList) {
     },

@@ -40,7 +40,7 @@
         <button type="button" class="apply-block-applyBtn">
           <span>成功聘用</span>
         </button>
-
+      <img :src="detailInfo.recommendedPhoto" alt="" @click="downImg(detailInfo.recommendedPhoto)">
       </div>
     </div>
 </template>
@@ -94,6 +94,9 @@ export default {
         }
       })
     },
+    downImg(url){
+      window.location.href = url;
+    }
   }
 }
 </script>

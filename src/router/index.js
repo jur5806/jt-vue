@@ -22,6 +22,7 @@ const pointsExchange = () => import('../view/pointsManagement/pointsExchange.vue
 const talentPool = () => import('../view/talentPool/LibraryIndex.vue');
 const resumeInfoList = () => import('../view/talentPool/resumeList.vue');
 const HrResume = () => import('../view/HR/Hr-Resume.vue');
+const myPoints = () => import('../view/人才推荐/我的积分.vue');
 
 export default new Router({
   //  去除#访问
@@ -48,12 +49,13 @@ export default new Router({
         },
         {
           path: '/index/myRecommend',
-          name: '我的推荐',
+          name: '个人中心',
           hidden: false,
           leaf: true,
           component: layer,
           children:[
             { path: '/index/myRecommend', hidden: false, component: myRecommend, name: '我的推荐' ,meta:{keepAlive: false }},
+            { path: '/index/myPoints', hidden: false, component: myPoints, name: '我的积分' ,meta:{keepAlive: false }},
           ]
         },
         {

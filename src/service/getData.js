@@ -186,12 +186,18 @@ let roleMenuUpdate = (rid,data) => axios.put(`/march/admin/role/menu?rid=`+
  */
  let hrResumeList = (params) => axios.get(`/march/getByhrIdResumeList`,{params: params});
 
+ /** 
+ * 获取我的积分
+ */
+ let pointsIdList = (params) => axios.get(` /march/pointsIdList`,{params: params});
+
 
 
 export {
   checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
   userInfoEdit, userDetail, userList, roleList, deleUser, resetPassword, rolePerm, roleMenu, addRole,
   recruitList, statusUpdate, recruitsUpdate, deleRecruit, recruitAdd, getMenu,resumetAdd,resumetDel,
-  myResumeInfo,pointsList, adminUserUpdate, roleStatusUpdate, roleInfoUpdate, roleMenuUpdate,hrResumeList,hrPosition
+  myResumeInfo,pointsList, adminUserUpdate, roleStatusUpdate, roleInfoUpdate, roleMenuUpdate,hrResumeList,hrPosition,
+  pointsIdList
 
 }

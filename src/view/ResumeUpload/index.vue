@@ -12,14 +12,14 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="籍贯">
-            <el-input v-model="form.recommendedAge" placeholder="请输入籍贯"/>
+            <el-input v-model="form.recommendedProvince" placeholder="请输入籍贯"/>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row >
         <el-col :span="10">
           <el-form-item label="性别">
-            <el-select v-model="form.recommendedPolitical" placeholder="请选择性别">
+            <el-select v-model="form.sex" placeholder="请选择性别">
               <el-option label="男" value="1" />
               <el-option label="女" value="2" />
             </el-select>
@@ -27,7 +27,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="年龄">
-            <el-input v-model="form.recommendedProvince" placeholder="请输入年龄"/>
+            <el-input v-model="form.recommendedAge" placeholder="请输入年龄"/>
           </el-form-item>
         </el-col>
       </el-row>
@@ -267,6 +267,7 @@ export default {
         tjId: '',
         hrId: '',
         recruitId: '',
+        sex: '',
         recommendedName: '',
         recommendedProvince: '',
         recommendednation: '',

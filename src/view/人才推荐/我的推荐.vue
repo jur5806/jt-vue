@@ -4,7 +4,7 @@
  * @LastEditTime: 2021-04-24 19:21:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \jt-vue\src\view\人才推荐\我的推荐.vue
+ * @FilePath: \src\view\人才推荐\我的推荐.vue
 -->
 <template>
   <div>

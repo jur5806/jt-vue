@@ -30,7 +30,7 @@ export default {
     return {
       loginForm: {
         username: 'jt',
-        password: '123456'
+        password: '123'
       },
       responseResult: [],
       checked: ''

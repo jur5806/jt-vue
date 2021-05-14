@@ -51,7 +51,7 @@
     </el-table> -->
     <div class="rightBlock" style="overflow:auto">
       <div class="borderContainer">
-        <div class="sofiaBold listTitle">开启新的工作（10,000+）
+        <div class="sofiaBold listTitle">开启新的工作（{{num}}+）
           <div style="margin-top: 5px;margin-left: 10px; display: flex;justify-content: center;align-items: center">
             <el-input
               @keyup.enter.native="searchClick"
@@ -156,7 +156,7 @@ export default {
         draft: 'gray',
         deleted: 'danger',
         name: "",
-        id: "",
+        id: ""
       }
       return statusMap[status]
     }
@@ -168,6 +168,7 @@ export default {
       listLoading: true,
       name: "",
       id: 0,
+      sum: 0
     }
   },
   created() {
@@ -186,7 +187,8 @@ export default {
       getData.recruitList({name: this.name, id: this.id}).then(res => {
         if (res.data.code === 200) {
           console.log(res.data.data)
-          this.list = res.data.data
+          this.list = res.data.data;
+          this.num = this.list.length
         } else {
           this.getRecruitList();
         }

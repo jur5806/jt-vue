@@ -198,12 +198,23 @@ let roleMenuUpdate = (rid,data) => axios.put(`/march/admin/role/menu?rid=`+
   let pointsInfoAdd = (data) => axios.post(`/march/pointsInfoAdd`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
 
  
+ /** 
+ * 查看职位信息
+ */
+ let LookById = (params) => axios.get(`/march/LookById`,{params: params});
 
+
+  /** 
+ * 查看职位信息
+ */
+  let resumeInfoList = () => axios.get(` /march/resumeInfoList`);
+
+
+ 
 export {
   checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
   userInfoEdit, userDetail, userList, roleList, deleUser, resetPassword, rolePerm, roleMenu, addRole,
   recruitList, statusUpdate, recruitsUpdate, deleRecruit, recruitAdd, getMenu,resumetAdd,resumetDel,
-  myResumeInfo,pointsList, adminUserUpdate, roleStatusUpdate, roleInfoUpdate, roleMenuUpdate,hrResumeList,hrPosition,
-  pointsIdList,pointsInfoAdd,
-
+  myResumeInfo, pointsList, adminUserUpdate, roleStatusUpdate, roleInfoUpdate, roleMenuUpdate,hrResumeList,hrPosition,
+  pointsIdList, pointsInfoAdd, LookById, resumeInfoList
 }

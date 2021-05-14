@@ -121,6 +121,11 @@
               size="mini">
               移除
             </el-button>
+            <el-button
+              @click="examine(scope.row)"
+              size="small">
+              查看
+            </el-button>
           </template>
         </el-table-column>
       </el-table>

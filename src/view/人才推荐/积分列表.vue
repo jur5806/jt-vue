@@ -25,14 +25,14 @@
           sortable
           width="100">
         </el-table-column> -->
-        <el-table-column
+        <!-- <el-table-column
           prop="userId"
           label="推荐人编号"
           fit>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="name"
-          label="真实姓名"
+          label="被推荐人姓名"
           fit>
         </el-table-column>
         <el-table-column
@@ -51,11 +51,9 @@
           sortable
           width="100">
           <template slot-scope="scope">
-            <span v-if="scope.row.reason == 0">上传简历1次</span>
-            <span v-if="scope.row.reason == 1">HR初审</span>
-            <span v-if="scope.row.reason == 3">待面试</span>
-            <span v-if="scope.row.reason == 4">面试通过</span>
-            <span v-if="scope.row.reason == 2">主管初审</span>
+            <span v-if="scope.row.eventType == 1">HR初审通过</span>
+            <span v-if="scope.row.eventType == 2">面试通过</span>
+            <span v-if="scope.row.eventType == 3">确认入职</span>
           </template>
         </el-table-column>
         <el-table-column

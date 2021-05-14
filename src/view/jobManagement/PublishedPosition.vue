@@ -59,7 +59,7 @@
           <span v-if="scope.row.eductionClass == 3">大专及以上</span>
           <span v-if="scope.row.eductionClass == 4">本科及以上</span>
           <span v-if="scope.row.eductionClass == 5">研究生及以上</span>
-          <span v-else>不做要求</span>
+          <span v-if="scope.row.eductionClass == 6">不做要求</span>
 
         </template>
       </el-table-column>
@@ -68,7 +68,7 @@
           {{ scope.row.rcDepartmentNum }}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="已投递简历树" width="110" align="center">
+      <el-table-column class-name="status-col" label="已投递简历数" width="110" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.departmentState | statusFilter">{{ scope.row.departmentState }}</el-tag>
         </template>

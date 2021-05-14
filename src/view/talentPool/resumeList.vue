@@ -28,48 +28,42 @@
           width="55">
         </el-table-column> -->
         <el-table-column
-          prop="candidatesName"
+          prop="recommendedName"
           label="姓名"
           fit>
         </el-table-column>
         <el-table-column
-          prop="candidatesSex"
+          prop="sex"
           label="性别"
           fit>
            <template slot-scope="scope">
-            <span v-if="scope.row.candidatesSex == 0">男</span>
-            <span v-if="scope.row.candidatesSex == 1">女</span>
+            <span v-if="scope.row.sex == 0">男</span>
+            <span v-if="scope.row.sex == 1">女</span>
           </template>
         </el-table-column>
         
         <el-table-column
-          prop="candidatesPhone"
+          prop="recommendedTelephone"
           label="手机号"
           fit>
         </el-table-column>
         <el-table-column
-          prop="candidatesEmail"
+          prop="recommendedEmail"
           label="邮箱"
           show-overflow-tooltip
           fit>
         </el-table-column>
         <el-table-column
-          prop="examineType"
+          prop="approvalState"
           label="简历审核状态"
           sortable
           width="100">
           <template slot-scope="scope">
-            <span v-if="scope.row.examineType == 0">待审核</span>
-            <span v-if="scope.row.examineType == 1">HR初审</span>
-            <span v-if="scope.row.examineType == 2">待面试</span>
-            <span v-if="scope.row.examineType == 3">面试通过</span>
-            <span v-if="scope.row.examineType == 4">主管初审</span>
-            <!-- <el-switch
-              v-model="scope.row.enabled"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              @change="(value) => commitStatusChange(value, scope.row)">
-            </el-switch> -->
+            <span v-if="scope.row.approvalState == 0">待审核</span>
+            <span v-if="scope.row.approvalState == 1">HR初审</span>
+            <span v-if="scope.row.approvalState == 2">面试通过</span>
+            <span v-if="scope.row.approvalState == 3">成功入职</span>
+            <!-- <span v-if="scope.row.approvalState == 4">主管初审</span> -->
           </template>
         </el-table-column>
         <el-table-column
@@ -114,50 +108,49 @@ export default {
       tableList:[
         {
           recommendTime:"2020-12-02",
-          candidatesName:"长相",
-          candidatesSex:1,
-          candidatesPhone:"123456789",
-          candidatesEmail:"123456789@jjj.com",
-          examineType:0,
+          recommendedName:"长相",
+          sex:1,
+          recommendedTelephone:"123456789",
+          recommendedEmail:"123456789@jjj.com",
+          approvalState:0,
         },
         {
           recommendTime:"2020-12-02",
-          candidatesName:"长相",
-          candidatesSex:1,
-          candidatesPhone:"123456789",
-          candidatesEmail:"123456789@jjj.com",
-          examineType:1,
+          recommendedName:"长相",
+          sex:1,
+          recommendedTelephone:"123456789",
+          recommendedEmail:"123456789@jjj.com",
+          approvalState:1,
         },
         {
           recommendTime:"2020-12-02",
-          candidatesName:"长相",
-          candidatesSex:1,
-          candidatesPhone:"123456789",
-          candidatesEmail:"123456789@jjj.com",
-          examineType:2,
+          recommendedName:"长相",
+          sex:1,
+          recommendedTelephone:"123456789",
+          recommendedEmail:"123456789@jjj.com",
+          approvalState:2,
         },
         {
           recommendTime:"2020-12-02",
-          candidatesName:"长相",
-          candidatesSex:1,
-          candidatesPhone:"123456789",
-          candidatesEmail:"123456789@jjj.com",
-          examineType:3,
+          recommendedName:"长相",
+          sex:1,
+          recommendedTelephone:"123456789",
+          recommendedEmail:"123456789@jjj.com",
+          approvalState:3,
         },
         {
           recommendTime:"2020-12-02",
-          candidatesName:"长相",
-          candidatesSex:1,
-          candidatesPhone:"123456789",
-          candidatesEmail:"123456789@jjj.com",
-          examineType:4,
+          recommendedName:"长相",
+          sex:1,
+          recommendedTelephone:"123456789",
+          recommendedEmail:"123456789@jjj.com",
+          approvalState:4,
         }
       ]
     }
   },
   mounted () {
     this.listUsers()
-    this.listRoles()
   },
   computed: {
     tableHeight () {
@@ -167,39 +160,13 @@ export default {
   methods: {
     listUsers () {
       console.log('8888')
-      getData.userList().then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.users = resp.data.data
+      getData.resumeInfoList().then(res => {
+        if (res && res.data.code === 200) {
+          this.tableList = res.data.data
         }
       })
     },
-    listRoles () {
-      getData.roleList().then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.roles = resp.data.data
-        }
-      })
-    },
-    commitStatusChange (value, user) {
-      if (user.username !== 'admin') {
-        getData.statusUpdate
-        ({
-          enabled: value,
-          username: user.username
-        }).then(resp => {
-          if (resp && resp.data.code === 200) {
-            if (value) {
-              this.$message('用户 [' + user.username + '] 已启用')
-            } else {
-              this.$message('用户 [' + user.username + '] 已禁用')
-            }
-          }
-        })
-      } else {
-        user.enabled = true
-        this.$alert('不能禁用管理员账户')
-      }
-    },
+
     onSubmit (user) {
       let _this = this
       // 根据视图绑定的角色 id 向后端传送角色信息

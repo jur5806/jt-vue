@@ -5,7 +5,7 @@
       </i>
       <svg-icon icon-class="back" class-name="card-panel-icon" />
       <div class="job-header">
-        {{detailInfo.stationName || '直播运营技术实习生-大力教育'}}
+        {{detailInfo.stationTitle || '直播运营技术实习生-大力教育'}}
       </div>
       <div class="job-info">
         <span>
@@ -13,7 +13,7 @@
         </span>
         <div class="line-devider"></div>
         <span>
-          {{ position || '运营'}}
+          {{ PostionInfo.stationName || '运营'}}
         </span>
         <div class="line-devider"></div>
         <span>
@@ -27,8 +27,11 @@
       <div class="block-title">
         职位描述
       </div>
-      <div class="block-content">{{detailInfo.rcDescribe}}</div>
-      <div class="block-content">{{content2}}</div>
+      <!-- <div class="block-content">{{detailInfo.rcDescribe}}</div>
+      <div class="block-content">{{content2}}</div> -->
+      <div v-for="(item, index) in content1" :key="index">
+        <div class="block-content">{{item}}</div>
+      </div>
       <div class="block-title">
         职位要求
       </div>
@@ -44,7 +47,7 @@
 </template>
 
 <script>
-import {recruitList} from '../../service/getData.js'
+import {recruitList,LookById} from '../../service/getData.js'
 export default {
   data() {
     return {
@@ -58,13 +61,16 @@ export default {
       detailInfo: {},
       recruitId: parseInt(this.$route.params.recruitId),
       position: '',
-      eductionClass:''
+      eductionClass:'',
+      PostionInfo: '',
+      content: []
     }
   },
   created() {
-    this.getDetail()
+    this.getDetail();
   },
   methods: {
+    
     formatPosition(data) {
     if(data === 1){
       return "前端"
@@ -100,6 +106,7 @@ export default {
             const { recruitId: tempId } = this.list[i]
             if(tempId === this.recruitId) {
               this.detailInfo = this.list[i]
+              this.content1 = this.detailInfo.rcDescribe.split("^");
               // console.log(this.detailInfo ,"this.detailInfo");
               break
             }

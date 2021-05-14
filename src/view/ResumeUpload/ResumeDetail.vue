@@ -1,36 +1,59 @@
 <template>
     <div class="warp-outer">
-      <el-button type="primary" size="mini" @click="$router.go(-1)" style="margin: 10px">返回</el-button>
-      <div class="job-header">
+      <el-button type="primary" size="mini" @click="$router.go(-1)" style="margin: 10px;height: 40px">返回</el-button>
+      <div class="centerflex">
+         <div class="job-header">
         {{detailInfo.recommendedName || "章某某"}}
       </div>
       <div class="job-info">
         <span>
-          {{ detailInfo.recommendedSchool ||"浙江财经大学东方学院"}}
+         毕业学校： {{ detailInfo.recommendedSchool ||"-"}}
         </span>
         <div class="line-devider"></div>
         <span>
-          {{ detailInfo.recommendedMajor || "信息管理与信息系统"}}
+         期望岗位： {{ PostionInfo.stationName || "-"}}
         </span>
         <div class="line-devider"></div>
         <span>
-          运营助理
+          婚姻状况：{{ detailInfo.recommendedMarital || "-"}}
         </span>
         <div class="line-devider"></div>
       </div>
       <div class="block-title">
         基本信息
       </div>
-      <div class="block-content">联系电话：{{detailInfo.recommendedTelephone}}</div>
-      <div class="block-content">电子邮箱：{{detailInfo.recommendedEmail}}</div>
-      <div class="block-content">籍贯：{{detailInfo.recommendedProvince}}</div>
-      <div class="block-content">专业技能：英语六级、计算机二级、软考中级、很能干饭</div>
-      <div class="block-title">
-        自我介绍以及荣誉
+      <div class="block-content">联系电话：{{detailInfo.recommendedTelephone|| "-"}}</div>
+      <div class="block-content">电子邮箱：{{detailInfo.recommendedEmail|| "-"}}</div>
+      <div class="block-content">籍贯：{{detailInfo.recommendedProvince|| "-"}}</div>
+      <div class="block-content">专业技能：{{detailInfo.recommendedMajor|| "-"}}</div>
+      <div class="block-title" v-show="detailInfo.recommendedSelfEvaluation">
+        自我评价
       </div>
       <div class="block-content">{{detailInfo.recommendedSelfEvaluation}}</div>
-      <div class="block-content">{{content4}}</div>
+      <!-- <div v-for="(item, index) in content1" :key="index">
+        <div class="block-content">{{item}}</div>
+      </div> -->
+      <!-- <div class="block-content">{{detailInfo.recommendedSelfEvaluation}}</div> -->
+      <div class="block-content">{{content6}}</div>
       <div class="block-content">{{content5}}</div>
+      <div class="block-title" v-show="detailInfo.recommendedGainCertificate">
+        荣誉证书
+      </div>
+      <div class="block-content">{{detailInfo.recommendedGainCertificate}}</div>
+      <!-- <div v-for="(item, index) in content2" :key="index">
+        <div class="block-content">{{item}}</div>
+      </div> -->
+      <div class="block-title" v-show="detailInfo.recommendedProgramInfo">
+        项目经验
+      </div>
+      <div class="block-content">{{detailInfo.recommendedProgramInfo}}</div>
+      <div class="block-title" v-show="detailInfo.recommendedWorkInfo">
+        工作经验
+      </div>
+      <div class="block-content">{{detailInfo.recommendedWorkInfo}}</div>
+      <!-- <div v-for="(item, index) in content4" :key="index">
+        <div class="block-content">{{item}}</div>
+      </div> -->
 
       <p style="margin:10px 0;color:#0F8FFF;cursor: pointer;" @click="openImg(detailInfo.recommendedPhoto)">{{detailInfo.recommendedPhoto}}</p>
       <!-- <img :src="detailInfo.recommendedPhoto" alt="" @click="downImg(detailInfo.recommendedPhoto)"> -->
@@ -49,9 +72,11 @@
         </button>
 
       </div>
-      <div style="display:flex;justify-content: center;">
+      <div style="display:flex;justify-content: center;" v-if="detailInfo.approvalState == 0">
         <el-button type="primary" size="small" @click="viewPassed(detailInfo)" style="margin: 10px">审核通过</el-button>
       </div>
+      </div>
+     
       
     </div>
 </template>
@@ -65,15 +90,21 @@ export default {
       content1: "电子邮箱：1203333333@qq.com",
       content2: "联系电话：13568687575",
       content3: "1，我什么都会，我很能加班！！！年轻人，要的就是活力",
-      content4: "2，我学习能力很强",
+      content6: "2，我学习能力很强",
       content5: "3，我会好多种编程语言",
       // content6: "",
       detailInfo: {},
-      resumeId: parseInt(this.$route.query.resumeId)
+      resumeId: parseInt(this.$route.query.resumeId),
+      PostionInfo: '',
+      content1: [],
+      content2: [],
+      content3: [],
+      content4: [],
     }
   },
   created() {
     this.getHrResume()
+    this.getPositionInfo()
   },
   methods: {
     getHrResume(){
@@ -93,6 +124,11 @@ export default {
             const { resumeId: tempId } = this.myList[i]
             if(tempId === this.resumeId) {
               this.detailInfo = this.myList[i]
+              this.conten1 = this.detailInfo.recommendedSelfEvaluation.split("\n");
+              this.conten2 = this.detailInfo.recommendedGainCertificate.split("^");
+              this.conten3 = this.detailInfo.recommendedProgramInfo.split("^");
+              this.conten4 = this.detailInfo.recommendedWorkInfo.split("^");
+              
               // console.log(this.detailInfo ,"this.detailInfo");
               break
             }
@@ -123,6 +159,16 @@ export default {
         })
       })
     },
+    getPositionInfo() {
+      getData.LookById({recruitId: this.$route.query.recruitId || 3}).then(res => {
+        if (res.data.code === 200) {
+          this.PostionInfo = res.data.data
+        } else {
+          this.getRecruitList();
+        }
+      })
+    },
+
     pointsInfoAdd(row,type,change,num) {
       let data = {
         userId: row.tjId || 110,
@@ -153,10 +199,13 @@ export default {
 <style scoped lang="scss">
 .warp-outer {
   font-size: 16px;
-  max-width: 800px;
-  // min-height: 573px;
-  margin: 60px auto;
+  width:100%;
+  height: 100%;
+  overflow: auto;
+  margin-top: 40px;
   padding-left: 32px;
+  display: flex;
+  justify-content: center;
 
 }
 .job-header {

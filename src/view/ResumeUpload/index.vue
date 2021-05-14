@@ -254,6 +254,8 @@
 <script>
 import * as getData from '../../service/getData.js'
 import Upload from '@/components/Upload/SingleImage3'
+import * as global from '../../config/mUtils'
+
 export default {
   components: {
     Upload

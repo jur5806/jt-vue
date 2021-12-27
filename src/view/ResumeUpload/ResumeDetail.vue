@@ -113,6 +113,7 @@ export default {
       const params = { 
         hrId: hrId, 
         recruitId: recruitId,
+        state: 4,
 
       }
       let num = 0
@@ -124,7 +125,7 @@ export default {
             const { resumeId: tempId } = this.myList[i]
             if(tempId === this.resumeId) {
               this.detailInfo = this.myList[i]
-              this.conten1 = this.detailInfo.recommendedSelfEvaluation.split("\n");
+              this.conten1 = this.detailInfo.recommendedSelfEvaluation.split("^");
               this.conten2 = this.detailInfo.recommendedGainCertificate.split("^");
               this.conten3 = this.detailInfo.recommendedProgramInfo.split("^");
               this.conten4 = this.detailInfo.recommendedWorkInfo.split("^");
@@ -151,7 +152,7 @@ export default {
         type: "warning"
       })
       .then(() => {
-        this.pointsInfoAdd(row,1,1,2)
+        this.pointsInfoAdd(row,1,1,1)
       }).catch(() => {
         this.$message({
           type: 'info',

@@ -1,7 +1,7 @@
 <template>
     <div class="warp-outer">
       <i class="el-icon-back" style="margin-right: 15px" @click="$router.go(-1)">
-          <span style="margin-right: 15px;color: #333;cursor: pointer;">返回首页</span>
+          <span style="margin-right: 15px;color: #333;cursor: pointer;">返回</span>
       </i>
       <svg-icon icon-class="back" class-name="card-panel-icon" />
       <div class="job-header">
@@ -13,7 +13,7 @@
         </span>
         <div class="line-devider"></div>
         <span>
-          {{ PostionInfo.stationName || '运营'}}
+          {{ detailInfo.stationName || '运营'}}
         </span>
         <div class="line-devider"></div>
         <span>

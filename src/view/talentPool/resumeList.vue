@@ -56,8 +56,7 @@
         <el-table-column
           prop="approvalState"
           label="简历审核状态"
-          sortable
-          width="100">
+          sortable>
           <template slot-scope="scope">
             <span v-if="scope.row.approvalState == 0">待审核</span>
             <span v-if="scope.row.approvalState == 1">HR初审</span>
@@ -70,18 +69,25 @@
           label="操作"
           width="120">
           <template slot-scope="scope">
-            <el-button
+            <!-- <el-button
               @click="editUser(scope.row)"
               type="text"
               size="small">
               取消审核
-            </el-button>
+            </el-button> -->
             <el-button
             @click="deleUser(scope.row)"
               type="text"
               size="small">
               移除
             </el-button>
+            <el-button
+            @click="open(scope.row)"
+              type="text"
+              size="small">
+              查看
+            </el-button>
+
           </template>
         </el-table-column>
       </el-table>
@@ -166,54 +172,8 @@ export default {
         }
       })
     },
-
-    onSubmit (user) {
-      let _this = this
-      // 根据视图绑定的角色 id 向后端传送角色信息
-      let roles = []
-      for (let i = 0; i < _this.selectedRolesIds.length; i++) {
-        for (let j = 0; j < _this.roles.length; j++) {
-          if (_this.selectedRolesIds[i] === _this.roles[j].id) {
-            roles.push(_this.roles[j])
-          }
-        }
-      }
-      this.$axios.put('/admin/user', {
-        username: user.username,
-        name: user.name,
-        phone: user.phone,
-        email: user.email,
-        roles: roles
-      }).then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.$alert('用户信息修改成功')
-          this.dialogFormVisible = false
-          // 修改角色后重新请求用户信息，实现视图更新
-          this.listUsers()
-        } else {
-          this.$alert(resp.data.message)
-        }
-      })
-    },
-    editUser (user) {
-      this.dialogFormVisible = true
-      this.selectedUser = user
-      let roleIds = []
-      if (user.roles) {
-        for (let i = 0; i < user.roles.length; i++) {
-          roleIds.push(user.roles[i].id)
-        }
-      }
-      this.selectedRolesIds = roleIds
-    },
-    deleUser (row) {
-      console.log(row)
-      getData.deleUser(row.id).then(res => {
-        if (res.data.code === 200) {
-          this.$alert('删除成功')
-          this.listUsers()
-        }
-      })
+    open(row) {
+      this.$router.push({ path: '/ResumeDetail', query: { recruitId: row.recruitId ,hrId: row.hrId, tjId: row.tjId, resumeId: row.resumeId }})
     },
     resetPassword (username) {
       this.resetPasswordDialog = true

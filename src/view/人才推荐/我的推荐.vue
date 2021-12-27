@@ -67,10 +67,11 @@
           label="受教育程度"
           fit>
            <template slot-scope="scope">
-            <span v-if="scope.row.recommendedEducation === 1">大专</span>
-            <span v-if="scope.row.recommendedEducation === 2">本科</span>
-            <span v-if="scope.row.recommendedEducation === 3">硕士</span>
-            <span v-if="scope.row.recommendedEducation === 4">博士</span>
+            <span v-if="scope.row.recommendedEducation === 1">九年教育</span>
+            <span v-if="scope.row.recommendedEducation === 2">大专</span>
+            <span v-if="scope.row.recommendedEducation === 3">本科</span>
+            <span v-if="scope.row.recommendedEducation === 4">研究生</span>
+            <span v-if="scope.row.recommendedEducation === 6">硕士</span>
           </template>
         </el-table-column>
         
@@ -88,14 +89,12 @@
         <el-table-column
           prop="examineType"
           label="简历审核状态"
-          sortable
-          width="100">
+          sortable>
           <template slot-scope="scope">
-            <span v-if="scope.row.examineType == 0">待审核</span>
-            <span v-if="scope.row.examineType == 1">HR初审</span>
-            <span v-if="scope.row.examineType == 2">待面试</span>
-            <span v-if="scope.row.examineType == 3">面试通过</span>
-            <span v-if="scope.row.examineType == 4">主管初审</span>
+            <span v-if="scope.row.approvalState == 0">待审核</span>
+            <span v-if="scope.row.approvalState == 1">HR初审</span>
+            <span v-if="scope.row.approvalState == 2">面试通过</span>
+            <span v-if="scope.row.approvalState == 3">成功入职</span>
             <!-- <el-switch
               v-model="scope.row.enabled"
               active-color="#13ce66"

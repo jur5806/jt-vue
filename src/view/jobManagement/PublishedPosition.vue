@@ -84,6 +84,7 @@
           <el-button style="margin: 5px 0" v-show="scope.row.enabled" type="mini" size="small" @click="commitStatusChange(scope.row.recruitId)">使过期</el-button>
           <el-button style="margin: 5px 0" type="danger" size="mini" @click="handleDelete(scope.row.recruitId)">删除</el-button>
           <el-button style="margin: 5px 0" type="danger" size="mini" @click="goHrResume(scope.row)">查看我收到的简历</el-button>
+          <el-button style="margin: 5px 0" size="mini" @click="open1(scope.row)">查看职位信息</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -122,6 +123,9 @@ export default {
     this.getRecruitList()
   },
   methods: {
+    open1(row) {
+      this.$router.push({ name: 'detail', params: { recruitId: row.recruitId}})
+    },
     formatEducation(data) {
       if(data === 1){
         return "junior college"

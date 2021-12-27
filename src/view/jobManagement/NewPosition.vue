@@ -175,7 +175,9 @@ export default {
                 confirmButtonText: '确定'
               })
               // this.clear()
+              this.$router.go(-1);
               this.$emit('onSubmit')
+
             } else {
               this.$alert(resp.data.message, '提示', {
                 confirmButtonText: '确定'

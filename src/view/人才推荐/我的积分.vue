@@ -54,14 +54,12 @@
         </el-table-column>
         <el-table-column
           label="变动原因"
-          sortable
-          width="100">
+          sortable>
           <template slot-scope="scope">
             <span v-if="scope.row.eventType == 0">上传简历1次</span>
             <span v-if="scope.row.eventType == 1">HR初审通过</span>
-            <span v-if="scope.row.eventType == 3">待面试</span>
-            <span v-if="scope.row.eventType == 4">面试通过</span>
-            <span v-if="scope.row.eventType == 5">进入公司</span>
+            <span v-if="scope.row.eventType == 2">面试成功</span>
+            <span v-if="scope.row.eventType == 3">入职成功</span>
           </template>
         </el-table-column>
         <el-table-column

@@ -1,19 +1,55 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-24 19:21:15
- * @LastEditTime: 2021-04-24 19:21:15
+ * @LastEditTime: 2021-05-15 06:44:52
  * @LastEditors: Please set LastEditors
  * @Description: 我收到的简历，后台hr收到的简历
  * @FilePath: Hr-Resume
 -->
 <template>
   <div>
-    <el-row style="margin: 18px 0px 0px 18px ">
+    <el-dialog title="自定义积分奖励" :visible.sync="resetPasswordDialog">
+      <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
+        <el-form-item label="奖励积分值" label-width="120px" prop="username">
+          <el-input v-model="points"></el-input>
+        </el-form-item>
+      </el-form>
+      <div>
+        <el-button @click="resetPasswordDialog = false">取消</el-button>
+        <el-button @click="definePassword()">确定</el-button>
+      </div>
+    </el-dialog>
+    <el-button type="primary" size="mini" @click="$router.go(-1)" style="margin: 10px">返回</el-button>
+    <el-row style="margin: 18px 0px 20px 18px ">
+       
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <!-- <el-breadcrumb-item :to="{ path: '/admin/dashboard' }">管理中心</el-breadcrumb-item> -->
         <el-breadcrumb-item>我收到的简历</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
+    <el-card>
+      <div class="flex-box background-white search-bar">
+        <el-form
+          :inline="true"
+          style="width: 100%"
+          size="mini"
+          label-position="left"
+          @submit.native.prevent
+        >
+          <el-form-item label="审核状态：">
+            <el-select v-model="state" placeholder="请选择审核状态" clearable @change="search">
+              <el-option label="待审核" value="0"></el-option>
+              <el-option label="待面试" value="1"></el-option>
+              <el-option label="待入职" value="2"></el-option>
+              <el-option label="员工已入职" value="3"></el-option>
+              <el-option label="全部" value="4"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item >
+            <el-button size="mini" type="success" @click="search">搜索</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </el-card>
     <!-- <v-bulk-registration @onSubmit="listUsers()"></v-bulk-registration> -->
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
@@ -111,11 +147,11 @@
               size="mini">
               确认已入职
             </el-button>
-            <!-- <el-button
-              @click="editUser(scope.row)"
+            <el-button v-if="scope.row.approvalState == 3"
+              @click="getPoints(scope.row)"
               size="mini">
-              取消审核
-            </el-button> -->
+              自定义奖励
+            </el-button>
             <el-button
             @click="resumetDel(scope.row)"
               size="mini">
@@ -159,16 +195,23 @@ export default {
           candidatesEmail:"123456789@jjj.com",
           examineType:0,
         },
-      ]
+      ],
+      points: 0,
+      state: "4",
+      tempinfo:{},
     }
   },
   mounted () {
-    this.listUsers()
-    this.listRoles()
     this.getHrResume()
   },
   computed: {
+    tableHeight () {
+      return window.innerHeight - 320
+    }
+  },
+  methods: {
     viewPassedcome(row) {
+      console.log(row);
       this.$confirm('确认该被推荐人已入职,推荐人积分+5，是否继续？', '确认通过', {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -183,35 +226,19 @@ export default {
         })
       })
     },
-    tableHeight () {
-      return window.innerHeight - 320
-    }
-  },
-  methods: {
     openDialog(row){
       this.$router.push({ path: '/ResumeDetail', query: { recruitId: row.recruitId ,hrId: row.hrId, tjId: row.tjId, resumeId: row.resumeId }})
     },
-    listUsers () {
-      console.log('8888')
-      getData.userList().then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.users = resp.data.data
-        }
-      })
-    },
-    listRoles () {
-      getData.roleList().then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.roles = resp.data.data
-        }
-      })
+    search(){
+      this.getHrResume()
     },
     getHrResume(){
       const hrId = this.$route.query.hrId || sessionStorage.getItem('userId')
       const recruitId  = this.$route.query.recruitId
       const params = { 
         hrId: hrId, 
-        recruitId: recruitId 
+        recruitId: recruitId,
+        state: this.state
       }
       getData.hrResumeList(params).then(res => {
         if (res.data.code === 200) {
@@ -221,65 +248,6 @@ export default {
           // this.getHrResume();
         }
       })
-    },
-    commitStatusChange (value, user) {
-      if (user.username !== 'admin') {
-        getData.statusUpdate
-        ({
-          enabled: value,
-          username: user.username
-        }).then(resp => {
-          if (resp && resp.data.code === 200) {
-            if (value) {
-              this.$message('用户 [' + user.username + '] 已启用')
-            } else {
-              this.$message('用户 [' + user.username + '] 已禁用')
-            }
-          }
-        })
-      } else {
-        user.enabled = true
-        this.$alert('不能禁用管理员账户')
-      }
-    },
-    onSubmit (user) {
-      let _this = this
-      // 根据视图绑定的角色 id 向后端传送角色信息
-      let roles = []
-      for (let i = 0; i < _this.selectedRolesIds.length; i++) {
-        for (let j = 0; j < _this.roles.length; j++) {
-          if (_this.selectedRolesIds[i] === _this.roles[j].id) {
-            roles.push(_this.roles[j])
-          }
-        }
-      }
-      this.$axios.put('/admin/user', {
-        username: user.username,
-        name: user.name,
-        phone: user.phone,
-        email: user.email,
-        roles: roles
-      }).then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.$alert('用户信息修改成功')
-          this.dialogFormVisible = false
-          // 修改角色后重新请求用户信息，实现视图更新
-          this.listUsers()
-        } else {
-          this.$alert(resp.data.message)
-        }
-      })
-    },
-    editUser (user) {
-      this.dialogFormVisible = true
-      this.selectedUser = user
-      let roleIds = []
-      if (user.roles) {
-        for (let i = 0; i < user.roles.length; i++) {
-          roleIds.push(user.roles[i].id)
-        }
-      }
-      this.selectedRolesIds = roleIds
     },
     resumetDel(row) {
       console.log(row)
@@ -305,6 +273,15 @@ export default {
     examine (row) {
       this.openDialog(row);
     },
+    getPoints(row) {
+      this.resetPasswordDialog = true;
+      this.points = 0;
+      this.tempinfo = row;
+    },
+    definePassword() {
+      this.pointsInfoAdd(this.tempinfo,3,1,this.points);
+      this.resetPasswordDialog = false;
+    },
     interviewPassed (row) {
       this.$confirm('确认该被推荐人面试通过,推荐人积分+2，是否继续？', '确认通过', {
         confirmButtonText: '确定',
@@ -321,12 +298,12 @@ export default {
     },
     pointsInfoAdd(row,type,change,num) {
       let data = {
-        userId: row.tjId || 110,
+        userId: row.tjId,
         eventType: type,
         changeType:  change,
-        pointsNum: num,
-        dealer: row.hrId || 110,
-        resumeId: row.resumeId || 3
+        pointsNum: num || 0,
+        dealer: row.hrId,
+        resumeId: row.resumeId
       }
       getData.pointsInfoAdd(data).then(res => {
         if (res && res.data.code === 200) {

@@ -63,7 +63,7 @@
               <el-form-item label="出生日期：" prop="birthDate">
                   <el-date-picker
                     v-model="form.birthDate"
-                    format="yyyy-mm-dd 00:00:00"
+                    value-format="yyyy-MM-dd hh:mm:ss"
                     type="date"
                     placeholder="请选择出生日期">
                   </el-date-picker>

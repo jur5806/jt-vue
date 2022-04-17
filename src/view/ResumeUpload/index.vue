@@ -21,7 +21,7 @@
           <el-form-item label="性别">
             <el-select v-model="form.sex" placeholder="请选择性别">
               <el-option label="男" value="1" />
-              <el-option label="女" value="2" />
+              <el-option label="女" value="0" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -101,7 +101,7 @@
               <el-option label="大专" value="2" />
               <el-option label="本科" value="3" />
               <el-option label="研究生" value="4" />
-              <el-option label="硕士" value="5" />
+              <!-- <el-option label="硕士" value="5" /> -->
               <el-option label="其他" value="6" />
             </el-select>
           </el-form-item>

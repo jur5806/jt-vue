@@ -66,18 +66,18 @@ let logout = () => axios.get(`/march/logout`);
  * 用户信息修改
  * 字段
  */
- let userInfoEdit = (data) => axios.post(`/march/admin/user`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+ let userInfoEdit = (data) => axios.post(`/march/admin/userUpdate`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
 /**
  * 用户信息查询
  * 字段
  */
- let userDetail = (username) => axios.get('/march/admin/userDetail?username=' + username);
+ let userDetail = (userId) => axios.get('/march/admin/userDetail?userId=' + userId);
 
  /**
  * 用户信息列表
  * 字段
  */
-  let userList = () => axios.get('/march/admin/user');
+  let userList = () => axios.get('/march/admin/userList');
 
  /**
  * 角色列表

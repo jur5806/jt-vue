@@ -187,8 +187,6 @@ export default {
         if (res.data.code === 200) {
           console.log(res.data.data)
           this.myList = res.data.data
-        } else {
-          this.getRecruitList();
         }
       })
     },
@@ -255,7 +253,6 @@ export default {
       console.log(row)
       getData.resumetDel(row.resumeId).then(res => {
         if (res.data.code === 200) {
-          this.$alert('删除成功')
           this.getMyResumeInfo()
         }
       })

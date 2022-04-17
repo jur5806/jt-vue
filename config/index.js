@@ -14,7 +14,7 @@ module.exports = {
     proxyTable: {
       "/march": {
         // target: "http://localhost:8822",//本地
-        target: "http://localhost:8822",//本地
+        target: "http://localhost:8810",//本地
         pathRewrite: {
           "^/march": "/march"
         }

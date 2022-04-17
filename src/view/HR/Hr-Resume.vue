@@ -93,7 +93,7 @@
             <span v-if="scope.row.recommendedEducation === 2">大专</span>
             <span v-if="scope.row.recommendedEducation === 3">本科</span>
             <span v-if="scope.row.recommendedEducation === 4">研究生</span>
-            <span v-if="scope.row.recommendedEducation === 6">硕士</span>
+            <!-- <span v-if="scope.row.recommendedEducation === 6">硕士</span> -->
             <span v-else>其他</span>
             
           </template>

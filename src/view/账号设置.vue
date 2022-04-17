@@ -105,17 +105,19 @@ export default {
         userPosition: 0
       },
       isEdit: true,
-      username: ''
+      username: '',
+      userId:'',
     }
   },
   created () {},
   mounted () {
     this.username = global.getSession('userName')
+    this.userId = global.getSession('userId')
     this.init()
   },
   methods: {
     init () {
-      getData.userDetail(this.username).then(res => {
+      getData.userDetail(this.userId).then(res => {
         if (res.data.code === 200) {
           this.form = res.data.data
           this.$message({
@@ -134,11 +136,12 @@ export default {
             type: 'success',
             message: '保存成功'
           })
+          this.isEdit = false
           this.init()
         } else {
           this.$message = res.data.message
         }
-        this.isEdit = false
+        
       }).catch(() => {})
     }
   },

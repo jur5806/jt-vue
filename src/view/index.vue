@@ -64,10 +64,12 @@
                 <div @click="loginOut">
                   <el-dropdown-item :command="2">退出登录</el-dropdown-item>
                 </div> -->
-                <div  @click.stop="openSetings()">
+                <div  @click.stop="openSetings(1)">
                   <el-dropdown-item>个人信息设置</el-dropdown-item>
                 </div>
-                <el-dropdown-item>我的推荐</el-dropdown-item>
+                <div  @click.stop="openSetings(2)">
+                  <el-dropdown-item>我的推荐</el-dropdown-item>
+                </div>
                 <div  @click.stop="loginOut()">
                   <el-dropdown-item>退出账号</el-dropdown-item>
                 </div>
@@ -170,9 +172,13 @@ export default {
     goOther(path) {
       this.$router.push(path);
     },
-    openSetings () {
-      console.log('456546')
-      this.$router.push({path: '/accountSettings'})
+    openSetings (type) {
+      if(type == 1){
+        this.$router.push({path: '/accountSettings'})
+      }else{
+        this.$router.push({path: '/index/myRecommend'})
+      }
+      
     },
     loginOut() {
       this.$confirm("确认注销吗?", "提示", {
@@ -223,7 +229,8 @@ export default {
   .header {
     height: 58px;
     padding: 0;
-    background-color: #50566b;
+    // background-color: #50566b;
+    background-color: rgb(84, 92, 100);
     justify-content: space-between;
 
     .collapse {
@@ -279,11 +286,12 @@ export default {
 
   .aside-cont {
     position: relative;
-    background-color: #333743;
+    background-color: rgb(84, 92, 100);
 
     .logo {
       position: relative;
-      height: 90px;
+      height: 60px;
+      background-color: rgb(84, 92, 100);
       /*background-color: #f8f8f9;*/
       overflow: hidden;
       position: relative;

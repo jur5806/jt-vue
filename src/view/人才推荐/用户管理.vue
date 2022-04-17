@@ -197,7 +197,7 @@ export default {
           }
         }
       }
-      getData.adminUserUpdate({
+      getData.userInfoEdit({
         username: user.username,
         name: user.name,
         phone: user.phone,

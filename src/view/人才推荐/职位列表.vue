@@ -1,54 +1,5 @@
 <template>
   <div class="app-container" style="width: 100%;margin-bottom: 50px;position: relative;background:white">
-    <!-- <el-table
-      v-loading="listLoading"
-      :data="list"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-    >
-      <el-table-column
-        align="center"
-        label="ID"
-        width="95"
-      >
-        <div slot-scope="scope">
-          {{ scope.$index }}
-        </div>
-      </el-table-column>
-      <el-table-column label="职位">
-        <template slot-scope="scope">
-          {{ scope.row.stationName }}
-        </template>
-      </el-table-column>
-      <el-table-column label="地点">
-        <template slot-scope="scope">
-          {{ scope.row.workPlace }}
-        </template>
-      </el-table-column>
-      <el-table-column label="学历要求" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.eductionClass }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="所需人数" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.rcDepartmentNum }}
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" label="状态" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.departmentState }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="created_at" label="职位描述" width="200">
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.rcDescribe }}</span>
-        </template>
-      </el-table-column>
-    </el-table> -->
     <div class="rightBlock" style="overflow:auto">
       <div class="borderContainer">
         <div class="sofiaBold listTitle">开启新的工作（{{num}}+）
@@ -63,11 +14,6 @@
             </el-input>
             <el-button size="small" type="primary" icon="el-icon-search" @click="searchClick">搜索</el-button>
           </div>
-          <!-- <span class="searchInput">
-            <i class="el-icon-searatsx-inputch"></i>
-            <input autocomplete="off" class="" data-test="searchBlockInput" placeholder="搜索职位" type="text" value="">
-            <span class="atsx-input-suffix"><button type="button" data-test="searchBlockBtn" class="atsx-btn searchAction__1yMqt search-searchAction sofiaBold atsx-btn-primary"><span>搜索</span></button></span>
-          </span> -->
         </div>
         <ul class="listItems">
           <li class="positionItem" v-for="(item, index) in list" :key="index" @click="goDetail(item.recruitId)">
@@ -76,69 +22,12 @@
             </div>
             <div class="subTitle positionItem-subTitle">{{item.workPlace}}
               <div class="lineDevider"></div>{{item.stationName}}
-              <div class="lineDevider"></div><p v-if="item.departmentState == 1">急招</p><p v-else>长期招</p>
+              <div class="lineDevider"></div><p v-if="item.departmentState == 1" style="color:red;font-size: 18px;">急招!!</p><p v-else>长期招</p>
             </div>
             <div class="jobDesc positionItem-jobDesc">
               <p>{{item.rcDescribe}}</p>
-              
             </div>
           </li>
-          <!-- <li class="positionItem">
-            <div class="positionItem-title">
-              <span class="positionItem-title-text">电商美妆行业运营专家-红人店方向</span>
-            </div>
-            <div class="subTitle positionItem-subTitle">上海
-              <div class="lineDevider"></div>运营 - 产品运营
-              <div class="lineDevider"></div>社招
-            </div>
-            <div class="jobDesc positionItem-jobDesc">
-              1、负责抖音电商红人美妆店铺的运营工作，助力红人店铺发展；
-              2、设计美妆红人店铺直播解决方案，根据行业发展特征和消费者洞察力，输出美妆红人店铺打法及落地；
-              3、和主播进行美妆货品结构方向的沟通，帮助红人通过直播加速商品流通。
-            </div>
-          </li>
-          <li class="positionItem">
-            <div class="positionItem-title">
-              <span class="positionItem-title-text">电商美妆行业运营专家-红人店方向</span>
-            </div>
-            <div class="subTitle positionItem-subTitle">上海
-              <div class="lineDevider"></div>运营 - 产品运营
-              <div class="lineDevider"></div>社招
-            </div>
-            <div class="jobDesc positionItem-jobDesc">
-              1、负责抖音电商红人美妆店铺的运营工作，助力红人店铺发展；
-              2、设计美妆红人店铺直播解决方案，根据行业发展特征和消费者洞察力，输出美妆红人店铺打法及落地；
-              3、和主播进行美妆货品结构方向的沟通，帮助红人通过直播加速商品流通。
-            </div>
-          </li>
-          <li class="positionItem">
-            <div class="positionItem-title">
-              <span class="positionItem-title-text">电商美妆行业运营专家-红人店方向</span>
-            </div>
-            <div class="subTitle positionItem-subTitle">上海
-              <div class="lineDevider"></div>运营 - 产品运营
-              <div class="lineDevider"></div>社招
-            </div>
-            <div class="jobDesc positionItem-jobDesc">
-              1、负责抖音电商红人美妆店铺的运营工作，助力红人店铺发展；
-              2、设计美妆红人店铺直播解决方案，根据行业发展特征和消费者洞察力，输出美妆红人店铺打法及落地；
-              3、和主播进行美妆货品结构方向的沟通，帮助红人通过直播加速商品流通。
-            </div>
-          </li>
-          <li class="positionItem">
-            <div class="positionItem-title">
-              <span class="positionItem-title-text">电商美妆行业运营专家-红人店方向</span>
-            </div>
-            <div class="subTitle positionItem-subTitle">上海
-              <div class="lineDevider"></div>运营 - 产品运营
-              <div class="lineDevider"></div>社招
-            </div>
-            <div class="jobDesc positionItem-jobDesc">
-              1、负责抖音电商红人美妆店铺的运营工作，助力红人店铺发展；
-              2、设计美妆红人店铺直播解决方案，根据行业发展特征和消费者洞察力，输出美妆红人店铺打法及落地；
-              3、和主播进行美妆货品结构方向的沟通，帮助红人通过直播加速商品流通。
-            </div>
-          </li> -->
         </ul>
         </div>
     </div>
@@ -261,14 +150,20 @@ export default {
         }
     }
       .listItems{
+        max-height: 80%;
+        overflow: auto;
         margin-top: 22px;
       }
       .positionItem{
-        padding: 22px 8px 18px 16px;
+        padding: 22px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        margin-top: 20px;
         transition: box-shadow .5s;
         cursor: pointer;
         border: 1px solid rgba(0,0,0,0);
-        box-shadow: 0 8px 24px 0 rgba(187,191,196,0.2);
+        height: 84px;
+        border: 1px solid #ddd;
         .positionItem-title{
           color: #1f2329;
           font-weight: 600;
@@ -317,6 +212,11 @@ export default {
         .positionItem-jobDesc{
           color: #8f959e;
         }
+      }
+      .positionItem:hover {
+        cursor: pointer;
+        box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
       }
     }
   }

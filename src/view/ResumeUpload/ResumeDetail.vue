@@ -58,9 +58,9 @@
       <p style="margin:10px 0;color:#0F8FFF;cursor: pointer;" @click="openImg(detailInfo.recommendedPhoto)">{{detailInfo.recommendedPhoto}}</p>
       <!-- <img :src="detailInfo.recommendedPhoto" alt="" @click="downImg(detailInfo.recommendedPhoto)"> -->
       <div class="apply-block">
-        <button type="button" class="apply-block-applyBtn">
+        <!-- <button type="button" class="apply-block-applyBtn">
           <span>hr初审通过</span>
-        </button>
+        </button> -->
         <button type="button" :class="detailInfo.approvalState > 0 ? 'apply-block-applyBtn' : 'apply-block-w'">
           <span>hr初审通过</span>
         </button>
@@ -146,7 +146,7 @@ export default {
       window.location.href = url;
     },
     viewPassed(row) {
-      this.$confirm('确认该被推荐人初审通过,推荐人积分+1，是否继续？', '确认通过', {
+      this.$confirm('确认该被推荐人初审通过,是否继续？', '确认通过', {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -176,7 +176,7 @@ export default {
         eventType: type,
         changeType:  change,
         pointsNum: num,
-        dealer: row.hrId || 110,
+        dealer: sessionStorage.getItem("userId") || 110,
         resumeId: parseInt(this.$route.query.resumeId) || 3
       }
       getData.pointsInfoAdd(data).then(res => {
@@ -201,12 +201,13 @@ export default {
 .warp-outer {
   font-size: 16px;
   width:100%;
-  height: 100%;
+  height: 90%;
   overflow: auto;
   margin-top: 40px;
   padding-left: 32px;
   display: flex;
   justify-content: center;
+  padding-bottom: 10px;
 
 }
 .job-header {

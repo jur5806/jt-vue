@@ -66,6 +66,7 @@
             <el-select v-model="form.recommendedMarital" placeholder="请选择婚姻状况">
               <el-option label="未婚" value="未婚" />
               <el-option label="已婚" value="已婚" />
+              <el-option label="离异" value="离异" />
             </el-select>
           </el-form-item>
         </el-col>

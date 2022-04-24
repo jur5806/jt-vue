@@ -1,12 +1,17 @@
 <template>
   <div>
-    <el-row style="margin: 18px 0px 0px 18px ">
+    <div class="main-box">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <!-- <el-breadcrumb-item :to="{ path: '/admin/dashboard' }">管理中心</el-breadcrumb-item> -->
         <el-breadcrumb-item>积分管理</el-breadcrumb-item>
         <el-breadcrumb-item>积分列表</el-breadcrumb-item>
       </el-breadcrumb>
-    </el-row>
+      <div>
+        <el-button @click="reasonListDialog = true">抵扣种类</el-button>
+        <el-button @click="addBlockDrawer = true">抵扣积分</el-button>
+        <el-button @click="integralSettingDialog = true">加分设置</el-button>
+      </div>
+    </div>
     <!-- <v-bulk-registration @onSubmit="listUsers()"></v-bulk-registration> -->
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
@@ -86,148 +91,149 @@
         <el-button>批量删除</el-button>
       </div>
     </el-card>
+    <!-- 批量导入 -->
+     <el-dialog
+      title="积分设置"
+      :visible.sync="integralSettingDialog"
+      :close-on-click-modal="false"
+      width="650px"
+      center
+      top="3%"
+      append-to-body
+    >
+      <v-integral-setting
+        v-if="integralSettingDialog"
+        @closeDialog="integralSettingDialog = false"
+        @init="getPointsList"
+      ></v-integral-setting>
+    </el-dialog>
+    <!-- 类型管理 -->
+    <el-drawer title="抵扣类型管理" :visible.sync="reasonListDialog" direction="rtl" size="600px" :show-close="false" center top="3%" @close="getPointsList">
+      <v-add-reason-type v-if="reasonListDialog" @closeDialog="reasonListDialog=false;" @init="getPointsList()"></v-add-reason-type>
+    </el-drawer>
+    <el-drawer title="积分抵扣" :visible.sync="addBlockDrawer" direction="rtl" size="600px" :show-close="false" center top="3%">
+      <v-set-point v-if="addBlockDrawer" @closeDialog="addBlockDrawer=false;" @init="getPointsList()"></v-set-point>
+    </el-drawer>
   </div>
 </template>
 
 <script>
-import * as getData from '../../service/getData'
+import * as getData from "../../service/getData";
 export default {
-  data () {
+  data() {
     return {
-      users: [
-        {
-          id: '1',
-          username: '滑动',
-          name: 'jiangting',
-          phone: '123456',
-          pointsNum: '1',
-          eventTime: '2021-4-24',
-          reason: 1
-        },
-        {
-          id: '1',
-          username: '滑动',
-          name: 'jiangting',
-          phone: '123456',
-          pointsNum: '2',
-          eventTime: '2021-4-24',
-          reason: 2
-        },
-        {
-          id: '1',
-          username: '滑动',
-          name: 'jiangting',
-          phone: '123456',
-          pointsNum: '3',
-          eventTime: '2021-4-24',
-          reason: 3
-        },
-      ],
+      users: [],
       roles: [],
       dialogFormVisible: false,
       selectedUser: [],
       selectedRolesIds: [],
       resetPasswordDialog: false,
-      password: '',
-      allPointList: []
-    }
+      password: "",
+      allPointList: [],
+      integralSettingDialog: false,
+      reasonListDialog: false,
+      addBlockDrawer: false,
+    };
   },
   created() {
     // this.listUsers()
-    this.getPointsList()
+    this.getPointsList();
   },
   computed: {
-    tableHeight () {
-      return window.innerHeight - 320
-    }
+    tableHeight() {
+      return window.innerHeight - 320;
+    },
   },
   methods: {
-    listUsers () {
-      console.log('8888')
-      getData.userList().then(resp => {
+    listUsers() {
+      console.log("8888");
+      getData.userList().then((resp) => {
         if (resp && resp.data.code === 200) {
-          this.list = resp.data.data
+          this.list = resp.data.data;
         }
-      })
+      });
     },
     getPointsList() {
-      getData.pointsList().then(resp => {
+      getData.pointsList().then((resp) => {
         if (resp && resp.data.code === 200) {
-          this.allPointList = resp.data.data
+          this.allPointList = resp.data.data;
         }
-      })
+      });
     },
-    commitStatusChange (value, user) {
-      if (user.username !== 'admin') {
-        getData.statusUpdate
-        ({
-          enabled: value,
-          username: user.username
-        }).then(resp => {
-          if (resp && resp.data.code === 200) {
-            if (value) {
-              this.$message('用户 [' + user.username + '] 已启用')
-            } else {
-              this.$message('用户 [' + user.username + '] 已禁用')
+    commitStatusChange(value, user) {
+      if (user.username !== "admin") {
+        getData
+          .statusUpdate({
+            enabled: value,
+            username: user.username,
+          })
+          .then((resp) => {
+            if (resp && resp.data.code === 200) {
+              if (value) {
+                this.$message("用户 [" + user.username + "] 已启用");
+              } else {
+                this.$message("用户 [" + user.username + "] 已禁用");
+              }
             }
-          }
-        })
+          });
       } else {
-        user.enabled = true
-        this.$alert('不能禁用管理员账户')
+        user.enabled = true;
+        this.$alert("不能禁用管理员账户");
       }
     },
     onSubmit(user) {
-      let _this = this
+      let _this = this;
       // 根据视图绑定的角色 id 向后端传送角色信息
-      let roles = []
+      let roles = [];
       for (let i = 0; i < _this.selectedRolesIds.length; i++) {
         for (let j = 0; j < _this.roles.length; j++) {
           if (_this.selectedRolesIds[i] === _this.roles[j].id) {
-            roles.push(_this.roles[j])
+            roles.push(_this.roles[j]);
           }
         }
       }
-      this.$axios.put('/admin/user', {
-        username: user.username,
-        name: user.name,
-        phone: user.phone,
-        email: user.email,
-        roles: roles
-      }).then(resp => {
-        if (resp && resp.data.code === 200) {
-          this.$alert('用户信息修改成功')
-          this.dialogFormVisible = false
-          // 修改角色后重新请求用户信息，实现视图更新
-          this.listUsers()
-        } else {
-          this.$alert(resp.data.message)
-        }
-      })
+      this.$axios
+        .put("/admin/user", {
+          username: user.username,
+          name: user.name,
+          phone: user.phone,
+          email: user.email,
+          roles: roles,
+        })
+        .then((resp) => {
+          if (resp && resp.data.code === 200) {
+            this.$alert("用户信息修改成功");
+            this.dialogFormVisible = false;
+            // 修改角色后重新请求用户信息，实现视图更新
+            this.listUsers();
+          } else {
+            this.$alert(resp.data.message);
+          }
+        });
     },
     editUser(user) {
-      this.dialogFormVisible = true
-      this.selectedUser = user
-      let roleIds = []
+      this.dialogFormVisible = true;
+      this.selectedUser = user;
+      let roleIds = [];
       if (user.roles) {
         for (let i = 0; i < user.roles.length; i++) {
-          roleIds.push(user.roles[i].id)
+          roleIds.push(user.roles[i].id);
         }
       }
-      this.selectedRolesIds = roleIds
+      this.selectedRolesIds = roleIds;
     },
     deleUser(row) {
-      console.log(row)
-      getData.deleUser(row.id).then(res => {
+      console.log(row);
+      getData.deleUser(row.id).then((res) => {
         if (res.data.code === 200) {
-          this.$alert('删除成功')
-          this.listUsers()
+          this.$alert("删除成功");
+          this.listUsers();
         }
-      })
+      });
     },
-    resetPassword (username) {
-      this.resetPasswordDialog = true
-      this.password = ''
+    resetPassword(username) {
+      this.resetPasswordDialog = true;
+      this.password = "";
       // this.$axios.put('/admin/user/password', {
       //   username: username
       // }).then(resp => {
@@ -236,20 +242,27 @@ export default {
       //   }
       // })
     },
-    definePassword () {
-      getData.resetPassword({
-        username: this.selectedUser.username,
-        password: this.password
-      }).then(res => {
-        if (res && res.data.code === 200) {
-          this.$alert('密码已重置成功')
-        }
-      })
-    }
-  }
-}
+    definePassword() {
+      getData
+        .resetPassword({
+          username: this.selectedUser.username,
+          password: this.password,
+        })
+        .then((res) => {
+          if (res && res.data.code === 200) {
+            this.$alert("密码已重置成功");
+          }
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
-
+.main-box {
+  margin: 18px 18px 0px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 </style>

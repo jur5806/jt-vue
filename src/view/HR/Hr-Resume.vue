@@ -218,7 +218,7 @@ export default {
         type: "warning"
       })
       .then(() => {
-        this.pointsInfoAdd(row,3,1,5)
+        this.pointsInfoAdd(row,3,1,3)
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -302,7 +302,7 @@ export default {
         eventType: type,
         changeType:  change,
         pointsNum: num || 0,
-        dealer: row.hrId,
+        dealer: sessionStorage.getItem("userId"),
         resumeId: row.resumeId
       }
       getData.pointsInfoAdd(data).then(res => {

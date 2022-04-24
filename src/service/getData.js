@@ -209,12 +209,37 @@ let roleMenuUpdate = (rid,data) => axios.put(`/march/admin/role/menu?rid=`+
  */
   let resumeInfoList = () => axios.get(` /march/resumeInfoList`);
 
+ /** 
+ * 获取积分设置
+ */
+ let integeralList = (params) => axios.get(` /march/integeralList`,{params: params});
 
+   /*
+  积分配置修改
+   */
+let integeralUpdata = (data) => axios.post(`/march/integeralUpdata`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+
+ /** 
+ * 获取抵扣原因列表
+ */
+ let reasonList = (params) => axios.get(` /march/reasonList`,{params: params});
+
+   /*
+  更新抵扣原因
+   */
+let reasonUpdata = (data) => axios.post(`/march/reasonUpdata`,JSON.stringify(data), { headers: { 'Content-Type': 'application/json' } });
+
+ /**
+ * 删除抵扣种类
+ * 字段
+ */
+  let deleReason = (id) => axios.get('/march/deleReason?id='+id);
  
 export {
   checkLogin, addBooks, getBooks, searchBookPages, deleteBooks, categoriesBooks, register, logout,
   userInfoEdit, userDetail, userList, roleList, deleUser, resetPassword, rolePerm, roleMenu, addRole,
   recruitList, statusUpdate, recruitsUpdate, deleRecruit, recruitAdd, getMenu,resumetAdd,resumetDel,
   myResumeInfo, pointsList, adminUserUpdate, roleStatusUpdate, roleInfoUpdate, roleMenuUpdate,hrResumeList,hrPosition,
-  pointsIdList, pointsInfoAdd, LookById, resumeInfoList
+  pointsIdList, pointsInfoAdd, LookById, resumeInfoList, integeralList, integeralUpdata, reasonList, reasonUpdata,
+  deleReason,
 }

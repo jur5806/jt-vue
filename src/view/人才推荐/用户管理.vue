@@ -1,18 +1,18 @@
 <template>
   <div>
-    <el-dialog title="重置密码" :visible.sync="resetPasswordDialog">
-      <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
-        <el-form-item label="用户名" label-width="120px" prop="username">
-          <el-input v-model="password" autocomplete="off"></el-input>
+    <el-dialog title="重置密码" :visible.sync="resetPasswordDialog" width="25%">
+      <el-form :model="selectedUser" style="text-align: left" ref="selectedUser" :rules="rules">
+        <el-form-item label="密码：" label-width="80px" prop="password">
+          <el-input v-model="selectedUser.password" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
-      <div>
+      <p style="text-align:center;">
         <el-button>取消</el-button>
         <el-button @click="definePassword()">确定</el-button>
-      </div>
+      </p>
     </el-dialog>
     <el-dialog title="修改用户信息" :visible.sync="dialogFormVisible">
-      <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
+      <el-form :model="selectedUser" style="text-align: left" ref="selectedUser" :rules="rules">
         <el-form-item label="用户名" label-width="120px" prop="username">
           <label>{{selectedUser.username}}</label>
         </el-form-item>
@@ -25,7 +25,7 @@
         <el-form-item label="邮箱" label-width="120px" prop="email">
           <el-input v-model="selectedUser.email" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="密码" label-width="120px" prop="password">
+        <el-form-item label="密码" label-width="120px" prop="password1">
           <el-button type="warning" @click="resetPassword(selectedUser.username)">重置密码</el-button>
         </el-form-item>
         <el-form-item label="角色分配" label-width="120px" prop="roles">
@@ -46,14 +46,16 @@
         <el-breadcrumb-item>用户信息</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
-    <el-dialog title="添加用户" :visible.sync="dialogFormAdd" width="25%">
+    <el-dialog title="添加用户" :visible.sync="dialogFormAdd" width="35%">
       <v-bulk-registration @onSubmit="listUsers()" @close="dialogFormAdd = false" v-if="dialogFormAdd">
       </v-bulk-registration>
     </el-dialog>
     <el-card style="margin: 18px 2%;width: 95%">
       <div class="g-search-box">
         <div class="g-search">
-          222
+          <el-input v-model.trim="filters.userName" placeholder="输入账号名称或真实姓名进行搜索" @keyup.enter.native="search()">
+            <i slot="prefix" class="el-input__icon el-icon-search" @click="search()"></i>
+          </el-input >
         </div>
         <div class="top-btn">
           <el-button class="add-button" type="success" @click="dialogFormAdd = true" size="small">添加用户</el-button>
@@ -107,8 +109,29 @@
 
 <script>
   import * as getData from '../../service/getData'
+  import * as global from '../../config/mUtils'
   export default {
     data() {
+        const checkChinese = (rule, value, callback) => {
+        if(value == '******'){
+          callback();
+          return
+        }
+        if (!value) {
+          callback('密码不能为空');
+          return
+        }
+        const str = value.replace(/[^\u4E00-\u9FA5]/g, '');
+        if (str == ''&& global.rule.password(value)) {
+          callback()
+        } else if(value.length <8 || value.length > 16) {
+          callback('密码长度在8-16之间');
+        } else if(!global.rule.password(value)) {
+          callback('密码必须包含字母、数字组合');
+        } else if (!global.noChinese.test(str)) {
+          callback('密码不能包含中文');
+        }
+      };
       return {
         users: [],
         roles: [],
@@ -123,6 +146,18 @@
           pageSize: 10,
           total: 10,
           userName: '',
+        },
+        oldUsers: [],
+        rules: {
+          username: [{required: true, message: '用户名不能为空', trigger: 'blur'}],
+          password: [
+            {required: true, message: '密码不能为空', trigger: 'blur'},
+            {validator: checkChinese, trigger: ['blur', 'change']},
+            ],
+          name: [{required: true, message: '真实姓名不能为空', trigger: 'blur'}],
+          phone: [
+            {required: true, message: '电话号码不能为空', trigger: 'blur'},
+            {pattern: global.phoneRule5, message: '联系方式格式错误'}],
         },
       }
     },
@@ -141,6 +176,7 @@
         getData.userList().then(res => {
           if (res && res.data.code === 200) {
             this.users = res.data.data
+            this.oldUsers = res.data.data
             this.filters.total = this.users.length || 0;
           }
         })
@@ -151,6 +187,20 @@
             this.roles = res.data.data
           }
         })
+      },
+      search(){
+        console.log(5555)
+        let floorListInit = this.oldUsers.filter(items=>{ //筛选场地名产权所属企业
+        if(this.filters.userName){
+          return items.username.indexOf(this.filters.userName)!==-1||items.name.indexOf(this.filters.userName)!==-1
+        }else{
+          return items
+        }
+          
+        })
+        this.users = floorListInit
+        this.filters.pageIndex = 1
+        this.filters.total = this.users.length
       },
       commitStatusChange(value, user) {
         if (user.username !== 'admin') {
@@ -173,32 +223,39 @@
         }
       },
       onSubmit(user) {
-        let _this = this
-        // 根据视图绑定的角色 id 向后端传送角色信息
-        let roles = []
-        for (let i = 0; i < _this.selectedRolesIds.length; i++) {
-          for (let j = 0; j < _this.roles.length; j++) {
-            if (_this.selectedRolesIds[i] === _this.roles[j].id) {
-              roles.push(_this.roles[j])
+        this.$refs['selectedUser'].validate((valid) =>{
+          if(valid){
+            let _this = this
+            // 根据视图绑定的角色 id 向后端传送角色信息
+            let roles = []
+            for (let i = 0; i < _this.selectedRolesIds.length; i++) {
+              for (let j = 0; j < _this.roles.length; j++) {
+                if (_this.selectedRolesIds[i] === _this.roles[j].id) {
+                  roles.push(_this.roles[j])
+                }
+              }
             }
-          }
-        }
-        getData.userInfoEdit({
-          username: user.username,
-          name: user.name,
-          phone: user.phone,
-          email: user.email,
-          roles: roles
-        }).then(res => {
-          if (res && res.data.code === 200) {
-            this.$alert('用户信息修改成功')
-            this.dialogFormVisible = false
-            // 修改角色后重新请求用户信息，实现视图更新
-            this.listUsers()
-          } else {
-            this.$alert(res.data.message)
+            getData.userInfoEdit({
+              username: user.username,
+              name: user.name,
+              phone: user.phone,
+              email: user.email,
+              roles: roles
+            }).then(res => {
+              if (res && res.data.code === 200) {
+                this.$alert('用户信息修改成功')
+                this.dialogFormVisible = false
+                // 修改角色后重新请求用户信息，实现视图更新
+                this.listUsers()
+              } else {
+                this.$alert(res.data.message)
+              }
+            })
+          }else{
+            return false
           }
         })
+        
       },
       editUser(user) {
         this.dialogFormVisible = true
@@ -232,14 +289,22 @@
         // })
       },
       definePassword() {
-        getData.resetPassword({
-          username: this.selectedUser.username,
-          password: this.password
-        }).then(res => {
-          if (res && res.data.code === 200) {
-            this.$alert('密码已重置成功')
+        this.$refs['selectedUser'].validate((valid) =>{
+          if(valid){
+            getData.resetPassword({
+              username: this.selectedUser.username,
+              password: this.selectedUser.password
+            }).then(res => {
+              if (res && res.data.code === 200) {
+                this.$alert('密码已重置成功')
+                this.resetPasswordDialog = false;
+              }
+            })
+          }else{
+            return false
           }
         })
+        
       },
       handleSizeChange(val) {
         this.filters.pageIndex = 1;

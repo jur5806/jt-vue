@@ -50,6 +50,10 @@
           label="积分值"
           show-overflow-tooltip
           fit>
+          <template slot-scope="scope">
+            <span v-if="scope.row.changeType == 1">{{scope.row.pointsNum}}</span>
+            <span v-if="scope.row.changeType == 0" style="color:red">{{-scope.row.pointsNum}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="变动原因"
@@ -59,6 +63,7 @@
             <span v-if="scope.row.eventType == 1">HR初审通过</span>
             <span v-if="scope.row.eventType == 2">面试通过</span>
             <span v-if="scope.row.eventType == 3">确认入职</span>
+            <span v-if="scope.row.eventType == 7">{{scope.row.reasonName}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -71,18 +76,18 @@
           label="操作"
           width="120">
           <template slot-scope="scope">
-            <el-button
+            <!-- <el-button
               @click="editUser(scope.row)"
               type="text"
               size="small">
               撤回
-            </el-button>
-            <el-button
+            </el-button> -->
+            <!-- <el-button
             @click="deleUser(scope.row)"
               type="text"
               size="small">
               删除
-            </el-button>
+            </el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -224,7 +229,7 @@ export default {
     },
     deleUser(row) {
       console.log(row);
-      getData.deleUser(row.id).then((res) => {
+      getData.deleUser(row.pointsId).then((res) => {
         if (res.data.code === 200) {
           this.$alert("删除成功");
           this.listUsers();

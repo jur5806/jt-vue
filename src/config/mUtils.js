@@ -139,6 +139,22 @@ export const rule = {
     } else {
       return true;
     }
+  },
+  password: function(str) {//登录密码校验（必须包含数字密码 8-16 可输入字符）
+    var regex = /^(?![^a-zA-Z]+$)(?!\D+$).{8,16}$/;
+    if( regex.test(str)){
+      return true
+    } else {
+      return false
+    }
+  },
+  password2: function(str) {//强密码（8-16位大小写字母、数字、符号3种以上组合）
+    var regex = /^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\\W_!@#$%^&*`~()-+=.<>]+$)(?![a-z0-9]+$)(?![a-z\\W_!@#$%^&*`~()-+=.<>]+$)(?![0-9\\W_!@#$%^&*`~()-+=.<>]+$)[a-zA-Z0-9\\W_!@#$%^&*`~()-+=.<>]{8,16}$/;
+    if( regex.test(str)){
+      return true
+    } else {
+      return false
+    }
   }
 
 };

@@ -50,7 +50,6 @@
         </el-form>
       </div>
     </el-card>
-    <!-- <v-bulk-registration @onSubmit="listUsers()"></v-bulk-registration> -->
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
         :data="myList"
@@ -147,11 +146,11 @@
               size="mini">
               确认已入职
             </el-button>
-            <el-button v-if="scope.row.approvalState == 3"
+            <!-- <el-button v-if="scope.row.approvalState == 3"
               @click="getPoints(scope.row)"
               size="mini">
               自定义奖励
-            </el-button>
+            </el-button> -->
             <el-button
             @click="resumetDel(scope.row)"
               size="mini">
@@ -212,7 +211,7 @@ export default {
   methods: {
     viewPassedcome(row) {
       console.log(row);
-      this.$confirm('确认该被推荐人已入职,推荐人积分+5，是否继续？', '确认通过', {
+      this.$confirm('确认该被推荐人已入职，是否继续？', '确认通过', {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -279,11 +278,11 @@ export default {
       this.tempinfo = row;
     },
     definePassword() {
-      this.pointsInfoAdd(this.tempinfo,3,1,this.points);
+      this.pointsInfoAdd(this.tempinfo,99,1,this.points);
       this.resetPasswordDialog = false;
     },
     interviewPassed (row) {
-      this.$confirm('确认该被推荐人面试通过,推荐人积分+2，是否继续？', '确认通过', {
+      this.$confirm('确认该被推荐人面试通过，是否继续？', '确认通过', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

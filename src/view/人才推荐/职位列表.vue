@@ -66,13 +66,6 @@ export default {
   methods: {
     getRecruitList() {
       this.listLoading = true
-      // this.$message({ message: 'success', type: 'success' })
-      // this.$notify({
-      //   title: 'Fail',
-      //   message: 'Delete Successfully',
-      //   type: 'success',
-      //   duration: 2000
-      // })
       getData.recruitList({name: this.name, id: this.id}).then(res => {
         if (res.data.code === 200) {
           console.log(res.data.data)

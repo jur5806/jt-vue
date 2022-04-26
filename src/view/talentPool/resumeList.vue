@@ -15,7 +15,6 @@
         <!-- <el-breadcrumb-item>我的推荐</el-breadcrumb-item> -->
       </el-breadcrumb>
     </el-row>
-    <!-- <v-bulk-registration @onSubmit="listUsers()"></v-bulk-registration> -->
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
         :data="tableList"

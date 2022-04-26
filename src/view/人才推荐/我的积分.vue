@@ -7,7 +7,6 @@
         <el-breadcrumb-item>我的积分</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
-    <!-- <v-bulk-registration @onSubmit="listUsers()"></v-bulk-registration> -->
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
         :data="allPointList"
@@ -60,6 +59,7 @@
             <span v-if="scope.row.eventType == 1">HR初审通过</span>
             <span v-if="scope.row.eventType == 2">面试成功</span>
             <span v-if="scope.row.eventType == 3">入职成功</span>
+            <span v-if="scope.row.eventType == 7">{{scope.row.reasonName}}</span>
           </template>
         </el-table-column>
         <el-table-column

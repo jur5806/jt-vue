@@ -23,7 +23,7 @@
           <el-upload
             class="img-upload"
             ref="upload"
-            action="http://localhost:8822/march/covers"
+            action="/march/covers"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :before-remove="beforeRemove"

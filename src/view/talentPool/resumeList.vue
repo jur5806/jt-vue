@@ -36,8 +36,8 @@
           label="性别"
           fit>
            <template slot-scope="scope">
-            <span v-if="scope.row.sex == 0">男</span>
-            <span v-if="scope.row.sex == 1">女</span>
+            <span v-if="scope.row.sex == 1">男</span>
+            <span v-if="scope.row.sex == 0">女</span>
           </template>
         </el-table-column>
         

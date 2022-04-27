@@ -18,40 +18,40 @@
       </el-row>
       <el-row >
         <el-col :span="10">
-          <el-form-item label="性别">
+          <el-form-item label="性别" prop="sex">
             <el-select v-model="form.sex" placeholder="请选择性别">
-              <el-option label="男" value="1" />
-              <el-option label="女" value="0" />
+              <el-option label="男" :value="1" />
+              <el-option label="女" :value="0" />
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="年龄">
-            <el-input v-model="form.recommendedAge" placeholder="请输入年龄"/>
+          <el-form-item label="年龄" prop="recommendedAge">
+            <el-input v-model="form.recommendedAge" placeholder="请输入年龄" maxlength="3"/>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="民族">
+          <el-form-item label="民族" prop="recommendednation">
             <el-input v-model="form.recommendednation" placeholder="请输入民族"/>
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="电子邮箱">
+          <el-form-item label="电子邮箱" prop="recommendedEmail">
             <el-input v-model="form.recommendedEmail" placeholder="请输入电子邮箱"/>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="出生日期">
+          <el-form-item label="出生日期" prop="recommendedBirth">
             <el-date-picker v-model="form.recommendedBirth" type="date" 
             placeholder="请选择出生日期" style="width: 100%;" value-format="yyyy-MM-dd hh:mm:ss"/>
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="政治面貌">
+          <el-form-item label="政治面貌" prop="recommendedPolitical">
             <el-select v-model="form.recommendedPolitical" placeholder="请选择政治面貌">
               <el-option label="群众" value="群众" />
               <el-option label="共青团员" value="共青团员" />
@@ -62,7 +62,7 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="婚姻状况">
+          <el-form-item label="婚姻状况" prop="recommendedMarital">
             <el-select v-model="form.recommendedMarital" placeholder="请选择婚姻状况">
               <el-option label="未婚" value="未婚" />
               <el-option label="已婚" value="已婚" />
@@ -71,24 +71,24 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="籍贯">
+          <el-form-item label="籍贯" prop="recommendedProvince">
             <el-input v-model="form.recommendedProvince" placeholder="请输入籍贯"/>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="家庭地址" >
+          <el-form-item label="家庭地址" prop="address">
             <el-input v-model="form.address" placeholder="请输入家庭地址" />
           </el-form-item>
         </el-col>
       </el-row>
     </div>
-    <h3 class="title text-left">学历信息：</h3>
+    <h3 class="title text-left" >学历信息：</h3>
     <div style="background: #fff;padding-top:20px">
       <el-row >
         <el-col :span="10">
-          <el-form-item label="就读状况">
+          <el-form-item label="就读状况" prop="recommendedAttend">
             <el-select v-model="form.recommendedAttend" placeholder="请选择就读状况">
               <el-option label="在读中" value="在读中" />
               <el-option label="已毕业" value="已毕业" />
@@ -96,7 +96,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="学历">
+          <el-form-item label="学历" prop="recommendedEducation">
             <el-select v-model="form.recommendedEducation" placeholder="请选择学历">
               <el-option label="九年教育" value="1" />
               <el-option label="大专" value="2" />
@@ -110,12 +110,12 @@
       </el-row>
       <el-row v-if="form.recommendedAttend == '已毕业'">
         <el-col :span="10">
-          <el-form-item label="毕业院校">
+          <el-form-item label="毕业院校" prop="recommendedSchool">
             <el-input v-model="form.recommendedSchool" />
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="毕业时间">
+          <el-form-item label="毕业时间" prop="recommendedFinalDate">
             <el-date-picker v-model="form.recommendedFinalDate" type="date" 
             placeholder="请选择毕业时间" style="width: 100%;" value-format="yyyy-MM-dd hh:mm:ss"/>
           </el-form-item>
@@ -123,7 +123,7 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="所修专业">
+          <el-form-item label="所修专业" prop="recommendedMajor">
             <el-input v-model="form.recommendedMajor" placeholder="请输入所修专业" />
           </el-form-item>
         </el-col>
@@ -215,7 +215,7 @@
             <el-upload
               class="img-upload"
               ref="upload"
-              action="http://localhost:8822/march/covers"
+              action="/march/covers"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"
@@ -268,7 +268,7 @@ export default {
         tjId: '',
         hrId: '',
         recruitId: '',
-        sex: '',
+        sex: 0,
         recommendedName: '',
         recommendedProvince: '',
         recommendednation: '',
@@ -298,7 +298,51 @@ export default {
           { required: true, message: "请输入被推荐人姓名", trigger: "blur" }
         ],
         recommendedTelephone: [
-          { required: true, message: "请输入被推荐人联系方式", trigger: "blur" }
+          { required: true, message: "请输入被推荐人联系方式", trigger: "blur" },
+          { pattern: global.phoneRule, message: '联系方式格式不正确'},
+        ],
+        sex: [
+          {required: true,message:"请选择性别",trigger:["blur","change"]},
+        ],
+        recommendedAge: [
+          {required: true,message:"请输入年龄",trigger:["blur","change"]},
+          { pattern: global.number, message: '年龄格式不正确'},
+        ],
+        recommendednation: [
+          {required: true,message:"请输入民族",trigger:["blur","change"]},
+        ],
+        recommendedEmail: [
+          {required: true,message:"请输入Email",trigger:["blur","change"]},
+        ],
+        recommendedBirth: [
+          {required: true,message:"请选择出生日期",trigger:["blur","change"]},
+        ],
+        recommendedPolitical: [
+          {required: true,message:"请选择政治面貌",trigger:["blur","change"]},
+        ],
+        recommendedMarital: [
+          {required: true,message:"请选择婚姻状况",trigger:["blur","change"]},
+        ],
+        recommendedProvince: [
+          {required: true,message:"请输入籍贯",trigger:["blur","change"]},
+        ],
+        address: [
+          {required: true,message:"请输入家庭地址",trigger:["blur","change"]},
+        ],
+        recommendedAttend: [
+          {required: true,message:"请选择就读状况",trigger:["blur","change"]},
+        ],
+        recommendedEducation: [
+          {required: true,message:"请选择学历",trigger:["blur","change"]},
+        ],
+        recommendedSchool: [
+          {required: true,message:"请输入毕业院校",trigger:["blur","change"]},
+        ],
+        recommendedFinalDate: [
+          {required: true,message:"请选择毕业时间",trigger:["blur","change"]},
+        ],
+        recommendedMajor: [
+          {required: true,message:"请输入所修专业",trigger:["blur","change"]},
         ],
       }
       

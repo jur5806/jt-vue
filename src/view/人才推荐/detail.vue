@@ -33,11 +33,9 @@
         <div class="block-content">{{item}}</div>
       </div>
       <div class="block-title">
-        职位要求
+        薪资福利
       </div>
-      <div class="block-content">1、学历为{{eductionClass}}以上</div>
-      <div class="block-content">{{content4}}</div>
-      <div class="block-content">{{content5}}</div>
+      <div class="block-content">{{detailInfo.rcSalaryWelfare}}</div>
       <div class="apply-block">
         <button type="button" class="apply-block-applyBtn" @click="goUp()">
           <span>投递</span>
@@ -106,7 +104,7 @@ export default {
             const { recruitId: tempId } = this.list[i]
             if(tempId === this.recruitId) {
               this.detailInfo = this.list[i]
-              this.content1 = this.detailInfo.rcDescribe.split("^");
+              this.content1 = this.detailInfo.rcDescribe.split("\n");
               // console.log(this.detailInfo ,"this.detailInfo");
               break
             }

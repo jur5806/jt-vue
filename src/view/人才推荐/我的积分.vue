@@ -10,7 +10,7 @@
     <el-card style="margin: 18px 2%;width: 95%">
       <el-table
         :data="allPointList"
-        :max-height="tableHeight">
+        :height="tableHeight">
         <!-- <el-table-column
           type="selection"
           width="55">
@@ -47,13 +47,12 @@
           show-overflow-tooltip
           fit>
           <template slot-scope="scope">
-            <span v-if="scope.row.changeType == 0">{{scope.row.pointsNum?'-'+scope.row.pointsNum: 0}}</span>
+            <span v-if="scope.row.changeType == 0" style="color:red">{{scope.row.pointsNum?'-'+scope.row.pointsNum: 0}}</span>
             <span v-if="scope.row.changeType == 1">{{scope.row.pointsNum?scope.row.pointsNum: 0}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="变动原因"
-          sortable>
+          label="变动原因">
           <template slot-scope="scope">
             <span v-if="scope.row.eventType == 0">上传简历1次</span>
             <span v-if="scope.row.eventType == 1">HR初审通过</span>
@@ -65,6 +64,7 @@
         <el-table-column
           prop="eventTime"
           label="事项时间"
+          sortable
           show-overflow-tooltip
           fit>
         </el-table-column>
@@ -128,7 +128,7 @@ export default {
   },
   computed: {
     tableHeight () {
-      return window.innerHeight - 320
+      return window.innerHeight - 250
     }
   },
   methods: {

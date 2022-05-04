@@ -1,57 +1,34 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-24 19:21:15
- * @LastEditTime: 2021-04-24 19:21:15
+ * @LastEditTime: 2022-05-04 16:48:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \src\view\人才推荐\我的推荐.vue
 -->
 <template>
   <div>
-    <el-dialog
-      title="修改用户信息"
-      :visible.sync="dialogFormVisible">
-      <el-form v-model="selectedUser" style="text-align: left" ref="dataForm">
-        <el-form-item label="用户名" label-width="120px" prop="username">
-          <label>{{selectedUser.username}}</label>
-        </el-form-item>
-        <el-form-item label="真实姓名" label-width="120px" prop="name">
-          <el-input v-model="selectedUser.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" label-width="120px" prop="phone">
-          <el-input v-model="selectedUser.phone" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" label-width="120px" prop="email">
-          <el-input v-model="selectedUser.email" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" label-width="120px" prop="password">
-          <el-button type="warning" @click="resetPassword(selectedUser.username)">重置密码</el-button>
-        </el-form-item>
-        <el-form-item label="角色分配" label-width="120px" prop="roles">
-          <el-checkbox-group v-model="selectedRolesIds">
-              <el-checkbox v-for="(role,i) in roles" :key="i" :label="role.id">{{role.nameZh}}</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onSubmit(selectedUser)">确 定</el-button>
-      </div>
-    </el-dialog>
     <el-row style="margin: 18px 0px 0px 18px ">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <!-- <el-breadcrumb-item :to="{ path: '/admin/dashboard' }">管理中心</el-breadcrumb-item> -->
+        <el-breadcrumb-item>个人中心</el-breadcrumb-item>
         <el-breadcrumb-item>我的推荐</el-breadcrumb-item>
-        <!-- <el-breadcrumb-item>我的推荐</el-breadcrumb-item> -->
       </el-breadcrumb>
     </el-row>
     <el-card style="margin: 18px 2%;width: 95%">
+      <div class="g-search-box">
+        <div class="g-search">
+          <el-input v-model.trim="filters.userName" placeholder="输入被推荐人姓名搜索" @keyup.enter.native="search()">
+            <i slot="prefix" class="el-input__icon el-icon-search" @click="search()"></i>
+          </el-input >
+        </div>
+      </div>
       <el-table
-        :data="myList"
+        :data="myList  | pagination(filters.pageIndex,filters.pageSize)"
         stripe
         :default-sort = "{prop: 'id', order: 'ascending'}"
         style="width: 100%"
-        :max-height="tableHeight">
+        :height="tableHeight">
         <!-- <el-table-column
           type="selection"
           width="55">
@@ -121,10 +98,14 @@
           </template>
         </el-table-column>
       </el-table>
-      <!-- <div style="margin: 20px 0 20px 0;float: left">
-        <el-button>取消选择</el-button>
-        <el-button>批量删除</el-button>
-      </div> -->
+      <el-row>
+        <el-col :span="24" class="toolbar">
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page="filters.pageIndex" :page-size="filters.pageSize"
+            layout="total, prev, pager, next, sizes, jumper" :total="filters.total" style="float: right; margin-top: 0">
+          </el-pagination>
+        </el-col>
+      </el-row>
     </el-card>
   </div>
 </template>
@@ -142,6 +123,7 @@ export default {
       resetPasswordDialog: false,
       password: '',
       myList:[],
+      myListOld:[],
       tableList:[
         {
           recommendTime:"2020-12-02",
@@ -151,7 +133,13 @@ export default {
           candidatesEmail:"123456789@jjj.com",
           examineType:0,
         },,
-      ]
+      ],
+      filters: {
+        pageIndex: 1,
+        pageSize: 10,
+        total: 10,
+        userName: '',
+      },
     }
   },
   mounted () {
@@ -161,7 +149,7 @@ export default {
   },
   computed: {
     tableHeight () {
-      return window.innerHeight - 320
+      return window.innerHeight - 280
     }
   },
   methods: {
@@ -186,8 +174,30 @@ export default {
         if (res.data.code === 200) {
           console.log(res.data.data)
           this.myList = res.data.data
+          this.myListOld = res.data.data
+          this.filters.total = this.myList.length || 0;
         }
       })
+    },
+    search(){
+      let floorListInit = this.myListOld.filter(items=>{ //筛选场地名产权所属企业
+        if(this.filters.userName){
+          return items.name.indexOf(this.filters.userName)!==-1
+        }else{
+          return items
+        }
+        
+      })
+      this.myList = floorListInit
+      this.filters.pageIndex = 1
+      this.filters.total = this.myList.length
+    },
+    handleSizeChange(val) {
+      this.filters.pageIndex = 1;
+      this.filters.pageSize = val;
+    },
+    handleCurrentChange(val) {
+      this.filters.pageIndex = val;
     },
     commitStatusChange (value, user) {
       if (user.username !== 'admin') {
@@ -277,7 +287,17 @@ export default {
         }
       })
     }
-  }
+  },
+  filters: {
+    pagination(array, pageNo, pageSize) {
+      let offset = (pageNo - 1) * pageSize; //当前页第一条的索引
+      let data =
+        offset + pageSize >= array.length
+          ? array.slice(offset, array.length)
+          : array.slice(offset, offset + pageSize);
+      return data;
+    }
+  },
 }
 </script>
 

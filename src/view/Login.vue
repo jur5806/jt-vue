@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-04-03 13:27:47
+ * @LastEditTime: 2022-04-30 14:22:07
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \jt-vue\src\view\Login.vue
+-->
 <template>
   <body id="paper">
     <el-form :model="loginForm" class="login-container" label-position="left"
@@ -29,8 +37,8 @@ export default {
   data () {
     return {
       loginForm: {
-        username: 'jt',
-        password: '123'
+        username: '',
+        password: ''
       },
       responseResult: [],
       checked: ''

@@ -22,7 +22,10 @@
             </div>
             <div class="subTitle positionItem-subTitle">{{item.workPlace}}
               <div class="lineDevider"></div>{{item.stationName}}
-              <div class="lineDevider"></div><p v-if="item.departmentState == 1" style="color:red;font-size: 18px;">急招!!</p><p v-else>长期招</p>
+              <div class="lineDevider"></div>
+              <p v-if="item.departmentState == 1" style="color:red;font-size: 18px;">急招!!</p>
+              <p v-else-if="item.departmentState == 2">长期招</p>
+              <p v-else-if="item.departmentState == 3">短期招</p>
             </div>
             <div class="jobDesc positionItem-jobDesc">
               <p>{{item.rcDescribe}}</p>
@@ -70,6 +73,11 @@ export default {
         if (res.data.code === 200) {
           console.log(res.data.data)
           this.list = res.data.data;
+          this.list = this.list.filter(item =>{
+            let time=new Date(item.rcEndTime).getTime()
+            let timeSate = item.rcEndTime&&time<new Date().getTime()?false:true
+            return !!item.enabled&&timeSate
+          })
           this.num = this.list.length
         } else {
           this.getRecruitList();

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-24 19:21:15
- * @LastEditTime: 2021-05-15 06:44:52
+ * @LastEditTime: 2022-05-04 16:17:45
  * @LastEditors: Please set LastEditors
  * @Description: 我收到的简历，后台hr收到的简历
  * @FilePath: Hr-Resume
@@ -92,8 +92,7 @@
             <span v-if="scope.row.recommendedEducation === 2">大专</span>
             <span v-if="scope.row.recommendedEducation === 3">本科</span>
             <span v-if="scope.row.recommendedEducation === 4">研究生</span>
-            <!-- <span v-if="scope.row.recommendedEducation === 6">硕士</span> -->
-            <span v-else>其他</span>
+            <span v-if="scope.row.recommendedEducation === 5">其他</span>
             
           </template>
         </el-table-column>
@@ -250,7 +249,7 @@ export default {
     },
     resumetDel(row) {
       console.log(row)
-      this.$confirm('确认要删除该简历记录，是否继续？', '确认通过', {
+      this.$confirm('确认要删除该简历记录，是否继续？', '删除简历', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

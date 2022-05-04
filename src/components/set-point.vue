@@ -4,7 +4,7 @@
       <el-form ref="info" :model="info" :rules="rules" size="mini" label-width="150px">
         <el-row class="dialog-form">
           <el-col :span="24">
-            <el-form-item label="抵扣对象：" prop="blockName">
+            <el-form-item label="抵扣对象：" prop="userId">
               <el-select v-model="info.userId" filterable placeholder="请选择抵扣对象">
                 <el-option
                   v-for="item in options"
@@ -17,8 +17,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="产业集群：" prop="clusterIdList">
-              <el-select v-model="info.reasonId" filterable placeholder="请选择产业集群" @change="changeValue">
+            <el-form-item label="抵扣种类：" prop="reasonId">
+              <el-select v-model="info.reasonId" filterable placeholder="请选择抵扣种类" @change="changeValue">
                 <el-option
                   v-for="item in options2"
                   :key="item.id"
@@ -39,7 +39,7 @@
               <el-input v-model="info.remark" type="textarea" rows="2" maxlength="50" placeholder="请输入备注"></el-input>
             </el-form-item>
           </el-col>
-          
+
         </el-row>
       </el-form>
     </div>
@@ -76,7 +76,7 @@
             { required: true, message: "请输入抵扣对象", trigger: ["blur", "change"] }
           ],
           reasonId: [
-            { required: true, message: "请输入抵扣原因", trigger: ["blur", "change"] }
+            { required: true, message: "请输入抵扣种类", trigger: ["blur", "change"] }
           ],
           pointsNum: [
             { required: true, message: "请输入抵扣分值", trigger: ["blur", "change"] }
@@ -150,6 +150,7 @@
                   type: 'success',
                   message: '操作成功'
                 })
+                this.close(1);
               } else {
                 this.$message({
                   type: 'warning',

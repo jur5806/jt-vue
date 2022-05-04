@@ -75,7 +75,7 @@
               取消审核
             </el-button> -->
             <el-button
-            @click="deleUser(scope.row)"
+            @click="resumetDel(scope.row)"
               type="text"
               size="small">
               移除
@@ -110,48 +110,7 @@ export default {
       selectedRolesIds: [],
       resetPasswordDialog: false,
       password: '',
-      tableList:[
-        {
-          recommendTime:"2020-12-02",
-          recommendedName:"长相",
-          sex:1,
-          recommendedTelephone:"123456789",
-          recommendedEmail:"123456789@jjj.com",
-          approvalState:0,
-        },
-        {
-          recommendTime:"2020-12-02",
-          recommendedName:"长相",
-          sex:1,
-          recommendedTelephone:"123456789",
-          recommendedEmail:"123456789@jjj.com",
-          approvalState:1,
-        },
-        {
-          recommendTime:"2020-12-02",
-          recommendedName:"长相",
-          sex:1,
-          recommendedTelephone:"123456789",
-          recommendedEmail:"123456789@jjj.com",
-          approvalState:2,
-        },
-        {
-          recommendTime:"2020-12-02",
-          recommendedName:"长相",
-          sex:1,
-          recommendedTelephone:"123456789",
-          recommendedEmail:"123456789@jjj.com",
-          approvalState:3,
-        },
-        {
-          recommendTime:"2020-12-02",
-          recommendedName:"长相",
-          sex:1,
-          recommendedTelephone:"123456789",
-          recommendedEmail:"123456789@jjj.com",
-          approvalState:4,
-        }
-      ]
+      tableList:[]
     }
   },
   mounted () {
@@ -184,6 +143,27 @@ export default {
       //     this.$alert('密码已重置为 123')
       //   }
       // })
+    },
+    resumetDel(row) {
+      console.log(row)
+      this.$confirm('确认要删除该简历记录，是否继续？', '删除简历', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        getData.resumetDel(row.resumeId).then(res => {
+        if (res.data.code === 200) {
+            this.$alert('删除成功')
+            this.listUsers()
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+      
     },
     definePassword () {
       getData.resetPassword({

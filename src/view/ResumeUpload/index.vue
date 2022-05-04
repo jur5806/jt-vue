@@ -47,7 +47,7 @@
         <el-col :span="10">
           <el-form-item label="出生日期" prop="recommendedBirth">
             <el-date-picker v-model="form.recommendedBirth" type="date" 
-            placeholder="请选择出生日期" style="width: 100%;" value-format="yyyy-MM-dd hh:mm:ss"/>
+            placeholder="请选择出生日期" style="width: 100%;" value-format="yyyy-MM-dd hh:mm:ss" :picker-options="pickerOptions"/>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -78,8 +78,13 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="家庭地址" prop="address">
-            <el-input v-model="form.address" placeholder="请输入家庭地址" />
+          <el-form-item label="家庭地址" prop="recommendedAddress">
+            <el-input v-model="form.recommendedAddress" placeholder="请输入家庭地址" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <el-form-item label="身份证号" prop="recommendedIdcard">
+            <el-input v-model="form.recommendedIdcard" placeholder="请输入身份证号" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -103,7 +108,7 @@
               <el-option label="本科" value="3" />
               <el-option label="研究生" value="4" />
               <!-- <el-option label="硕士" value="5" /> -->
-              <el-option label="其他" value="6" />
+              <el-option label="其他" value="5" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -136,8 +141,8 @@
           <el-form-item label="英语等级水平">
             <el-select v-model="form.recommendedEnglish" placeholder="请选择英语等级水平">
               <el-option label="无" value="" />
-              <el-option label="四级" value="四级" />
-              <el-option label="六级" value="六级" />
+              <el-option label="CET-4" value="CET-4" />
+              <el-option label="CET-6" value="CET-6" />
               <el-option label="雅思托福" value="雅思托福" />
             </el-select>
           </el-form-item>
@@ -277,7 +282,8 @@ export default {
         recommendedPolitical: '',
         recommendedMarital: '',
         recommendedTelephone: '',
-        address: '',
+        recommendedAddress: '',
+        recommendedIdcard: '',
         recommendedAttend: '',
         recommendedEducation: '',
         recommendedSchool: '',
@@ -326,8 +332,11 @@ export default {
         recommendedProvince: [
           {required: true,message:"请输入籍贯",trigger:["blur","change"]},
         ],
-        address: [
+        recommendedAddress: [
           {required: true,message:"请输入家庭地址",trigger:["blur","change"]},
+        ],
+        recommendedIdcard: [
+          {required: true,message:"请输入身份证号",trigger:["blur","change"]},
         ],
         recommendedAttend: [
           {required: true,message:"请选择就读状况",trigger:["blur","change"]},
@@ -344,7 +353,12 @@ export default {
         recommendedMajor: [
           {required: true,message:"请输入所修专业",trigger:["blur","change"]},
         ],
-      }
+      },
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+      },
       
     }
   },

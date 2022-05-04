@@ -65,7 +65,8 @@
                     v-model="form.birthDate"
                     value-format="yyyy-MM-dd hh:mm:ss"
                     type="date"
-                    placeholder="请选择出生日期">
+                    placeholder="请选择出生日期"
+                    :picker-options="pickerOptions">
                   </el-date-picker>
               </el-form-item>
               <el-form-item label="邮箱：" prop="email">
@@ -107,6 +108,11 @@ export default {
       isEdit: true,
       username: '',
       userId:'',
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+      },
     }
   },
   created () {},

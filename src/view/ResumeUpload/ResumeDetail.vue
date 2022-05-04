@@ -22,23 +22,95 @@
       <div class="block-title">
         基本信息
       </div>
-      <div class="block-content">联系电话：{{detailInfo.recommendedTelephone|| "-"}}</div>
-      <div class="block-content">电子邮箱：{{detailInfo.recommendedEmail|| "-"}}</div>
-      <div class="block-content">籍贯：{{detailInfo.recommendedProvince|| "-"}}</div>
-      <div class="block-content">专业技能：{{detailInfo.recommendedMajor|| "-"}}</div>
-      <div class="block-title" v-show="detailInfo.recommendedSelfEvaluation">
+      <el-row>
+        <el-col :span="10">
+          <span>姓名：{{detailInfo.recommendedName|| "-"}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span class="block-content">性别：{{detailInfo.sex==1?'男':'女'}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span>民族：{{detailInfo.recommendednation|| "-"}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span class="block-content">政治面貌：{{detailInfo.recommendedPolitical|| ''}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span>年龄：{{detailInfo.recommendedAge|| "-"}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span class="block-content">婚姻状况：{{detailInfo.recommendedMarital || ''}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span>联系电话：{{detailInfo.recommendedTelephone|| "-"}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span class="block-content">身份证号：{{detailInfo.recommendedIdcard|| "-"}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span class="block-content">电子邮箱：{{detailInfo.recommendedEmail|| "-"}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span class="block-content">籍贯：{{detailInfo.recommendedProvince|| "-"}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span class="block-content">家庭地址：{{detailInfo.recommendedAddress|| "-"}}</span>
+        </el-col>
+      </el-row>
+      <span class="block-title" style="margin: 10px 0">
+        学历信息
+      </span>
+      <el-row style="margin: 10px 0">
+        <el-col :span="10">
+          <span class="block-content">就读状况：{{detailInfo.recommendedAttend|| "-"}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span class="block-content">学历：{{detailInfo.recommendedEducation |recommendedEducation}}</span>
+        </el-col>
+        <!-- <el-col class="block-content" :span="10" v-if="detailInfo.recommendedAttend == '已毕业'">
+          <span>毕业院校：{{detailInfo.recommendedSchool|| "-"}}</span>
+        </el-col> -->
+        <el-col class="block-content" :span="10" v-if="detailInfo.recommendedAttend == '已毕业'">
+          <span>毕业时间：{{detailInfo.recommendedFinalDate | date}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span class="block-content">所修专业：{{detailInfo.recommendedMajor}}</span>
+        </el-col>
+      </el-row>
+       <span class="block-title" style="margin: 10px 0">
+        技能荣誉
+      </span>
+      <el-row style="margin: 10px 0">
+        <el-col :span="10">
+          <span class="block-content">英语等级水平：{{detailInfo.recommendedEnglish|| "-"}}</span>
+        </el-col>
+        <el-col :span="10">
+          <span class="block-content">计算机等级：{{detailInfo.recommendedComputer ||"-"}}</span>
+        </el-col>
+        <el-col class="block-content" :span="20" >
+          <span>荣获证书：{{detailInfo.recommendedGainCertificate || "-"}}</span>
+        </el-col>
+        <el-col class="block-content" :span="20">
+          <span class="block-content">专业技能：{{detailInfo.recommendedProfessionalInfo || '-'}}</span>
+        </el-col>
+      </el-row>
+      
+      
+      
+      
+      <span class="block-title" v-show="detailInfo.recommendedSelfEvaluation">
         自我评价
-      </div>
+      </span>
       <div class="block-content">{{detailInfo.recommendedSelfEvaluation}}</div>
       <!-- <div v-for="(item, index) in content1" :key="index">
         <div class="block-content">{{item}}</div>
       </div> -->
       <!-- <div class="block-content">{{detailInfo.recommendedSelfEvaluation}}</div> -->
-      <div class="block-content">{{content6}}</div>
-      <div class="block-content">{{content5}}</div>
-      <div class="block-title" v-show="detailInfo.recommendedGainCertificate">
+      <!-- <div class="block-content">{{content6}}</div>
+      <div class="block-content">{{content5}}</div> -->
+      <!-- <div class="block-title" v-show="detailInfo.recommendedGainCertificate">
         荣誉证书
-      </div>
+      </div> -->
       <div class="block-content">{{detailInfo.recommendedGainCertificate}}</div>
       <!-- <div v-for="(item, index) in content2" :key="index">
         <div class="block-content">{{item}}</div>
@@ -76,8 +148,8 @@
         <el-button type="primary" size="small" @click="viewPassed(detailInfo)" style="margin: 10px">审核通过</el-button>
       </div>
       </div>
-     
-      
+
+
     </div>
 </template>
 
@@ -110,8 +182,8 @@ export default {
     getHrResume(){
       const hrId = this.$route.query.hrId || sessionStorage.getItem('userId')
       const { recruitId,tjId }  = this.$route.query
-      const params = { 
-        hrId: hrId, 
+      const params = {
+        hrId: hrId,
         recruitId: recruitId,
         state: 4,
 
@@ -124,14 +196,14 @@ export default {
           for(let i=0; i< this.myList.length; i++) {
             const { resumeId: tempId } = this.myList[i]
             if(tempId === this.resumeId) {
-              this.detailInfo = this.myList[i]
-              this.conten1 = this.detailInfo.recommendedSelfEvaluation.split("^");
-              this.conten2 = this.detailInfo.recommendedGainCertificate.split("^");
-              this.conten3 = this.detailInfo.recommendedProgramInfo.split("^");
-              this.conten4 = this.detailInfo.recommendedWorkInfo.split("^");
-              
-              // console.log(this.detailInfo ,"this.detailInfo");
-              break
+               this.detailInfo = this.myList[i]
+            //   this.conten1 = this.detailInfo.recommendedSelfEvaluation;
+            //   this.conten2 = this.detailInfo.recommendedGainCertificate.split("^");
+            //   this.conten3 = this.detailInfo.recommendedProgramInfo.split("^");
+            //   this.conten4 = this.detailInfo.recommendedWorkInfo.split("^");
+
+            //   // console.log(this.detailInfo ,"this.detailInfo");
+            //   break
             }
           }
         } else {
@@ -193,6 +265,34 @@ export default {
         }
         this.$router.go(-1)
       })
+    }
+  },
+  filters: {
+    recommendedEducation(val){ //学历筛选
+      switch (val) {
+        case 1:
+          return '九年教育';
+        case 2:
+          return '大专';
+        case 3:
+          return '本科';
+        case 4:
+          return '研究生';
+        case 5:
+          return '其他';
+        default:
+          return '-'
+      }
+    },
+    date(val) {//date 横杆年月日格式
+      switch (val) {
+        case null:
+        case undefined:
+        case '':
+          return '-';
+        default:
+          return new Date(val).format('yyyy-MM-dd')
+      }
     }
   }
 }
@@ -290,7 +390,7 @@ export default {
   top: 0px
 }
 
-.apply-block-applyBtn:before{  
+.apply-block-applyBtn:before{
     content: '';
     display: block;
     border-top: 20px solid transparent;

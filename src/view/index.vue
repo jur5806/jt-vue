@@ -135,36 +135,6 @@ export default {
     //     window.location.href = res.data.data;
     //   });
     // },
-    loginOut() {
-      this.$confirm("确认注销吗?", "提示", {
-        type: "warning"
-      })
-        .then(() => {
-          // sessionStorage.removeItem("buttonPermission");
-          // const indexUrl = this.checkUndefined(
-          //   localStorage.getItem("indexUrl")
-          // );
-          // const channelUrl = this.checkUndefined(this.getChannelUrl());
-          // if (indexUrl) {
-          //   sessionStorage.clear();
-          //   location.href = indexUrl;
-          // } else if (channelUrl) {
-          //   sessionStorage.clear();
-          //   location.href = channelUrl;
-          // } else {
-          //   this.$message.warning("没有获取到跳转地址，请刷新后重试！");
-          // }
-          getData.logout().then(res => {
-            if(res.data.code == 1){
-              window.sessionStorage.clear();
-              
-            };
-          }).catch(_ => {
-          console.log(_);
-        });
-        })
-        .catch(() => {});
-    },
     // 切换角色
     roleChoices(){
       // this.$router.push('/roleChoices');
@@ -181,7 +151,7 @@ export default {
       
     },
     loginOut() {
-      this.$confirm("确认注销吗?", "提示", {
+      this.$confirm("确认退出吗?", "提示", {
         type: "warning"
       })
         .then(() => {

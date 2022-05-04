@@ -15,13 +15,17 @@
         <span>
           {{ detailInfo.stationName || '运营'}}
         </span>
-        <div class="line-devider"></div>
+        <!-- <div class="line-devider"></div>
         <span>
           日常实习生
-        </span>
+        </span> -->
         <div class="line-devider"></div>
         <span v-if="detailInfo.rcDepartmentNum">
           在招人数：{{ detailInfo.rcDepartmentNum}}
+        </span>
+        <div class="line-devider"></div>
+        <span v-if="detailInfo.eductionClass">
+          学历要求：{{ detailInfo.eductionClass | eductionClass}}
         </span>
       </div>
       <div class="block-title">
@@ -120,6 +124,36 @@ export default {
       this.$router.push({ path: '/ResumeUpload', query: { recruitId: this.detailInfo.recruitId, hrId: this.detailInfo.hrId }})
     }
   },
+  filters: {
+    eductionClass(val){ //学历筛选
+      switch (val) {
+        case 1:
+          return '初中以上';
+        case 2:
+          return '高中及中专以上';
+        case 3:
+          return '大专及以上';
+        case 4:
+          return '本科及以上';
+        case 5:
+          return '研究生及以上';
+        case 6:
+          return '不做要求';
+        default:
+          return '-'
+      }
+    },
+    date(val) {//date 横杆年月日格式
+      switch (val) {
+        case null:
+        case undefined:
+        case '':
+          return '-';
+        default:
+          return new Date(val).format('yyyy-MM-dd')
+      }
+    }
+  }
 }
 </script>
 <style scoped lang="scss">

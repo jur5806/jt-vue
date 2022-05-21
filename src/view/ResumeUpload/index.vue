@@ -103,7 +103,7 @@
         <el-col :span="10">
           <el-form-item label="学历" prop="recommendedEducation">
             <el-select v-model="form.recommendedEducation" placeholder="请选择学历">
-              <el-option label="九年教育" value="1" />
+              <el-option label="大专以下" value="1" />
               <el-option label="大专" value="2" />
               <el-option label="本科" value="3" />
               <el-option label="研究生" value="4" />

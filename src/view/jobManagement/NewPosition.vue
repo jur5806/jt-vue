@@ -11,7 +11,7 @@
       ref="form"
       :model="form"
       label-width="120px"
-      style="background: #fff; padding: 30px 0"
+      style="background: #fff; padding: 30px 0;height:95%;"
       :rules="rules"
     >
       <el-row>
@@ -31,13 +31,14 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="招聘截至时间" prop="rcEndTime">
+          <el-form-item label="招聘截止时间" prop="rcEndTime">
             <el-date-picker
               v-model="form.rcEndTime"
               type="date"
               placeholder="请选择结束时间"
               style="width: 100%"
               value-format="yyyy-MM-dd hh:mm:ss"
+              :picker-options="pickerOptions"
             />
           </el-form-item>
         </el-col>
@@ -91,7 +92,7 @@
             <el-input
               v-model="form.rcDescribe"
               type="textarea"
-              placeholder="请填写工作经历"
+              placeholder="请填写工作要求"
               :rows="4"
             />
           </el-form-item>
@@ -150,6 +151,11 @@ export default {
         rcDepartmentNum: [
           { required: true, message: "请输入招聘数量", trigger: "blur" },
         ],
+      },
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < Date.now();
+        },
       },
     };
   },

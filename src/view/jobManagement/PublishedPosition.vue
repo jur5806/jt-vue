@@ -70,8 +70,8 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-tag :type="scope.row.departmentState | statusFilter">{{
-            scope.row.departmentState
+          <el-tag :type="scope.row.resumeNum | statusFilter">{{
+            scope.row.resumeNum
           }}</el-tag>
         </template>
       </el-table-column>

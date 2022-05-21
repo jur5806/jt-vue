@@ -13,11 +13,11 @@
         <span>
          期望岗位： {{ PostionInfo.stationName || "-"}}
         </span>
-        <div class="line-devider"></div>
+        <!-- <div class="line-devider"></div>
         <span>
           婚姻状况：{{ detailInfo.recommendedMarital || "-"}}
         </span>
-        <div class="line-devider"></div>
+        <div class="line-devider"></div> -->
       </div>
       <div class="block-title">
         基本信息
@@ -87,42 +87,36 @@
         <el-col :span="10">
           <span class="block-content">计算机等级：{{detailInfo.recommendedComputer ||"-"}}</span>
         </el-col>
-        <el-col class="block-content" :span="20" >
+        <el-col class="block-content" :span="10" >
           <span>荣获证书：{{detailInfo.recommendedGainCertificate || "-"}}</span>
         </el-col>
-        <el-col class="block-content" :span="20">
+        <el-col class="block-content" :span="10">
           <span class="block-content">专业技能：{{detailInfo.recommendedProfessionalInfo || '-'}}</span>
         </el-col>
       </el-row>
+      <el-row>
+        <el-col :span="10" v-if="detailInfo.recommendedSelfEvaluation">
+          <span class="block-title" >
+            自我评价
+          </span>
+          <div class="block-content">{{detailInfo.recommendedSelfEvaluation}}</div>
+        </el-col>
+        <el-col :span="10" v-if="detailInfo.recommendedProgramInfo">
+          <div class="block-title" >
+            项目经验
+          </div>
+          <div class="block-content">{{detailInfo.recommendedProgramInfo}}</div>
+        </el-col>
+        <el-col :span="10" v-if="detailInfo.recommendedWorkInfo">
+          <div class="block-title" >
+            工作经验
+          </div>
+          <div class="block-content">{{detailInfo.recommendedWorkInfo}}</div>
+        </el-col>
+      </el-row>
+     
       
       
-      
-      
-      <span class="block-title" v-show="detailInfo.recommendedSelfEvaluation">
-        自我评价
-      </span>
-      <div class="block-content">{{detailInfo.recommendedSelfEvaluation}}</div>
-      <!-- <div v-for="(item, index) in content1" :key="index">
-        <div class="block-content">{{item}}</div>
-      </div> -->
-      <!-- <div class="block-content">{{detailInfo.recommendedSelfEvaluation}}</div> -->
-      <!-- <div class="block-content">{{content6}}</div>
-      <div class="block-content">{{content5}}</div> -->
-      <!-- <div class="block-title" v-show="detailInfo.recommendedGainCertificate">
-        荣誉证书
-      </div> -->
-      <div class="block-content">{{detailInfo.recommendedGainCertificate}}</div>
-      <!-- <div v-for="(item, index) in content2" :key="index">
-        <div class="block-content">{{item}}</div>
-      </div> -->
-      <div class="block-title" v-show="detailInfo.recommendedProgramInfo">
-        项目经验
-      </div>
-      <div class="block-content">{{detailInfo.recommendedProgramInfo}}</div>
-      <div class="block-title" v-show="detailInfo.recommendedWorkInfo">
-        工作经验
-      </div>
-      <div class="block-content">{{detailInfo.recommendedWorkInfo}}</div>
       <!-- <div v-for="(item, index) in content4" :key="index">
         <div class="block-content">{{item}}</div>
       </div> -->
@@ -271,7 +265,7 @@ export default {
     recommendedEducation(val){ //学历筛选
       switch (val) {
         case 1:
-          return '九年教育';
+          return '大专以下';
         case 2:
           return '大专';
         case 3:

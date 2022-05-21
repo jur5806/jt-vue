@@ -44,12 +44,23 @@ export default {
       checked: ''
     }
   },
+  created(){
+    if(global.getCookie('userName')&&global.getCookie('password')){
+      this.loginForm.username = global.getCookie('userName');
+      this.loginForm.password = global.getCookie('password');
+      this.checked = true
+    }
+  },
   methods: {
     login () {
       console.log(this.$store.state)
       let data = {
         username: this.loginForm.username,
-        password: this.loginForm.password
+        password: this.loginForm.password,
+      }
+      if(this.checked){
+        global.setCookie('userName',this.loginForm.username,7)
+        global.setCookie('password',this.loginForm.password,7)
       }
       getData.checkLogin(data).then(res => {
         if (res.data.code === 200) {
@@ -58,6 +69,7 @@ export default {
           global.setSession('userName',res.data.data.username);
           global.setSession('userId',res.data.data.id);
           global.setStore('user', JSON.stringify(res.data.data))
+          
           console.log(path)
           this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
         }else{

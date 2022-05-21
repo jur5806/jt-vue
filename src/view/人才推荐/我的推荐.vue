@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-24 19:21:15
- * @LastEditTime: 2022-05-04 16:48:00
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-20 11:02:25
+ * @LastEditors: jt 2602818429@qq.com
  * @Description: In User Settings Edit
  * @FilePath: \src\view\人才推荐\我的推荐.vue
 -->
@@ -43,7 +43,7 @@
           label="受教育程度"
           fit>
            <template slot-scope="scope">
-            <span v-if="scope.row.recommendedEducation === 1">九年教育</span>
+            <span v-if="scope.row.recommendedEducation === 1">大专以下</span>
             <span v-if="scope.row.recommendedEducation === 2">大专</span>
             <span v-if="scope.row.recommendedEducation === 3">本科</span>
             <span v-if="scope.row.recommendedEducation === 4">研究生</span>
@@ -68,7 +68,7 @@
           sortable>
           <template slot-scope="scope">
             <span v-if="scope.row.approvalState == 0">待审核</span>
-            <span v-if="scope.row.approvalState == 1">HR初审</span>
+            <span v-if="scope.row.approvalState == 1">初审通过</span>
             <span v-if="scope.row.approvalState == 2">面试通过</span>
             <span v-if="scope.row.approvalState == 3">成功入职</span>
             <!-- <el-switch

@@ -4,7 +4,7 @@
       <div v-show="isSwitch" class="aside-cont">
         <div class="logo">
           <div class="f-imgtopbox2">
-            HR人才推荐系统
+            人才内推招聘平台
             <!-- <transition>
               <img class="img2" src="../assets/images/logo.png" alt />
             </transition> -->

@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-24 19:21:15
- * @LastEditTime: 2021-04-24 19:21:15
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-05-14 11:01:27
+ * @LastEditors: jt 2602818429@qq.com
  * @Description: In User Settings Edit
  * @FilePath:\src\view\人才推荐\我的推荐.vue
 -->
@@ -58,7 +58,7 @@
           sortable>
           <template slot-scope="scope">
             <span v-if="scope.row.approvalState == 0">待审核</span>
-            <span v-if="scope.row.approvalState == 1">HR初审</span>
+            <span v-if="scope.row.approvalState == 1">初审通过</span>
             <span v-if="scope.row.approvalState == 2">面试通过</span>
             <span v-if="scope.row.approvalState == 3">成功入职</span>
             <!-- <span v-if="scope.row.approvalState == 4">主管初审</span> -->

@@ -71,7 +71,6 @@ export default {
       this.listLoading = true
       getData.recruitList({name: this.name, id: this.id}).then(res => {
         if (res.data.code === 200) {
-          console.log(res.data.data)
           this.list = res.data.data;
           this.list = this.list.filter(item =>{
             let time=new Date(item.rcEndTime).getTime()

@@ -307,15 +307,6 @@ export default {
       }
       this.selectedRolesIds = roleIds;
     },
-    deleUser(row) {
-      console.log(row);
-      getData.deleUser(row.pointsId).then((res) => {
-        if (res.data.code === 200) {
-          this.$alert("删除成功");
-          this.listUsers();
-        }
-      });
-    },
     resetPassword(username) {
       this.resetPasswordDialog = true;
       this.password = "";
@@ -326,18 +317,6 @@ export default {
       //     this.$alert('密码已重置为 123')
       //   }
       // })
-    },
-    definePassword() {
-      getData
-        .resetPassword({
-          username: this.selectedUser.username,
-          password: this.password,
-        })
-        .then((res) => {
-          if (res && res.data.code === 200) {
-            this.$alert("密码已重置成功");
-          }
-        });
     },
   },
   filters: {
